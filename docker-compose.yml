@@ -41,6 +41,7 @@ services:
       - '9000:9000'
     environment:
       TZ: ${TIMEZONE}
+      XDEBUG_CONFIG: "remote_host=10.0.2.2"
     links:
       - mysql:mysql
       - postfix:postfix

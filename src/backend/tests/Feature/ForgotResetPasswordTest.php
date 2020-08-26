@@ -37,7 +37,7 @@ class ForgotResetPasswordTest extends TestCase
         $this->createApplication();
     }
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
@@ -48,7 +48,7 @@ class ForgotResetPasswordTest extends TestCase
         self::$USER = $userService->create(self::$DATA);
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
         // delete test account

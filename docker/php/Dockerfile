@@ -6,5 +6,8 @@ RUN apt-get install -y git libzip-dev vim
 RUN docker-php-ext-install zip
 RUN docker-php-ext-install mysqli
 RUN docker-php-ext-install pdo_mysql
+RUN pecl install redis \
+    && docker-php-ext-enable redis
 RUN printf '[PHP]\ndate.timezone = "Asia/Tokyo"\n' > /usr/local/etc/php/conf.d/tzone.ini
 COPY ./docker/php/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
+COPY ./docker/php/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini

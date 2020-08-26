@@ -8,12 +8,11 @@ use App\Http\Resources\UserResource;
 
 class HelperTest extends TestCase
 {
-    /**
-     * @expectedException Exception
-     * @expectedExceptionMessage Parameter results must be from an eloquent paginate query.
-     */
     public function testPaginatedInvalidResultsType()
     {
+        $this->expectException('Exception');
+        $this->expectExceptionMessage('Parameter results must be from an eloquent paginate query.');
+
         paginated([], UserResource::class, 1, []);
     }
 

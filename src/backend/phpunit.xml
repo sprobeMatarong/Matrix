@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit backupGlobals="false"
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
+         backupGlobals="false"
          backupStaticAttributes="false"
          bootstrap="vendor/autoload.php"
          colors="true"
@@ -37,7 +39,7 @@
         <server name="QUEUE_CONNECTION" value="sync"/>
         <server name="SESSION_DRIVER" value="array"/>
     </php>
-	<logging>
+    <logging>
         <log type="coverage-html" target="./public/report" lowUpperBound="50" highLowerBound="80"/>
         <log type="junit" target="./public/report/logfile.xml"/>
     </logging>

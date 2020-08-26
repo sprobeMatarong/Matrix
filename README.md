@@ -1,21 +1,21 @@
 # Sprobe Laravel ReactJS Boilerplate
-A base template for `ReactJS (16.9.0)` with backend API implementation using `Laravel (5.8.37)` preconfigured `laravel/passport` authentication.
+A base template for `ReactJS (16.9.0)` with backend API implementation using `Laravel (6.18.35)` preconfigured `laravel/passport` authentication.
 
 ## Specifications / Infrastructure Information
-- Nginx
-- PHP-FPM
-- MySQL
-- Postfix
-- CS-Fixer
-- Data Volume
-- Composer
-- Cron
-- Node/NPM
-- Redis
+* Nginx
+* PHP-FPM
+* MySQL
+* Postfix
+* CS-Fixer
+* Data Volume
+* Composer
+* Cron
+* Node/NPM
+* Redis
 
 ## Prerequisites
-- GIT
-- Docker / Docker Toolbox with a running Docker Machine OR Docker for Windows
+* GIT
+* Docker / Docker Toolbox with a running Docker Machine OR Docker for Windows
 
 # Getting Started
 Setup the `.env` file for Docker in the root directory  
@@ -115,12 +115,12 @@ docker-compose run fixer fix <<file_name>>
 ```
 
 ## Unit Testing
-PHPUnit
-- Running a Test Case
+### PHPUnit
+Running a Test Case
 ```
 docker-compose run php ./phpunit tests/<<test_file>>
 ```
-- Running the whole Test Suite
+Running the whole Test Suite
 ```
 docker-compose run php ./phpunit
 ```
@@ -143,35 +143,68 @@ We are using **`v1`** as base suffix for our api routes following the rest stand
 ---
 
 ## FRONTEND
-This package uses ReactJS as frontend framework. This docker setup will automatically serve the ReactJS container on `docker-compose up -d`.  
+This package uses ReactJS as frontend framework. This docker setup will automatically serve the ReactJS via node container.  
 
-All source code for frontend development is in `src/frontend` directory.
-
-To access the frontend site just type in the **APP_DOMAIN** you set in the `.env` file
-```
-APP_DOMAIN=tcg.local // for local development
-```
-in this case: https://tcg.local
+All the source code for frontend development is in `src/frontend` directory.  
 
 ### Development
 The node container runs with hot-reloading, so any changes you did on the `src/frontend` directory will reflect automatically in the browser.  
 
 This being proxied by the nginx container so you can directly access the frontend site in the `APP_DOMAIN` you set in the `.env` file.  
 
-Just set the `.env` file before building running the `docker-compose build` command
+Set the `.env` file for docker to:
 ```
 ENVIRONMENT=development
 ```
+Also update the `src/frontend/.env` file into
+```
+REACT_APP_API_URL=https://api.tcg.local/v1/       // THE API DOMAIN SET ON DOCKER ENV FILE
+REACT_APP_CLIENT_ID=2                             // GENERATED FROM php artisan passport:install
+REACT_APP_CLIENT_SECRET=dFbXkkUZriUySS3dXB4       // GENERATED FROM php artisan passport:install
+```
+Build all containers by running
+```
+docker-compose stop && docker-compose build
+```
+To start all containers and view the site. Run
+```
+docker-compose up -d
+```
+To access the frontend site just type in the **APP_DOMAIN** you set in the `.env` file
+```
+APP_DOMAIN=tcg.local // for local development
+```
+in this case: https://tcg.local
 
 ### Production/Staging Build
-If you set the `.env` file to
+Set the `.env` file to
 ```
 ENVIRONMENT=staging
 # or
 ENVIRONMENT=production
 ```
-Build all the containers `docker-compose build` then run this command after:
+Also update the `src/frontend/.env` file into
+```
+REACT_APP_API_URL=https://api.tcg.com/v1/         // THE API DOMAIN SET ON DOCKER ENV FILE
+REACT_APP_CLIENT_ID=2                             // GENERATED FROM php artisan passport:install
+REACT_APP_CLIENT_SECRET=dFbXkkUZriUySS3dXB4       // GENERATED FROM php artisan passport:install
+```
+Build all containers by running
+```
+docker-compose stop && docker-compose build
+```
+Run this command after to generate the build files that will be served by nginx:
 ```
 docker-compose run node npm run build
 ```  
-This will generate the files that will be used by nginx for server side rendering `src/frontend/build`. This is mapped to `/var/www/frontend/build` directory of the data container.
+This will generate the files that will be used by nginx for server side rendering `src/frontend/build`. This is mapped to `/var/www/frontend/build` directory of the data container.  
+
+To start all containers and view the site. Run
+```
+docker-compose up -d
+```
+To access the frontend site just type in the **APP_DOMAIN** you set in the `.env` file
+```
+APP_DOMAIN=tcg.com
+```
+in this case: https://tcg.com

@@ -37,7 +37,7 @@ class AccountActivationTest extends TestCase
         $this->createApplication();
     }
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
@@ -52,7 +52,7 @@ class AccountActivationTest extends TestCase
         self::$token = ActivationToken::where('user_id', self::$user->id)->first();
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
 

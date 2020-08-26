@@ -28,7 +28,7 @@ class UserServiceTest extends TestCase
     /** @var int */
     private static $TOTAL;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
@@ -57,19 +57,17 @@ class UserServiceTest extends TestCase
         $this->service = new UserService(new User);
     }
 
-    /**
-     * @expectedException TypeError
-     */
     public function testCreateInvalidParamType()
     {
+        $this->expectException('TypeError');
+
         $this->service->create('params');
     }
 
-    /**
-     * @expectedException Illuminate\Database\QueryException
-     */
     public function testCreateMissingField()
     {
+        $this->expectException('Illuminate\Database\QueryException');
+
         $data = $this->data;
         unset($data['last_name']);
 
@@ -94,12 +92,11 @@ class UserServiceTest extends TestCase
         }
     }
 
-    /**
-     * @expectedException App\Exceptions\ActivationTokenNotFoundException
-     * @expectedExceptionMessage Invalid/Expired Activation Token.
-     */
     public function testInvalidActivateByToken()
     {
+        $this->expectException('App\Exceptions\ActivationTokenNotFoundException');
+        $this->expectExceptionMessage('Invalid/Expired Activation Token.');
+
         $this->service->activateByToken('some random string');
     }
 
@@ -116,12 +113,11 @@ class UserServiceTest extends TestCase
         $this->assertEquals(config('user.statuses.active'), $user->status->name);
     }
 
-    /**
-     * @expectedException App\Exceptions\UserNotFoundException
-     * @expectedExceptionMessage Unable to retrieve user.
-     */
     public function testFindByEmailUserNotFound()
     {
+        $this->expectException('App\Exceptions\UserNotFoundException');
+        $this->expectExceptionMessage('Unable to retrieve user.');
+
         $this->service->findByEmail('sample@mail.com');
     }
 
@@ -134,12 +130,11 @@ class UserServiceTest extends TestCase
         $this->assertEquals($user->email, $this->data['email']);
     }
 
-    /**
-     * @expectedException App\Exceptions\UserNotFoundException
-     * @expectedExceptionMessage Unable to retrieve user.
-     */
     public function testFindbyIdUserNotFound()
     {
+        $this->expectException('App\Exceptions\UserNotFoundException');
+        $this->expectExceptionMessage('Unable to retrieve user.');
+
         $this->service->findById(999999);
     }
 
@@ -152,19 +147,17 @@ class UserServiceTest extends TestCase
         $this->assertEquals($user->email, $this->data['email']);
     }
 
-    /**
-     * @expectedException TypeError
-     */
     public function testUpdateInvalidParamType()
     {
+        $this->expectException('TypeError');
+
         $this->service->update('params');
     }
 
-    /**
-     * @expectedException Illuminate\Database\QueryException
-     */
     public function testUpdateMissingField()
     {
+        $this->expectException('Illuminate\Database\QueryException');
+
         $data = self::$UPDATED_DATA;
         $data['email'] = null;
 
@@ -200,20 +193,18 @@ class UserServiceTest extends TestCase
         }
     }
 
-    /**
-     * @expectedException TypeError
-     */
     public function testDeleteInvalidParam()
     {
+        $this->expectException('TypeError');
+
         $this->service->delete('abc');
     }
 
-    /**
-     * @expectedException App\Exceptions\UserNotFoundException
-     * @expectedExceptionMessage Unable to retrieve user.
-     */
     public function testDeleteNonExistingUser()
     {
+        $this->expectException('App\Exceptions\UserNotFoundException');
+        $this->expectExceptionMessage('Unable to retrieve user.');
+
         $this->service->delete(999999999);
     }
 
