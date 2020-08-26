@@ -31,7 +31,7 @@ class PasswordServiceTest extends TestCase
         'password' => '!p4ssW0rd',
     ];
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
         // create the user temporarily
@@ -53,21 +53,19 @@ class PasswordServiceTest extends TestCase
                                 );
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Invalid email address.
-     */
     public function testforgotWithInvalidEmail()
     {
+        $this->expectException('InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid email address.');
+
         $this->passwordService->forgot('notAnEmail');
     }
 
-    /**
-     * @expectedException App\Exceptions\UserNotFoundException
-     * @expectedExceptionMessage Unable to retrieve user.
-     */
     public function testforgotWithNonExistingUser()
     {
+        $this->expectException('App\Exceptions\UserNotFoundException');
+        $this->expectExceptionMessage('Unable to retrieve user.');
+
         $this->passwordService->forgot('me@test.com');
     }
 
@@ -79,38 +77,34 @@ class PasswordServiceTest extends TestCase
         self::$TOKEN = $passwordReset->token;
     }
 
-    /**
-     * @expectedException TypeError
-     */
     public function testResetInvalidDataPassed()
     {
+        $this->expectException('TypeError');
+
         $this->passwordService->reset('string');
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Missing required token field.
-     */
     public function testResetMissingTokenParam()
     {
+        $this->expectException('InvalidArgumentException');
+        $this->expectExceptionMessage('Missing required token field.');
+
         $this->passwordService->reset(['password' => 'a']);
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Missing required password field.
-     */
     public function testResetMissingPasswordParam()
     {
+        $this->expectException('InvalidArgumentException');
+        $this->expectExceptionMessage('Missing required password field.');
+
         $this->passwordService->reset(['token' => 'a']);
     }
 
-    /**
-     * @expectedException App\Exceptions\InvalidPasswordResetTokenException
-     * @expectedExceptionMessage Invalid/Expired Password Reset Token.
-     */
     public function testResetInvalidExpiredToken()
     {
+        $this->expectException('App\Exceptions\InvalidPasswordResetTokenException');
+        $this->expectExceptionMessage('Invalid/Expired Password Reset Token.');
+
         $this->passwordService->reset([
             'token' => '12345adsfr1234',
             'password' => 'p@ssw0rd',

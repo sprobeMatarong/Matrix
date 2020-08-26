@@ -85,7 +85,7 @@ class LoginUserTest extends TestCase
         $response = $this->json('POST', '/' . config('app.api_version') . '/oauth/token', $data);
         $response->assertStatus(401);
         $result = json_decode((string) $response->getContent());
-        $this->assertEquals('invalid_client', $result->error);
+        $this->assertEquals('Client authentication failed', $result->error);
     }
 
     /**
@@ -99,7 +99,7 @@ class LoginUserTest extends TestCase
         $response = $this->json('POST', '/' . config('app.api_version') . '/oauth/token', $data);
         $response->assertStatus(401);
         $result = json_decode((string) $response->getContent());
-        $this->assertEquals('invalid_client', $result->error);
+        $this->assertEquals('Client authentication failed', $result->error);
     }
 
     /**
@@ -113,7 +113,7 @@ class LoginUserTest extends TestCase
         $response = $this->json('POST', '/' . config('app.api_version') . '/oauth/token', $data);
         $response->assertStatus(401);
         $result = json_decode((string) $response->getContent());
-        $this->assertEquals((new InvalidUserPasswordException)->getMessage(), $result->message);
+        $this->assertEquals((new InvalidUserPasswordException)->getMessage(), $result->error);
     }
 
     /**
@@ -127,7 +127,7 @@ class LoginUserTest extends TestCase
         $response = $this->json('POST', '/' . config('app.api_version') . '/oauth/token', $data);
         $response->assertStatus(401);
         $result = json_decode((string) $response->getContent());
-        $this->assertEquals((new InvalidUserCredentialsException)->getMessage(), $result->error_description);
+        $this->assertEquals((new InvalidUserCredentialsException)->getMessage(), $result->error);
     }
 
     /**
@@ -141,8 +141,7 @@ class LoginUserTest extends TestCase
         $response = $this->json('POST', '/' . config('app.api_version') . '/oauth/token', $data);
         $response->assertStatus(400);
         $result = json_decode((string) $response->getContent());
-        $this->assertEquals('invalid_request', $result->error);
-        $this->assertEquals('The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed.', $result->message);
+        $this->assertEquals('The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed.', $result->error);
     }
 
     /**
@@ -171,8 +170,7 @@ class LoginUserTest extends TestCase
         $response = $this->json('POST', '/' . config('app.api_version') . '/oauth/token', $this->data);
         $response->assertStatus(401);
         $result = json_decode((string) $response->getContent());
-        $this->assertEquals($result->error, 'user_locked');
-        $this->assertEquals($result->message, 'Your account has been locked out, please reset your password.');
+        $this->assertEquals($result->error, 'Your account has been locked out, please reset your password.');
     }
 
     public function testLockedAccountWithCorrectPassword()
@@ -189,7 +187,6 @@ class LoginUserTest extends TestCase
         $response = $this->json('POST', '/' . config('app.api_version') . '/oauth/token', $this->data);
         $response->assertStatus(401);
         $result = json_decode((string) $response->getContent());
-        $this->assertEquals($result->error, 'user_locked');
-        $this->assertEquals($result->message, 'Your account has been locked out, please reset your password.');
+        $this->assertEquals($result->error, 'Your account has been locked out, please reset your password.');
     }
 }
