@@ -1,7 +1,7 @@
 # Sprobe Laravel ReactJS Boilerplate
-A base template for `ReactJS (16.9.0)` with backend API implementation using `Laravel (6.18.35)` preconfigured `laravel/passport` authentication.
+A base template for `ReactJS (16.9.0)` with backend API implementation using `Laravel (6.18.35)` preconfigured `laravel/passport` authentication.  
 
-## Specifications / Infrastructure Information
+## Specifications / Infrastructure Information  
 * Nginx
 * PHP-FPM
 * MySQL
@@ -13,7 +13,7 @@ A base template for `ReactJS (16.9.0)` with backend API implementation using `La
 * Node/NPM
 * Redis
 
-## Prerequisites
+## Prerequisites  
 * GIT
 * Docker / Docker Toolbox with a running Docker Machine OR Docker for Windows
 
@@ -114,8 +114,8 @@ To Apply fix only to a specific file
 docker-compose run fixer fix <<file_name>>
 ```
 
-## Unit Testing
-### PHPUnit
+## Unit Testing  
+### PHPUnit  
 Running a Test Case
 ```
 docker-compose run php ./phpunit tests/<<test_file>>
