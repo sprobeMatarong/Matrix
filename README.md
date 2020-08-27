@@ -132,9 +132,9 @@ The code coverage logs will be available at
   
 
 ## BACKEND
-To access the frontend site just type in the **API_DOMAIN** you set in the `.env` file
+To access the backend routes, use the **API_DOMAIN** you set in the `.env` file
 ```
-APP_DOMAIN=api.tcg.local // for local development
+API_DOMAIN=api.tcg.local // for local development
 ```
 in this case: https://api.tcg.local/v1  
 
@@ -156,11 +156,11 @@ Set the `.env` file for docker to:
 ```
 ENVIRONMENT=development
 ```
-Also update the `src/frontend/.env` file into
+Create the `src/frontend/.env` file with the following variable and corresponding values
 ```
-REACT_APP_API_URL=https://api.tcg.local/v1/       // THE API DOMAIN SET ON DOCKER ENV FILE
-REACT_APP_CLIENT_ID=2                             // GENERATED FROM php artisan passport:install
-REACT_APP_CLIENT_SECRET=dFbXkkUZriUySS3dXB4       // GENERATED FROM php artisan passport:install
+REACT_APP_API_URL=                   // THE API DOMAIN SET ON DOCKER ENV FILE
+REACT_APP_CLIENT_ID=                 // GENERATED FROM php artisan passport:install
+REACT_APP_CLIENT_SECRET=             // GENERATED FROM php artisan passport:install
 ```
 Build all containers by running
 ```
@@ -183,11 +183,11 @@ ENVIRONMENT=staging
 # or
 ENVIRONMENT=production
 ```
-Also update the `src/frontend/.env` file into
+Create the `src/frontend/.env` file with the following variable and corresponding values
 ```
-REACT_APP_API_URL=https://api.tcg.com/v1/         // THE API DOMAIN SET ON DOCKER ENV FILE
-REACT_APP_CLIENT_ID=2                             // GENERATED FROM php artisan passport:install
-REACT_APP_CLIENT_SECRET=dFbXkkUZriUySS3dXB4       // GENERATED FROM php artisan passport:install
+REACT_APP_API_URL=                   // THE API DOMAIN SET ON DOCKER ENV FILE
+REACT_APP_CLIENT_ID=                 // GENERATED FROM php artisan passport:install
+REACT_APP_CLIENT_SECRET=             // GENERATED FROM php artisan passport:install
 ```
 Build all containers by running
 ```
@@ -208,3 +208,10 @@ To access the frontend site just type in the **APP_DOMAIN** you set in the `.env
 APP_DOMAIN=tcg.com
 ```
 in this case: https://tcg.com
+
+### Usage
+If you have already run the laravel seeders during the setup, you can test the frontend login using the following account:
+```
+email: admin@tcg.sprobe.ph
+password: Password2020!
+```
