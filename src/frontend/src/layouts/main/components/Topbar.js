@@ -37,7 +37,7 @@ const Topbar = props => {
       <Toolbar>
         <RouterLink to="/">
           <Typography variant="h4" className={classes.title}>
-            Sprobe Base Template
+            UACJ - ePTP Platform
           </Typography>
         </RouterLink>
         <div className={classes.flexGrow} />

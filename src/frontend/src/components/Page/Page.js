@@ -7,7 +7,7 @@ function Page({ title, children, ...rest }) {
     <div {...rest}>
       <HelmetProvider>
         <Helmet>
-          <title>{title} - Sprobe Base Template</title>
+          <title>{title} - ePTP Platform</title>
         </Helmet>
       </HelmetProvider>
       {children}
