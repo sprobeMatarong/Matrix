@@ -215,3 +215,48 @@ If you have already run the laravel seeders during the setup, you can test the f
 email: admin@tcg.sprobe.ph
 password: Password2020!
 ```
+
+---
+
+## PHP Debugging
+**IMPORTANT:** Make sure to disable xDebug in Staging/Production environment for faster php container.
+
+To enable PHP xDebug in your development environment, update the ***.env*** value into:  
+```
+...
+...
+ENABLE_XDEBUG=1
+```
+Accepted Values:
+  - ENABLE_XDEBUG=0 - Disable
+  - ENABLE_XDEBUG=1 - Enable
+
+Install the VS Code extension **PHP Debug** by **Felix Becker** then restart your VS Code.  
+
+Open the PHP file you want to debug. Add your breakpoints by clicking the left side of the Line Number of the file you want to debug.  
+
+**Breakpoints** are those red dot beside the Line Number. Once you have your breakpoints, press **F5**. Trigger the function by accessing the route via postman/browser.  
+
+---
+
+## PHP OpCache
+OPcache improves PHP performance by storing precompiled script bytecode in shared memory, thereby removing the need for PHP to load and parse scripts on each request.  
+
+By default, OPcache is already enabled when the php container is built. Somehow you need to do another step in order get the best performance especially in production site.
+
+During development, update the **.env** file value to
+```
+OPCACHE_VALIDATE_TIMESTAMPS=1
+```
+If this is set to 1, you can see the changes directly since PHP will check if you have any changes to your .php files.  
+
+To achieve a 4-5x performance/speed boost in your staging/production site, update the `.env ` file into:
+```
+OPCACHE_VALIDATE_TIMESTAMPS=0
+```
+However if you it set this to 0, the system ignores and doesn't check any changes in you PHP files. So if you edited/uploaded any .php files, you will not see it reflected on your site.
+
+Make sure to restart/reload the PHP container after deploying any code changes in staging/production site if you set the value to:
+```
+OPCACHE_VALIDATE_TIMESTAMPS=0
+```

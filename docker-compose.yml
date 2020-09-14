@@ -32,6 +32,9 @@ services:
     build:
       context: .
       dockerfile: './docker/php/Dockerfile'
+      args:
+        - OPCACHE_VALIDATE_TIMESTAMPS=${OPCACHE_VALIDATE_TIMESTAMPS}
+        - ENABLE_XDEBUG=${ENABLE_XDEBUG}
     image: ${PROJECT_NAME}_php:${ENVIRONMENT}
     container_name: ${PROJECT_NAME}_php
     volumes_from:
