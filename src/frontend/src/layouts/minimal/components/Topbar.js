@@ -33,7 +33,7 @@ function Topbar(props) {
       <Toolbar>
         <Link to="/" className={classes.link}>
           <Typography variant="h4" className={classes.title}>
-            UACJ - ePTP Platform
+            Sprobe Base Template
           </Typography>
         </Link>
       </Toolbar>
