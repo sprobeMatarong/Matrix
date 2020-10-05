@@ -1,5 +1,8 @@
 <?php
 
+namespace Database\Seeders;
+
+use Hash;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\UserStatus;
@@ -20,10 +23,12 @@ class UsersTableSeeder extends Seeder
         // create the system admin
         $this->_createSystemAdmin();
 
-        if (config('app.env') === 'local') {
-            factory(User::class, 50)->create([
-                'user_status_id' => $status->id,
-            ]);
+        if (env('APP_ENV') === 'local') {
+            User::factory()
+                ->times(50)
+                ->create([
+                    'user_status_id' => $status->id,
+                ]);
         }
     }
 

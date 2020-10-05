@@ -1,5 +1,12 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\HomeController;
+use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\ProfileController;
+use App\Http\Controllers\API\Auth\TokenController;
+use App\Http\Controllers\API\Auth\PasswordController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -11,31 +18,29 @@
 |
 */
 // Default API Homepage
-Route::get('/', 'API\HomeController');
+Route::get('/', [HomeController::class, '__invoke']);
 
 // Profile
-Route::get('/profile', 'API\ProfileController@index');
-Route::put('/profile', 'API\ProfileController@update');
+Route::get('/profile', [ProfileController::class, 'index']);
+Route::put('/profile', [ProfileController::class, 'update']);
 
 // user logout
-Route::delete('oauth/token', 'API\Auth\TokenController@delete')->middleware('auth:api');
+Route::delete('oauth/token', [TokenController::class, 'delete'])->middleware('auth:api');
 
-// user signup
-Route::post('register', 'API\UserController@register');
+Route::post('register', [UserController::class, 'register']);
 
-// activate via email confirmation
-Route::post('activate', 'API\UserController@activate');
+Route::post('activate', [UserController::class, 'activate']);
 
 // Routes for Forget and Reset Password
-Route::post('password/forgot', 'API\Auth\PasswordController@forgot');
-Route::post('password/reset', 'API\Auth\PasswordController@reset');
+Route::post('password/forgot', [PasswordController::class, 'forgot']);
+Route::post('password/reset', [PasswordController::class, 'reset']);
 
 // users route
 Route::prefix('users')
     ->group(function () {
-        Route::get('/', 'API\UserController@index');
-        Route::post('/', 'API\UserController@create');
-        Route::get('{id}', 'API\UserController@read');
-        Route::put('{id}', 'API\UserController@update');
-        Route::delete('{id}', 'API\UserController@delete');
+        Route::get('/', [UserController::class, 'index']);
+        Route::post('/', [UserController::class, 'create']);
+        Route::get('{id}', [UserController::class, 'read']);
+        Route::put('{id}', [UserController::class, 'update']);
+        Route::delete('{id}', [UserController::class, 'delete']);
     });

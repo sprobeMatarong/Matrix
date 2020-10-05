@@ -7,6 +7,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Validation\ValidationException;
 use Laravel\Passport\Exceptions\OAuthServerException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -25,65 +26,49 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontFlash = [
+        'current_password',
         'password',
         'password_confirmation',
     ];
 
     /**
-     * Report or log an exception.
+     * Register the exception handling callbacks for the application.
      *
-     * @param  \Exception  $exception
      * @return void
-     *
-     * @throws \Exception
      */
-    public function report(Exception $exception)
+    public function register()
     {
-        parent::report($exception);
-    }
+        $this->renderable(function (Throwable $exception, $request) {
+            // set default error code
+            $code = method_exists($exception, 'getStatusCode') ? $exception->getStatusCode() : 500;
+            $error = $exception->getMessage();
 
-    /**
-     * Render an exception into an HTTP response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @throws \Exception
-     */
-    public function render($request, Exception $exception)
-    {
-        // set default error code
-        $code = method_exists($exception, 'getStatusCode') ? $exception->getStatusCode() : 500;
-        $error = $exception->getMessage();
+            // handle API exceptions
+            if ($request->expectsJson()) {
+                // expired / has no valid token
+                if ($exception instanceof AuthenticationException) {
+                    $code = 401;
+                }
 
-        // handle API exceptions
-        if ($request->expectsJson()) {
-            // expired / has no valid token
-            if ($exception instanceof AuthenticationException) {
-                $code = 401;
+                // expired / has no valid token
+                if ($exception instanceof ValidationException) {
+                    $error = $exception->errors();
+                    $code = 422;
+                }
+
+                // laravel passport error
+                if ($exception instanceof OAuthServerException) {
+                    $code = $exception->statusCode();
+                }
+
+                return response()->json(
+                    [
+                        'code' => $code,
+                        'error' => $error,
+                    ],
+                    $code
+                );
             }
-
-            // expired / has no valid token
-            if ($exception instanceof ValidationException) {
-                $error = $exception->errors();
-                $code = 422;
-            }
-
-            // laravel passport error
-            if ($exception instanceof OAuthServerException) {
-                $code = $exception->statusCode();
-            }
-
-            return response()->json(
-                [
-                    'code' => $code,
-                    'error' => $error,
-                ],
-                $code
-            );
-        }
-
-        return parent::render($request, $exception);
+        });
     }
 }

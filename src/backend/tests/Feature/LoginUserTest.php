@@ -5,8 +5,6 @@ namespace Tests\Feature;
 use Hash;
 use App\Models\User;
 use Tests\TestCase;
-use App\Exceptions\InvalidUserPasswordException;
-use App\Exceptions\InvalidUserCredentialsException;
 
 class LoginUserTest extends TestCase
 {
@@ -85,7 +83,7 @@ class LoginUserTest extends TestCase
         $response = $this->json('POST', '/' . config('app.api_version') . '/oauth/token', $data);
         $response->assertStatus(401);
         $result = json_decode((string) $response->getContent());
-        $this->assertEquals('Client authentication failed', $result->error);
+        $this->assertEquals('invalid_client', $result->error);
     }
 
     /**
@@ -99,7 +97,7 @@ class LoginUserTest extends TestCase
         $response = $this->json('POST', '/' . config('app.api_version') . '/oauth/token', $data);
         $response->assertStatus(401);
         $result = json_decode((string) $response->getContent());
-        $this->assertEquals('Client authentication failed', $result->error);
+        $this->assertEquals('invalid_client', $result->error);
     }
 
     /**
@@ -113,7 +111,7 @@ class LoginUserTest extends TestCase
         $response = $this->json('POST', '/' . config('app.api_version') . '/oauth/token', $data);
         $response->assertStatus(401);
         $result = json_decode((string) $response->getContent());
-        $this->assertEquals((new InvalidUserPasswordException)->getMessage(), $result->error);
+        $this->assertEquals('invalid_password', $result->error);
     }
 
     /**
@@ -127,7 +125,7 @@ class LoginUserTest extends TestCase
         $response = $this->json('POST', '/' . config('app.api_version') . '/oauth/token', $data);
         $response->assertStatus(401);
         $result = json_decode((string) $response->getContent());
-        $this->assertEquals((new InvalidUserCredentialsException)->getMessage(), $result->error);
+        $this->assertEquals('invalid_user_credentials', $result->error);
     }
 
     /**
@@ -141,7 +139,7 @@ class LoginUserTest extends TestCase
         $response = $this->json('POST', '/' . config('app.api_version') . '/oauth/token', $data);
         $response->assertStatus(400);
         $result = json_decode((string) $response->getContent());
-        $this->assertEquals('The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed.', $result->error);
+        $this->assertEquals('invalid_request', $result->error);
     }
 
     /**
@@ -170,7 +168,7 @@ class LoginUserTest extends TestCase
         $response = $this->json('POST', '/' . config('app.api_version') . '/oauth/token', $this->data);
         $response->assertStatus(401);
         $result = json_decode((string) $response->getContent());
-        $this->assertEquals($result->error, 'Your account has been locked out, please reset your password.');
+        $this->assertEquals($result->error, 'user_locked');
     }
 
     public function testLockedAccountWithCorrectPassword()
@@ -187,6 +185,6 @@ class LoginUserTest extends TestCase
         $response = $this->json('POST', '/' . config('app.api_version') . '/oauth/token', $this->data);
         $response->assertStatus(401);
         $result = json_decode((string) $response->getContent());
-        $this->assertEquals($result->error, 'Your account has been locked out, please reset your password.');
+        $this->assertEquals($result->error, 'user_locked');
     }
 }

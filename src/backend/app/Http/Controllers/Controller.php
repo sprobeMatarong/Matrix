@@ -11,9 +11,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     public $response;
 
     /**

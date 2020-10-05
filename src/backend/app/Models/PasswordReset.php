@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PasswordReset extends Model
 {
-    /** @var $timestamps */
+    /** @var bool */
     public $timestamps = true;
 
     /**

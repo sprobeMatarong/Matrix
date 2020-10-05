@@ -250,7 +250,7 @@ class UserCRUDTest extends TestCase
         $response->assertStatus(422);
         $result = json_decode((string) $response->getContent());
         $this->assertTrue(in_array(
-            'The avatar may not be greater than 2048 kilobytes.',
+            'The avatar must not be greater than 2048 kilobytes.',
             $result->error->avatar
         ));
     }
