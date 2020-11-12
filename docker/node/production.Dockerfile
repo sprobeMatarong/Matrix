@@ -1,5 +1,5 @@
 # base image
-FROM node:alpine
+FROM node:14.15.0-alpine3.12
 
 # Set working directory
 WORKDIR /var/www/frontend
