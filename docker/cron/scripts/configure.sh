@@ -1,3 +1,3 @@
 #!/bin/bash
-service cron start
+crond start
 tail -f /dev/null

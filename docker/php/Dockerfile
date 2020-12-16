@@ -1,6 +1,7 @@
-FROM php:7.3-fpm
-RUN apt-get update
-RUN apt-get install -y git libzip-dev vim
+FROM php:7.4.13-fpm-alpine3.12
+RUN apk update
+RUN apk add git bash libzip-dev vim
+RUN apk --no-cache add pcre-dev ${PHPIZE_DEPS}
 RUN docker-php-ext-install zip
 RUN docker-php-ext-install mysqli
 RUN docker-php-ext-install pdo_mysql
@@ -15,6 +16,7 @@ COPY ./docker/php/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 ADD ./docker/php/scripts/configure-xdebug.sh /configure-xdebug.sh
 RUN ["chmod", "+x", "/configure-xdebug.sh"]
 RUN /configure-xdebug.sh
+RUN apk del pcre-dev ${PHPIZE_DEPS}
 
 # Setup Opcache
 ARG OPCACHE_VALIDATE_TIMESTAMPS
