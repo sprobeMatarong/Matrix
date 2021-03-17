@@ -47,7 +47,6 @@ services:
       XDEBUG_CONFIG: "remote_host=10.0.2.2"
     links:
       - mysql:mysql
-      - postfix:postfix
       - redis:redis
 
   mysql:
@@ -74,23 +73,6 @@ services:
       - ./docker/mysql/scripts:/docker-entrypoint-initdb.d
       - database:/var/lib/mysql
 
-  postfix:
-    build:
-      context: .
-      dockerfile: './docker/postfix/Dockerfile'
-    image: ${PROJECT_NAME}_postfix:${ENVIRONMENT}
-    container_name: ${PROJECT_NAME}_postfix
-    ports:
-      - '25:25'
-    environment:
-      - DEBUG=1
-      - MAIL_NAME=${MAIL_NAME}
-      - MAIL_HOST=${MAIL_HOST}
-      - MAIL_PORT=${MAIL_PORT}
-      - MAIL_USERNAME=${MAIL_USERNAME}
-      - MAIL_PASSWORD=${MAIL_PASSWORD}
-      - DOCKER_IP=${DOCKER_IP}
-
   cron:
     build:
       context: .
@@ -104,7 +86,6 @@ services:
       TZ: ${TIMEZONE}
     links:
       - mysql:mysql
-      - postfix:postfix
 
   composer:
     image: composer:latest
@@ -131,7 +112,7 @@ services:
     volumes_from:
       - data
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=${ENVIRONMENT}
       - CHOKIDAR_USEPOLLING=true
     ports:
       - "3000:3000"

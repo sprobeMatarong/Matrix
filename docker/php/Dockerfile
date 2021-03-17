@@ -1,10 +1,7 @@
 FROM php:7.4.13-fpm-alpine3.12
 RUN apk update
-RUN apk add git bash libzip-dev vim
-RUN apk --no-cache add pcre-dev ${PHPIZE_DEPS}
-RUN docker-php-ext-install zip
-RUN docker-php-ext-install mysqli
-RUN docker-php-ext-install pdo_mysql
+RUN apk add --no-cache git bash libzip-dev vim pcre-dev ${PHPIZE_DEPS}
+RUN docker-php-ext-install zip mysqli pdo_mysql
 RUN pecl install redis \
     && docker-php-ext-enable redis
 RUN printf '[PHP]\ndate.timezone = "Asia/Tokyo"\n' > /usr/local/etc/php/conf.d/tzone.ini

@@ -1,8 +1,6 @@
 FROM nginx:alpine
 RUN apk update
-RUN apk add python3 python3-dev py3-pip build-base libressl-dev musl-dev libffi-dev openssl bash
-RUN pip3 install pip --upgrade
-RUN pip3 install certbot-nginx
+RUN apk add --no-cache certbot certbot-nginx openssl bash
 RUN adduser -S www-data -G www-data
 ARG ENVIRONMENT
 ARG API_DOMAIN
