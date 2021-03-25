@@ -5,7 +5,6 @@ A base template for `ReactJS (16.9.0)` with backend API implementation using `La
 * Nginx
 * PHP-FPM
 * MySQL
-* Postfix
 * CS-Fixer
 * Data Volume
 * Composer
@@ -13,9 +12,9 @@ A base template for `ReactJS (16.9.0)` with backend API implementation using `La
 * Node/NPM
 * Redis
 
-## Prerequisites  
-* GIT
-* Docker / Docker Toolbox with a running Docker Machine OR Docker for Windows
+## Prerequisites
+- [Git](https://git-scm.com/downloads)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop)
 
 # Getting Started
 Setup the `.env` file for Docker in the root directory  
@@ -24,23 +23,23 @@ cp .env.example .env
 ```
 Make sure to fillup the following variables
 ```
-ENVIRONMENT=development                 # development/staging/production
-PROJECT_NAME=YOUR_PROJECT_NAME_HERE     # Prefix for the Docker Containers to be created
-MYSQL_ROOT_PASSWORD=p@ss1234!           # root password of the root mysql user
-MYSQL_DATABASE=YOUR_DATABASE_NAME       # use this value in src/backend/.env
-MYSQL_USER=YOUR_DATABASE_USER           # use this value in src/backend/.env
-MYSQL_PASSWORD=YOUR_DATABASE_USER       # use this value in src/backend/.env
+ENVIRONMENT=development                   # development/staging/production
+PROJECT_NAME=YOUR_PROJECT_NAME_HERE       # Prefix for the Docker Containers to be created
+MYSQL_ROOT_PASSWORD=ANY_STRONG_PASSWORD   # root password of the root mysql user
+MYSQL_DATABASE=YOUR_DATABASE_NAME         # use this value in src/backend/.env
+MYSQL_USER=YOUR_DATABASE_USER             # use this value in src/backend/.env
+MYSQL_PASSWORD=ANY_STRONG_PASSWORD        # use this value in src/backend/.env
 ....
 ....
 ....
-API_DOMAIN=api.tcg.local // for local development
-APP_DOMAIN=tcg.local // for local development
+API_DOMAIN=api.tcg.local                # for local development. change accordingly per environment
+APP_DOMAIN=tcg.local                    # for local development. change accordingly per environment
 ```
 For Local Development in windows, add the following lines to `C:\Windows\System32\drivers\etc\hosts` or `/etc/hosts` for ubuntu  
 ```
-192.168.99.100    tcg.local api.tcg.local
+127.0.0.1    tcg.local api.tcg.local
 ```
-Note: Replace `192.168.99.100` with your Docker Machine IP.  
+Note: Replace `127.0.0.1` with your Docker Machine IP.  
   
 ## Build the all containers  
 ```
@@ -53,40 +52,56 @@ docker-compose build CONTAINER_NAME
 Start the containers  
 ```
 docker-compose up -d
+
+# Output
+Starting {PROJECT_NAME}_redis    ... done
+Starting {PROJECT_NAME}_mysql    ... done
+Starting {PROJECT_NAME}_data     ... done
+Starting {PROJECT_NAME}_node     ... done
+Starting {PROJECT_NAME}_fixer    ... done
+Starting {PROJECT_NAME}_composer ... done
+Starting {PROJECT_NAME}_cron     ... done
+Starting {PROJECT_NAME}_php      ... done
+Starting {PROJECT_NAME}_nginx    ... done
 ```
 Run the following command to login to any Docker Container  
 ```
 docker exec -it CONTAINER_NAME bash
 ```
-## Setting up Laravel
-Install the composer packages  
+
+---
+
+## Composer
+Install the composer packages of your project
 ```
-docker-compose run composer install
+docker-compose run --rm composer install
 ```
-Create the `.env` file and run the following to generate key for Laravel  
+To install new / additional composer packages, run the following command:
 ```
-docker-compose run php cp .env.example .env
-docker-compose run php php artisan key:generate
+docker-compose run --rm composer install owner/package
 ```
-Update the `.env` values especially the database credentials then refresh the config  
+To remove a package:
 ```
-docker-compose run php php artisan config:clear
-```
-Run the migration
-```
-docker-compose run php php artisan migrate:fresh
-```
-If you have seeders, you can run it by using the following command
-```
-docker-compose run php php artisan db:seed
+docker-compose run --rm composer remove owner/package
 ```
 
 ---
-Run the Laravel Passport installation
+## Setting up Laravel
+1. Create the `.env` file and run the following to generate key for Laravel  
+2. Update the database credentials values in `src/backend/.env` using your code text editor then clear the config via docker exec 
+3. Run the migration
+4. If you have seeders, you can run it by using the following command
+5. Run the Laravel Passport installation
 ```
-docker-compose run php php artisan passport:install --force
+docker exec -it {PROJECT_NAME}_php sh
+/var/www/backend # cp .env.example .env                             # 1
+/var/www/backend # php artisan key:generate                         # 1
+/var/www/backend # php artisan config:clear                         # 2
+/var/www/backend # php artisan migrate:fresh                        # 3
+/var/www/backend # php artisan db:seed                              # 4
+/var/www/backend # php artisan passport:install --force             # 5
 ```
-Copy the generated password grant Client ID & Secret in the `.env` file
+Copy the generated password grant Client ID & Secret in the `src/backend/.env` file
 ```
 API_CLIENT_ID={COPY FROM TERMINAL}
 API_CLIENT_SECRET={COPY FROM TERMINAL}
@@ -94,8 +109,10 @@ API_VERSION=v1
 ```
 After setting up all the values in the `.env` file, run the following command to make sure the environment variables are updated successfully.  
 ```
-docker-compose run php php artisan config:clear
+docker exec -it {PROJECT_NAME}_php sh
+/var/www/backend # php artisan config:clear
 ```
+
 ---
 
 ## PSR2 Coding Style
@@ -103,118 +120,32 @@ Running the Coding Standards Fixer Container
   
 To check without applying any fixes, run the following command:
 ```
-docker-compose run fixer fix --dry-run -v
+docker-compose run --rm fixer fix --dry-run -v
 ```
 To fix all your PHP code to adhere the PSR2 Coding style, run:
 ```
-docker-compose run fixer fix
+docker-compose run --rm fixer fix
 ```
 To Apply fix only to a specific file
 ```
-docker-compose run fixer fix <<file_name>>
+docker-compose run --rm fixer fix <<file_name>>
 ```
 
 ## Unit Testing  
 ### PHPUnit  
-Running a Test Case
+- Running a Test Case
 ```
-docker-compose run php ./phpunit tests/<<test_file>>
+docker-compose run --rm php ./phpunit tests/<<test_file>>
 ```
-Running the whole Test Suite
+- Running the whole Test Suite
 ```
-docker-compose run php ./phpunit
+docker-compose run --rm php ./phpunit
 ```
 The code coverage result will be available at  
 <https://API_DOMAIN/report>
   
 The code coverage logs will be available at  
 <https://API_DOMAIN/report/logs>
-  
-
-## BACKEND
-To access the backend routes, use the **API_DOMAIN** you set in the `.env` file
-```
-API_DOMAIN=api.tcg.local // for local development
-```
-in this case: https://api.tcg.local/v1  
-
-We are using **`v1`** as base suffix for our api routes following the rest standards. All routes should be declared in the **`src/backend/routes/api.php`** file.
-
----
-
-## FRONTEND
-This package uses ReactJS as frontend framework. This docker setup will automatically serve the ReactJS via node container.  
-
-All the source code for frontend development is in `src/frontend` directory.  
-
-### Development
-The node container runs with hot-reloading, so any changes you did on the `src/frontend` directory will reflect automatically in the browser.  
-
-This being proxied by the nginx container so you can directly access the frontend site in the `APP_DOMAIN` you set in the `.env` file.  
-
-Set the `.env` file for docker to:
-```
-ENVIRONMENT=development
-```
-Create the `src/frontend/.env` file with the following variable and corresponding values
-```
-REACT_APP_API_URL=                   // THE API DOMAIN SET ON DOCKER ENV FILE
-REACT_APP_CLIENT_ID=                 // GENERATED FROM php artisan passport:install
-REACT_APP_CLIENT_SECRET=             // GENERATED FROM php artisan passport:install
-```
-Build all containers by running
-```
-docker-compose stop && docker-compose build
-```
-To start all containers and view the site. Run
-```
-docker-compose up -d
-```
-To access the frontend site just type in the **APP_DOMAIN** you set in the `.env` file
-```
-APP_DOMAIN=tcg.local // for local development
-```
-in this case: https://tcg.local
-
-### Production/Staging Build
-Set the `.env` file to
-```
-ENVIRONMENT=staging
-# or
-ENVIRONMENT=production
-```
-Create the `src/frontend/.env` file with the following variable and corresponding values
-```
-REACT_APP_API_URL=                   // THE API DOMAIN SET ON DOCKER ENV FILE
-REACT_APP_CLIENT_ID=                 // GENERATED FROM php artisan passport:install
-REACT_APP_CLIENT_SECRET=             // GENERATED FROM php artisan passport:install
-```
-Build all containers by running
-```
-docker-compose stop && docker-compose build
-```
-Run this command after to generate the build files that will be served by nginx:
-```
-docker-compose run node npm run build
-```  
-This will generate the files that will be used by nginx for server side rendering `src/frontend/build`. This is mapped to `/var/www/frontend/build` directory of the data container.  
-
-To start all containers and view the site. Run
-```
-docker-compose up -d
-```
-To access the frontend site just type in the **APP_DOMAIN** you set in the `.env` file
-```
-APP_DOMAIN=tcg.com
-```
-in this case: https://tcg.com
-
-### Usage
-If you have already run the laravel seeders during the setup, you can test the frontend login using the following account:
-```
-email: admin@tcg.sprobe.ph
-password: Password2020!
-```
 
 ---
 
@@ -259,4 +190,57 @@ However if you it set this to 0, the system ignores and doesn't check any change
 Make sure to restart/reload the PHP container after deploying any code changes in staging/production site if you set the value to:
 ```
 OPCACHE_VALIDATE_TIMESTAMPS=0
+```
+
+---
+
+## BACKEND
+To access the backend routes, use the **API_DOMAIN** you set in the `.env` file
+```
+API_DOMAIN=api.tcg.local                  # for local development
+```
+in this case: https://api.tcg.local/v1  
+
+We are using **`v1`** as base suffix for our api routes following the rest standards. All routes should be declared in the **`src/backend/routes/api.php`** file.
+
+---
+
+## FRONTEND
+This package uses ReactJS as frontend framework. This docker setup will automatically serve the ReactJS via node container.  
+
+All the source code for frontend development is in `src/frontend` directory. Any file changes in the `src/frontend` will reflect  
+automatically via Hot Reload Module.
+
+Create the `src/frontend/.env` file with the following variable and corresponding values
+```
+REACT_APP_API_URL=                   // THE API DOMAIN SET ON DOCKER ENV FILE
+REACT_APP_CLIENT_ID=                 // GENERATED FROM php artisan passport:install
+REACT_APP_CLIENT_SECRET=             // GENERATED FROM php artisan passport:install
+```
+Restart the docker-containers
+```
+docker-compose restart
+```
+
+## NPM Packages
+In case you want to install additional NPM packages, you must login to the Node Container
+```
+docker exec -it --user=root {PROJECT_NAME}_node sh
+
+# In case the command above fails, run this instead
+winpty docker exec -it {PROJECT_NAME}_node sh
+``` 
+Then run the install command inside the Node Container
+```
+docker exec -it --user=root {PROJECT_NAME}_node sh
+/var/www/frontend # npm install some-package-name (e.g eslint webpack)
+```
+
+---
+
+### Usage
+If you have already run the laravel seeders during the setup, you can test the frontend login using the following account:
+```
+email: admin@tcg.sprobe.ph
+password: Password2020!
 ```
