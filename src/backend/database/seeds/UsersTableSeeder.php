@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\UserStatus;
 use Illuminate\Database\Seeder;
@@ -19,7 +20,7 @@ class UsersTableSeeder extends Seeder
         // create the system admin
         $this->_createSystemAdmin();
 
-        if (env('APP_ENV') === 'local') {
+        if (config('app.env') === 'local') {
             factory(User::class, 50)->create([
                 'user_status_id' => $status->id,
             ]);
@@ -38,6 +39,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'admin@tcg.sprobe.ph',
             'password' => Hash::make('Password2020!'),
             'user_status_id' => $status->id,
+            'email_verified_at' => Carbon::now(),
         ]);
     }
 }

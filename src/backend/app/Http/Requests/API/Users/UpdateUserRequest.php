@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\API\Users;
 
 use App\Rules\Password;
 use App\Rules\EmailAddress;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateUserRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -18,9 +18,15 @@ class CreateUserRequest extends FormRequest
         return [
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => ['required', new EmailAddress, 'unique:users,email'],
-            'password' => ['required', new Password],
+            'email' => ['required', new EmailAddress, 'unique:users,email,' . $this->getId() . ',id'],
+            'password' => ['nullable', new Password],
+            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], // limit to 2MB
         ];
+    }
+
+    public function getId()
+    {
+        return (int) $this->route('id');
     }
 
     public function getFirstName()
@@ -41,5 +47,10 @@ class CreateUserRequest extends FormRequest
     public function getPassword()
     {
         return $this->input('password', null);
+    }
+
+    public function getAvatar()
+    {
+        return $this->file('avatar', null);
     }
 }

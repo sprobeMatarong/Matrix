@@ -6,7 +6,7 @@ use App\Models\ActivationToken;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\UserStatus;
-use App\Services\UserService;
+use App\Services\API\UserService;
 use App\Exceptions\ActivationTokenNotFoundException;
 
 class AccountActivationTest extends TestCase

@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\API\Auth;
 
 use Exception;
 use Illuminate\Http\Request;
-use App\Http\Requests\ForgotPasswordRequest;
-use App\Http\Requests\ResetPasswordRequest;
-use App\Services\PasswordService;
+use App\Http\Requests\API\Password\ForgotPasswordRequest;
+use App\Http\Requests\API\Password\ResetPasswordRequest;
+use App\Services\API\PasswordService;
 use App\Http\Controllers\Controller;
 
 class PasswordController extends Controller
 {
-    /** @var App\Services\PasswordService */
+    /** @var App\Services\API\PasswordService */
     private $passwordService;
 
     /**
      * PasswordController constructor.
      *
-     * @param App\Services\PasswordService $passwordService
+     * @param App\Services\API\PasswordService $passwordService
      */
     public function __construct(PasswordService $passwordService)
     {

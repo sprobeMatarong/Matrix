@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\API;
 
 use Hash;
 use Mail;
@@ -18,14 +18,14 @@ class PasswordService
     /** @var App\Models\PasswordReset */
     protected $passwordReset;
 
-    /** @var App\Services\UserService */
+    /** @var App\Services\API\UserService */
     protected $userService;
 
     /**
      * PasswordReset constructor.
      *
      * @param App\Models\PasswordReset $passwordReset
-     * @param App\Services\UserService $userService
+     * @param App\Services\API\UserService $userService
      */
     public function __construct(PasswordReset $passwordReset, UserService $userService)
     {
@@ -48,17 +48,14 @@ class PasswordService
         // check if user exists
         $user = $this->userService->findByEmail($email);
 
-        // revoke all previous reset tokens
-        $tokens = $this->passwordReset
-                        ->where('user_id', $user->id)
-                        ->update(['revoked' => true]);
-
         // generate new token
         $token = $this->passwordReset
                     ->create([
-                        'user_id' => $user->id,
+                        'email' => $email,
                         'token' => Hash::make(uniqid() . time()),
                     ]);
+
+        $token->user = $user;
 
         // send password reset link email notification to user
         Mail::to($user)->send(new ForgotPassword($token));
@@ -84,11 +81,7 @@ class PasswordService
 
         // validate if token is valid
         $token = $this->passwordReset
-                    ->with('user')
-                    ->where([
-                        'token' => $data['token'],
-                        'revoked' => false,
-                    ])
+                    ->where('token', $data['token'])
                     ->first();
 
         if (!($token instanceof PasswordReset)) {
@@ -102,18 +95,18 @@ class PasswordService
             throw new RuntimeException('Unable to retrieve user status');
         }
 
+        // retrieve user to fetch new password
+        $user = $this->userService->findByEmail($token->email);
+
         // update user password
-        $token->user->update([
+        $user->update([
             'password' => Hash::make($data['password']),
             'login_attempts' => 0, // reset failed attempts
             'user_status_id' => $status->id, // update user status
         ]);
 
         // revoke the token
-        $token->update(['revoked' => true]);
-
-        // retrieve user to fetch new password
-        $user = $this->userService->findById((int) $token->user->id);
+        $token->delete();
 
         // send successful password reset email notification to user
         Mail::to($user)->send(new PasswordChange($user));

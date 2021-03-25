@@ -23,6 +23,7 @@ if (!function_exists('paginated')) {
         // set the custom url params
         $urlParams = http_build_query($params);
 
+        $firstPageUrl = $results->url(1) . '&' . $urlParams;
         $nextPageUrl = ($results->nextPageUrl()) ? $results->nextPageUrl() . '&' . $urlParams : null;
         $previousPageUrl = ($results->previousPageUrl()) ? $results->previousPageUrl() . '&' . $urlParams : null;
 
@@ -33,10 +34,32 @@ if (!function_exists('paginated')) {
                 'currentPage' => $page,
                 'lastPage' => $results->lastPage(),
                 'perPage' => $results->perPage(),
+                'firstPageUrl' => $firstPageUrl,
                 'previousPageUrl' => $previousPageUrl,
                 'nextPageUrl' => $nextPageUrl,
                 'url' => $results->url($page) . '&' . $urlParams,
             ],
         ];
+    }
+}
+
+/*
+ * Gets the first letters of each word to generate
+ * initials that can be used in thumbnails and etc.
+ */
+if (!function_exists('get_initials')) {
+    /**
+     * @param string $content
+     * @return string $initials
+     */
+    function get_initials(string $content) : string
+    {
+        $initials = '';
+
+        foreach (explode(' ', $content) as $word) {
+            $initials .= $word[0];
+        }
+
+        return strtoupper($initials);
     }
 }

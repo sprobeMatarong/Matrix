@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
+
+use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
     /**
-     * Show the profile for the given user.
+     * Default page for API.
      *
      * @return Illuminate\Http\Response
      */

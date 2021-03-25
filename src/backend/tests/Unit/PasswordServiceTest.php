@@ -6,12 +6,12 @@ use Hash;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\PasswordReset;
-use App\Services\UserService;
-use App\Services\PasswordService;
+use App\Services\API\UserService;
+use App\Services\API\PasswordService;
 
 class PasswordServiceTest extends TestCase
 {
-    /** @var App\Services\PasswordService */
+    /** @var App\Services\API\PasswordService */
     protected $passwordService;
 
     /** @var string */

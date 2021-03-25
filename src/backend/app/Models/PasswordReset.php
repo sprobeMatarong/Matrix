@@ -23,15 +23,5 @@ class PasswordReset extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id','token', 'revoked'];
-
-    /**
-     * Retrieves the User of the Password Reset Token
-     *
-     * @return App\Models\User
-     */
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+    protected $fillable = ['email','token'];
 }

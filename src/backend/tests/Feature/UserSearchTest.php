@@ -120,7 +120,7 @@ class UserSearchTest extends TestCase
 
     public function testSearchWithLimit()
     {
-        $limit = floor(self::$TOTAL / 2);
+        $limit = floor(self::$TOTAL / 2) ?: 1;
 
         // initialize query
         $query = [
@@ -143,35 +143,29 @@ class UserSearchTest extends TestCase
         self::$LASTPAGE = $result->meta->lastPage;
     }
 
-    // public function testSearchByPage()
-    // {
-    //     $this->markTestIncomplete('PHPUnit result does not match the result in browser.');
+    public function testSearchByPage()
+    {
+        $limit = floor(self::$TOTAL / 2) ?: 1;
+        $page = 1;
 
-    //     $limit = floor(self::$TOTAL / 2);
-    //     $page = 1;
+        // initialize query
+        $query = [
+            'limit' => $limit,
+            'keyword' => self::$KEYWORD,
+            'page' => $page,
+        ];
 
-    //     while ($page <= self::$LASTPAGE) {
-    //         // initialize query
-    //         $query = [
-    //             'limit' => $limit,
-    //             'keyword' => self::$KEYWORD,
-    //             'page' => $page,
-    //         ];
+        $response = $this->withHeaders([
+                    'Authorization' => 'Bearer ' . self::$ACCESS_TOKEN,
+                ])
+                ->json('GET', '/' . config('app.api_version') . '/users?' . http_build_query($query));
+        $response->assertStatus(200);
+        $result = json_decode((string) $response->getContent());
 
-    //         $response = $this->withHeaders([
-    //                     'Authorization' => 'Bearer ' . self::$ACCESS_TOKEN,
-    //                 ])
-    //                 ->json('GET', '/' . config('app.api_version') . '/users?' . http_build_query($query));
-    //         $response->assertStatus(200);
-    //         $result = json_decode((string) $response->getContent());
+        // verify page matches
+        $this->assertEquals($page, $result->meta->currentPage);
 
-    //         // verify page matches
-    //         $this->assertEquals($page, $result->meta->currentPage);
-
-    //         // verify page has results
-    //         $this->assertTrue(count($result->data) > 0);
-
-    //         $page = $result->meta->currentPage + 1;
-    //     }
-    // }
+        // verify page has results
+        $this->assertTrue(count($result->data) > 0);
+    }
 }

@@ -60,6 +60,8 @@ return [
 
     'asset_url' => env('ASSET_URL', null),
 
+    'storage_disk_url' => env('STORAGE_DISK_URL', null),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

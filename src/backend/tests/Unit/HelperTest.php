@@ -31,4 +31,9 @@ class HelperTest extends TestCase
         $this->assertArrayHasKey('nextPageUrl', $result['meta']);
         $this->assertArrayHasKey('url', $result['meta']);
     }
+
+    public function testGetInitials()
+    {
+        $this->assertEquals('JD', get_initials('John Doe'));
+    }
 }

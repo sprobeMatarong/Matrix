@@ -1,14 +1,13 @@
 @component('mail::message')
 Hi {{ $user->first_name }},<br/>
 <br/>
-Your password for has been updated successfully. If you made this change, then we're all set.<br/>
+You have been invited to create an account in {{ config('app.name') }}. Accept the invation by clicking the link below.
 
 @component('mail::button', ['url' => $url])
-Login
+Accept Invitation
 @endcomponent
 
-Feel free to reach out with any questions you might have. We're here to help.<br/>
-
+<br/>
 Best Regards,<br/>
 {{ config('app.name') }}<br/>
 @endcomponent

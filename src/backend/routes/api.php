@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,30 +11,31 @@ use Illuminate\Http\Request;
 |
 */
 // Default API Homepage
-Route::get('/', 'HomeController');
+Route::get('/', 'API\HomeController');
 
-Route::middleware('auth:api')
-    ->get('/profile', function (Request $request) {
-        return response()->json($request->user());
-    });
+// Profile
+Route::get('/profile', 'API\ProfileController@index');
+Route::put('/profile', 'API\ProfileController@update');
 
 // user logout
-Route::delete('oauth/token', 'Auth\TokenController@delete')->middleware('auth:api');
+Route::delete('oauth/token', 'API\Auth\TokenController@delete')->middleware('auth:api');
 
-Route::post('register', 'UserController@register');
+// user signup
+Route::post('register', 'API\UserController@register');
 
-Route::post('activate', 'UserController@activate');
+// activate via email confirmation
+Route::post('activate', 'API\UserController@activate');
 
 // Routes for Forget and Reset Password
-Route::post('password/forgot', 'Auth\PasswordController@forgot');
-Route::post('password/reset', 'Auth\PasswordController@reset');
+Route::post('password/forgot', 'API\Auth\PasswordController@forgot');
+Route::post('password/reset', 'API\Auth\PasswordController@reset');
 
 // users route
 Route::prefix('users')
     ->group(function () {
-        Route::get('/', 'UserController@index');
-        Route::post('/', 'UserController@create');
-        Route::get('{id}', 'UserController@read');
-        Route::put('{id}', 'UserController@update');
-        Route::delete('{id}', 'UserController@delete');
+        Route::get('/', 'API\UserController@index');
+        Route::post('/', 'API\UserController@create');
+        Route::get('{id}', 'API\UserController@read');
+        Route::put('{id}', 'API\UserController@update');
+        Route::delete('{id}', 'API\UserController@delete');
     });

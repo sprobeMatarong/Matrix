@@ -1,25 +1,28 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use Exception;
-use App\Services\UserService;
-use App\Http\Requests\CreateUserRequest;
-use App\Http\Requests\UpdateUserRequest;
-use App\Http\Requests\SearchUserRequest;
+use App\Services\API\UserService;
+use App\Http\Requests\API\Users\CreateUserRequest;
+use App\Http\Requests\API\Users\RegisterUserRequest;
+use App\Http\Requests\API\Users\UpdateUserRequest;
+use App\Http\Requests\API\Users\SearchUserRequest;
+use App\Http\Requests\API\Users\ActivateAccountRequest;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\NewUserResource;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
-    /** @var App\Services\UserService */
+    /** @var App\Services\API\UserService */
     protected $userService;
 
     /**
      * UserController constructor.
      *
-     * @param App\Services\UserService $userService
+     * @param App\Services\API\UserService $userService
      */
     public function __construct(UserService $userService)
     {
@@ -166,10 +169,10 @@ class UserController extends Controller
     /**
      * Creates user from Signup/Register Form.
      *
-     * @param App\Http\Requests\CreateUserRequest $request
+     * @param App\Http\Requests\API\Users\RegisterUserRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function register(CreateUserRequest $request)
+    public function register(RegisterUserRequest $request)
     {
         $request->validated();
 
@@ -179,6 +182,7 @@ class UserController extends Controller
                 'last_name' => $request->getLastName(),
                 'email' => $request->getEmail(),
                 'password' => $request->getPassword(),
+                'type' => 'signup',
             ];
             $user = $this->userService->create($formData);
             $this->response['data'] = new NewUserResource($user);
@@ -198,11 +202,14 @@ class UserController extends Controller
      *  @param Illuminate\Http\Request $request
      *  @return \Illuminate\Http\Response
      */
-    public function activate(Request $request)
+    public function activate(ActivateAccountRequest $request)
     {
         try {
-            $token = $request->get('token');
-            $user = $this->userService->activateByToken($token);
+            $user = $this->userService
+                    ->activateByToken(
+                        $request->getToken(),
+                        $request->getPassword()
+                    );
             $this->response['data'] = new NewUserResource($user);
         } catch (Exception $e) {
             $this->response = [

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\API\Password;
 
 use App\Rules\EmailAddress;
 use Illuminate\Foundation\Http\FormRequest;

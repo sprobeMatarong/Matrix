@@ -6,7 +6,7 @@ use Hash;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\ActivationToken;
-use App\Services\UserService;
+use App\Services\API\UserService;
 
 class UserServiceTest extends TestCase
 {
@@ -80,15 +80,20 @@ class UserServiceTest extends TestCase
      */
     public function testCreate()
     {
-        self::$USER = $this->service->create($this->data);
+        $data = $this->data;
+        $data['type'] = 'signup';
+        self::$USER = $this->service->create($data);
         self::$UPDATED_DATA['id'] = self::$USER->id;
 
         foreach ($this->data as $key => $value) {
+            // verify password is hashed properly
             if ($key === 'password') {
                 $this->assertTrue(Hash::check($this->data['password'], self::$USER->password));
-            } else {
-                $this->assertEquals($value, self::$USER->{$key});
+
+                continue;
             }
+
+            $this->assertEquals($value, self::$USER->{$key});
         }
     }
 
@@ -97,7 +102,7 @@ class UserServiceTest extends TestCase
         $this->expectException('App\Exceptions\ActivationTokenNotFoundException');
         $this->expectExceptionMessage('Invalid/Expired Activation Token.');
 
-        $this->service->activateByToken('some random string');
+        $this->service->activateByToken('some random string', '#!#RSDA!@#da');
     }
 
     public function testActivateByToken()
@@ -108,7 +113,7 @@ class UserServiceTest extends TestCase
                                 ])
                                 ->first();
         // perform activation
-        $user = $this->service->activateByToken($query->token);
+        $user = $this->service->activateByToken($query->token, $this->data['password']);
         // verify user is not active
         $this->assertEquals(config('user.statuses.active'), $user->status->name);
     }
@@ -262,7 +267,7 @@ class UserServiceTest extends TestCase
 
     public function testSearchWithLimit()
     {
-        $limit = floor(self::$TOTAL / 2);
+        $limit = floor(self::$TOTAL / 2) ?: 1;
 
         $results = $this->service->search([
                         'limit' => $limit,
@@ -277,7 +282,7 @@ class UserServiceTest extends TestCase
     public function testSearchByPage()
     {
         $limit = floor(self::$TOTAL / 2);
-        $page = 2;
+        $page = 1;
 
         $results = $this->service->search([
                         'page' => $page,

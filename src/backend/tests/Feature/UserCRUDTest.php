@@ -71,7 +71,6 @@ class UserCRUDTest extends TestCase
             'first_name' => 'John',
             'last_name' => 'Doe',
             'email' => 'johndoe@tcg.sprobe.ph',
-            'password' => '!p4ssW0rd',
         ];
     }
 
@@ -112,22 +111,6 @@ class UserCRUDTest extends TestCase
         $response->assertStatus(422);
         $result = json_decode((string) $response->getContent());
         $this->assertTrue(in_array('The email has already been taken.', $result->error->email));
-    }
-
-    public function testCreateInvalidPasswordFormat()
-    {
-        $params = $this->data;
-        $params['password'] = 'notvalidpassword!';
-        $response = $this->withHeaders([
-                            'Authorization' => 'Bearer ' . self::$ACCESS_TOKEN,
-                        ])
-                        ->json('POST', '/' . config('app.api_version') . '/users', $params);
-        $response->assertStatus(422);
-        $result = json_decode((string) $response->getContent());
-        $this->assertTrue(in_array(
-            'Password must contain the following: 1 uppercase, 1 special character and a minimum of 8 characters.',
-            $result->error->password
-        ));
     }
 
     public function testCreate()
@@ -298,7 +281,7 @@ class UserCRUDTest extends TestCase
 
             if ($key === 'avatar') {
                 // remove root url
-                $file = str_replace(config('app.asset_url'), '', $result->data->avatar);
+                $file = str_replace(config('app.storage_disk_url'), '', $result->data->avatar);
                 $this->assertNotNull($result->data->avatar);
 
                 // Assert the file was stored...

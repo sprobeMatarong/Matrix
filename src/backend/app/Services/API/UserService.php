@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\API;
 
 use DB;
 use Mail;
@@ -10,13 +10,14 @@ use App\Models\User;
 use App\Models\ActivationToken;
 use App\Models\UserStatus;
 use App\Mail\UserSignUp;
+use App\Mail\InviteUser;
 use Carbon\Carbon;
-use App\Http\Resources\UserResource;
 use App\Exceptions\UserNotFoundException;
 use App\Exceptions\UserNotCreatedException;
 use App\Exceptions\UserStatusNotFoundException;
 use App\Exceptions\ActivationTokenNotFoundException;
 use App\Traits\Uploadable;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\UploadedFile;
 
 class UserService
@@ -82,6 +83,8 @@ class UserService
 
     /**
      * Creates a new user in the database
+     * type = signup  User Signup
+     * type = invite  User Added via Dashboard
      *
      * @param array $params
      * @return App\Models\User $user
@@ -98,6 +101,10 @@ class UserService
                 throw new UserStatusNotFoundException;
             }
 
+            // get create type. set default to invite if not provided
+            $type = array_key_exists('type', $params) ? $params['type'] : 'invite';
+            unset($params['type']);
+
             $params['user_status_id'] = $status->id;
             $user = $this->user->create($params);
 
@@ -110,7 +117,8 @@ class UserService
             $user->activationTokens()->save(new ActivationToken(['token' => $token]));
 
             // send email
-            Mail::to($user)->send(new UserSignUp($user, $token));
+            $template = ($type === 'signup') ? UserSignUp::class : InviteUser::class;
+            Mail::to($user)->send(new $template($user, $token));
 
             DB::commit();
         } catch (Exception $e) {
@@ -133,16 +141,18 @@ class UserService
         // retrieve user information
         $user = $this->findById($params['id']);
 
-        // update user password if provided in request or retain the current password
-        $params['password'] = strlen($params['password']) > 0 ?
-                                Hash::make($params['password']) :
-                                $user->password;
+        if (array_key_exists('password', $params)) {
+            // update user password if provided in request or retain the current password
+            $params['password'] = strlen($params['password']) > 0 ?
+                                    Hash::make($params['password']) :
+                                    $user->password;
+        }
 
         // upload avatar if present
         if (array_key_exists('avatar', $params)) {
             $params['avatar'] = ($params['avatar'] instanceof UploadedFile) ?
-                                $this->uploadOne($params['avatar']) :
-                                str_replace(config('app.asset_url') . '/', '', $user->avatar);
+                                config('app.storage_disk_url') . '/' . $this->uploadOne($params['avatar'], 'avatars') :
+                                $user->avatar;
         }
 
         // perform update
@@ -171,10 +181,11 @@ class UserService
     /**
      * Service function that activates the user account.
      *
-     * @param array $params User parameters
+     * @param string $token
+     * @param string|null $password  Provided if User is Created Manually in the dashboard instead of signup
      * @return User $user
      */
-    public function activateByToken($token)
+    public function activateByToken(string $token, string $password = null) : User
     {
         $activationToken = ActivationToken::with('user.status')
                                             ->where('token', $token)
@@ -193,18 +204,26 @@ class UserService
 
         $user = $activationToken->user;
 
-        // change user status to active
-        $user->update([
+        // set form data
+        $formData = [
+            'password' => Hash::make($password),
             'user_status_id' => $status->id,
             'email_verified_at' => Carbon::now(),
-        ]);
+        ];
+
+        // exclude password update if not provided
+        if (strlen($password) < 1) {
+            unset($formData['password']);
+        }
+
+        // update user details
+        $user->update($formData);
+
+        // retrieve updated user instance
+        $user = User::with('status')->find($user->id);
 
         // revoke the token
-        $activationToken->revoked = true;
-        $activationToken->save();
-
-        // retrieve updated user details
-        $user = User::with('status')->find($activationToken->user->id);
+        $activationToken->delete();
 
         return $user;
     }

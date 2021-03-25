@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\API;
 
 use App\Rules\Password;
 use App\Rules\EmailAddress;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserRequest extends FormRequest
+class UpdateProfileRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -26,7 +26,7 @@ class UpdateUserRequest extends FormRequest
 
     public function getId()
     {
-        return (int) $this->route('id');
+        return (int) $this->user()->id;
     }
 
     public function getFirstName()

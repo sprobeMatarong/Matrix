@@ -17,7 +17,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'first_name','last_name', 'email', 'password', 'user_status_id', 'avatar',
+        'first_name','last_name', 'email', 'password', 'user_status_id', 'avatar', 'email_verified_at',
     ];
 
     /**
@@ -39,13 +39,13 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
-     * Formats the URL for the user avatar
+     * Get the user's full name.
      *
      * @return string
      */
-    public function getAvatarAttribute($value)
+    public function getFullNameAttribute()
     {
-        return (strlen($value)) ? sprintf('%s/%s', config('app.asset_url'), $value) : null;
+        return "{$this->first_name} {$this->last_name}";
     }
 
     /**
