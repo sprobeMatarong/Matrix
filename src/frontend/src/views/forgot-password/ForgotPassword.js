@@ -1,22 +1,16 @@
-import React, { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import { makeStyles } from '@material-ui/styles';
-import ReeValidate from 'ree-validate';
-import Alert from '@material-ui/lab/Alert';
-import {
-  Button,
-  TextField,
-  Link,
-  Typography,
-  CircularProgress,
-} from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react'
+import { Link as RouterLink } from 'react-router-dom'
+import { makeStyles } from '@material-ui/styles'
+import ReeValidate from 'ree-validate'
+import Alert from '@material-ui/lab/Alert'
+import { Button, TextField, Link, Typography, CircularProgress } from '@material-ui/core'
+import { useDispatch } from 'react-redux'
 
-import { Page } from 'components';
-import { useFormHandler } from 'utils/hooks';
-import { sendForgotPasswordEmail } from 'services/auth';
+import { Page } from 'components'
+import { useFormHandler } from 'utils/hooks'
+import { sendForgotPasswordEmail } from 'services/auth'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     paddingLeft: 100,
     paddingRight: 100,
@@ -39,41 +33,39 @@ const useStyles = makeStyles(theme => ({
   submitButton: {
     margin: theme.spacing(2, 0),
   },
-}));
+}))
 
 const validator = new ReeValidate({
   email: 'required|email',
-});
+})
 
 function ForgotPassword() {
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  const [success, setSuccess] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [formState, handleChange, submitForm, hasError] = useFormHandler(
-    validator,
-  );
+  const classes = useStyles()
+  const dispatch = useDispatch()
+  const [success, setSuccess] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [formState, handleChange, submitForm, hasError] = useFormHandler(validator)
 
-  const handleSubmit = event => {
-    event.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault()
 
     submitForm(() => {
-      setLoading(true);
+      setLoading(true)
 
       dispatch(sendForgotPasswordEmail(formState.values))
         .then(() => {
-          setSuccess(true);
+          setSuccess(true)
         })
-        .catch(e => {
+        .catch((e) => {
           if (e.response.data.error) {
-            const error = e.response.data.error;
+            const error = e.response.data.error
 
-            validator.errors.add('email', error);
+            validator.errors.add('email', error)
           }
         })
-        .finally(() => setLoading(false));
-    });
-  };
+        .finally(() => setLoading(false))
+    })
+  }
 
   return (
     <Page title="Forgot Password" className={classes.root}>
@@ -82,8 +74,8 @@ function ForgotPassword() {
           <div>
             <Alert variant="outlined" severity="success">
               Submitted! <br />
-              Your password has been successfully reset. You should be receiving
-              an email shortly with an instruction.
+              Your password has been successfully reset. You should be receiving an email shortly
+              with an instruction.
             </Alert>
 
             <br />
@@ -108,9 +100,7 @@ function ForgotPassword() {
             <TextField
               className={classes.textField}
               error={hasError('email')}
-              helperText={
-                hasError('email') ? formState.errors.first('email') : null
-              }
+              helperText={hasError('email') ? formState.errors.first('email') : null}
               fullWidth
               label="Email"
               name="email"
@@ -142,7 +132,7 @@ function ForgotPassword() {
         )}
       </form>
     </Page>
-  );
+  )
 }
 
-export default ForgotPassword;
+export default ForgotPassword

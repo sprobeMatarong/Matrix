@@ -1,23 +1,17 @@
-import React, { useState } from 'react';
-import { Link as RouterLink, Redirect } from 'react-router-dom';
-import { makeStyles } from '@material-ui/styles';
-import Alert from '@material-ui/lab/Alert';
-import PropTypes from 'prop-types';
-import {
-  Button,
-  TextField,
-  Link,
-  Typography,
-  CircularProgress,
-} from '@material-ui/core';
-import { useSelector, useDispatch } from 'react-redux';
-import reeValidate from 'ree-validate';
+import React, { useState } from 'react'
+import { Link as RouterLink, Redirect } from 'react-router-dom'
+import { makeStyles } from '@material-ui/styles'
+import Alert from '@material-ui/lab/Alert'
+import PropTypes from 'prop-types'
+import { Button, TextField, Link, Typography, CircularProgress } from '@material-ui/core'
+import { useSelector, useDispatch } from 'react-redux'
+import reeValidate from 'ree-validate'
 
-import { useFormHandler } from 'utils/hooks';
-import { signUpUser } from 'services/auth';
-import { Page } from 'components';
+import { useFormHandler } from 'utils/hooks'
+import { signUpUser } from 'services/auth'
+import { Page } from 'components'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     paddingLeft: 100,
     paddingRight: 100,
@@ -40,52 +34,50 @@ const useStyles = makeStyles(theme => ({
   signUpButton: {
     margin: theme.spacing(2, 0),
   },
-}));
+}))
 
 export const userValidations = {
   first_name: 'required',
   last_name: 'required',
   email: 'required|email',
   password: 'required|min:8',
-};
+}
 
-const validator = new reeValidate(userValidations);
+const validator = new reeValidate(userValidations)
 
 function SignUp() {
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  const auth = useSelector(state => state.auth);
-  const [success, setSuccess] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [formState, handleChange, submitForm, hasError] = useFormHandler(
-    validator,
-  );
+  const classes = useStyles()
+  const dispatch = useDispatch()
+  const auth = useSelector((state) => state.auth)
+  const [success, setSuccess] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [formState, handleChange, submitForm, hasError] = useFormHandler(validator)
 
-  const handleSignUp = event => {
-    event.preventDefault();
+  const handleSignUp = (event) => {
+    event.preventDefault()
 
     submitForm(() => {
-      setLoading(true);
+      setLoading(true)
 
       dispatch(signUpUser(formState.values))
         .then(() => {
-          setSuccess(true);
+          setSuccess(true)
         })
-        .catch(e => {
+        .catch((e) => {
           if (e.response.data.error) {
-            const error = e.response.data.error;
+            const error = e.response.data.error
 
-            Object.keys(error).forEach(value => {
-              validator.errors.add(value, error[value][0]);
-            });
+            Object.keys(error).forEach((value) => {
+              validator.errors.add(value, error[value][0])
+            })
           }
         })
-        .finally(() => setLoading(false));
-    });
-  };
+        .finally(() => setLoading(false))
+    })
+  }
 
   if (auth.isAuthenticated) {
-    return <Redirect to="/" />;
+    return <Redirect to="/" />
   }
 
   return (
@@ -95,8 +87,8 @@ function SignUp() {
           <div>
             <Alert variant="outlined" severity="success">
               Congratulations! <br />
-              You have successfully created your account. You should be
-              receiving an email shortly with an instruction.
+              You have successfully created your account. You should be receiving an email shortly
+              with an instruction.
             </Alert>
 
             <br />
@@ -120,11 +112,7 @@ function SignUp() {
               className={classes.textField}
               error={hasError('first_name')}
               fullWidth
-              helperText={
-                hasError('first_name')
-                  ? formState.errors.first('first_name')
-                  : null
-              }
+              helperText={hasError('first_name') ? formState.errors.first('first_name') : null}
               label="First Name"
               name="first_name"
               onChange={handleChange}
@@ -136,11 +124,7 @@ function SignUp() {
               className={classes.textField}
               error={hasError('last_name')}
               fullWidth
-              helperText={
-                hasError('last_name')
-                  ? formState.errors.first('last_name')
-                  : null
-              }
+              helperText={hasError('last_name') ? formState.errors.first('last_name') : null}
               label="Last Name"
               name="last_name"
               onChange={handleChange}
@@ -152,9 +136,7 @@ function SignUp() {
               className={classes.textField}
               error={hasError('email')}
               fullWidth
-              helperText={
-                hasError('email') ? formState.errors.first('email') : null
-              }
+              helperText={hasError('email') ? formState.errors.first('email') : null}
               label="Email Address"
               name="email"
               onChange={handleChange}
@@ -166,9 +148,7 @@ function SignUp() {
               className={classes.textField}
               error={hasError('password')}
               fullWidth
-              helperText={
-                hasError('password') ? formState.errors.first('password') : null
-              }
+              helperText={hasError('password') ? formState.errors.first('password') : null}
               label="Password"
               name="password"
               onChange={handleChange}
@@ -199,11 +179,11 @@ function SignUp() {
         )}
       </form>
     </Page>
-  );
+  )
 }
 
 SignUp.propTypes = {
   history: PropTypes.object,
-};
+}
 
-export default SignUp;
+export default SignUp

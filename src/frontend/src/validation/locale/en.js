@@ -3,4 +3,4 @@ export const attributes = {
   last_name: 'last name',
   email: 'email address',
   password: 'password',
-};
+}

@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/styles';
-import { useMediaQuery } from '@material-ui/core';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
+import clsx from 'clsx'
+import { makeStyles, useTheme } from '@material-ui/styles'
+import { useMediaQuery } from '@material-ui/core'
+import { useSelector, useDispatch } from 'react-redux'
 
-import { Sidebar, Topbar } from './components';
-import { getUser } from 'services/auth';
+import { Sidebar, Topbar } from './components'
+import { getUser } from 'services/auth'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     paddingTop: 56,
     height: '100%',
@@ -22,35 +22,35 @@ const useStyles = makeStyles(theme => ({
   content: {
     height: '100%',
   },
-}));
+}))
 
-const Main = props => {
-  const { children } = props;
-  const dispatch = useDispatch();
-  const auth = useSelector(state => state.auth);
-  const classes = useStyles();
-  const theme = useTheme();
+const Main = (props) => {
+  const { children } = props
+  const dispatch = useDispatch()
+  const auth = useSelector((state) => state.auth)
+  const classes = useStyles()
+  const theme = useTheme()
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'), {
     defaultMatches: true,
-  });
+  })
 
   useEffect(() => {
     if (!auth.user) {
-      dispatch(getUser());
+      dispatch(getUser())
     }
-  }, [dispatch, auth.user]);
+  }, [dispatch, auth.user])
 
-  const [openSidebar, setOpenSidebar] = useState(false);
+  const [openSidebar, setOpenSidebar] = useState(false)
 
   const handleSidebarOpen = () => {
-    setOpenSidebar(true);
-  };
+    setOpenSidebar(true)
+  }
 
   const handleSidebarClose = () => {
-    setOpenSidebar(false);
-  };
+    setOpenSidebar(false)
+  }
 
-  const shouldOpenSidebar = isDesktop ? true : openSidebar;
+  const shouldOpenSidebar = isDesktop ? true : openSidebar
 
   return (
     <div
@@ -67,11 +67,11 @@ const Main = props => {
       />
       <main className={classes.content}>{children}</main>
     </div>
-  );
-};
+  )
+}
 
 Main.propTypes = {
   children: PropTypes.node,
-};
+}
 
-export default Main;
+export default Main

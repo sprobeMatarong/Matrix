@@ -1,14 +1,14 @@
-import * as types from './actionTypes';
+import * as types from './actionTypes'
 
 function loadingReducer(state = false, { type }) {
   switch (type) {
     case types.SHOW_LOADER:
-      return true;
+      return true
     case types.HIDE_LOADER:
-      return false;
+      return false
     default:
-      return state;
+      return state
   }
 }
 
-export default loadingReducer;
+export default loadingReducer

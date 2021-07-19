@@ -1,16 +1,16 @@
-import React from 'react';
-import TopBarProgress from 'react-topbar-progress-indicator';
+import React from 'react'
+import TopBarProgress from 'react-topbar-progress-indicator'
 
 TopBarProgress.config({
   barColors: {
-    '0': '#FF9800',
+    0: '#FF9800',
     '1.0': '#FF9800',
   },
   shadowBlur: 5,
-});
+})
 
 function Loader() {
-  return <TopBarProgress />;
+  return <TopBarProgress />
 }
 
-export default Loader;
+export default Loader

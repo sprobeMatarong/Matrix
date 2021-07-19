@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
-import { useSelector, useDispatch } from 'react-redux';
-import { Grid, Typography } from '@material-ui/core';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/styles'
+import { useSelector, useDispatch } from 'react-redux'
+import { Grid, Typography } from '@material-ui/core'
 
-import Topbar from './components/Topbar';
-import { Loader, Notification } from 'components';
-import { hideNotification } from 'store/notification/actionCreators';
+import Topbar from './components/Topbar'
+import { Loader, Notification } from 'components'
+import { hideNotification } from 'store/notification/actionCreators'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     paddingTop: 64,
     height: '100%',
@@ -66,14 +66,14 @@ const useStyles = makeStyles(theme => ({
       justifyContent: 'center',
     },
   },
-}));
+}))
 
 function Minimal(props) {
-  const { children } = props;
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  const loading = useSelector(state => state.loader);
-  const notification = useSelector(state => state.notification);
+  const { children } = props
+  const classes = useStyles()
+  const dispatch = useDispatch()
+  const loading = useSelector((state) => state.loader)
+  const notification = useSelector((state) => state.notification)
 
   return (
     <div className={classes.root}>
@@ -111,11 +111,11 @@ function Minimal(props) {
         </Grid>
       </main>
     </div>
-  );
+  )
 }
 
 Minimal.propTypes = {
   children: PropTypes.node,
-};
+}
 
-export default Minimal;
+export default Minimal

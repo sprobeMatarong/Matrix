@@ -1,4 +1,4 @@
-import * as types from './actionTypes';
+import * as types from './actionTypes'
 
 const initialState = {
   list: [],
@@ -29,10 +29,10 @@ const initialState = {
     },
     password: '',
   },
-};
+}
 
 function reducer(state = initialState, action) {
-  const { type, payload } = action;
+  const { type, payload } = action
 
   switch (type) {
     case types.SET_MODAL_VALUES:
@@ -48,20 +48,25 @@ function reducer(state = initialState, action) {
           status: payload.status ?? state.modalValues.status,
           password: payload.password ?? state.modalValues.password,
         },
-      };
+      }
     case types.CREATE_USER:
     case types.UPDATE_USER:
     case types.DELETE_USER:
-      return state;
+      return state
     case types.CLEAR_MODAL_VALUES:
       return {
         ...state,
         modalValues: {
           ...initialState.modalValues,
         },
-      };
-    case types.SEARCH_USER:
-      const currentPage = formulateCurrentPage(payload.meta.currentPage, payload.meta.total, payload.meta.perPage);
+      }
+    // The following case clauses are wrapped into blocks using brackets to avoid eslint no-case-declarations
+    case types.SEARCH_USER: {
+      const currentPage = formulateCurrentPage(
+        payload.meta.currentPage,
+        payload.meta.total,
+        payload.meta.perPage
+      )
 
       return {
         ...state,
@@ -79,7 +84,8 @@ function reducer(state = initialState, action) {
           limit: payload.meta.perPage,
           page: currentPage,
         },
-      };
+      }
+    }
     case types.SET_SEARCH_CRITERIA:
       return {
         ...state,
@@ -87,25 +93,25 @@ function reducer(state = initialState, action) {
           ...state.search,
           ...payload,
         },
-      };
+      }
     default:
-      return state;
+      return state
   }
 }
 
 function formulateCurrentPage(currentPage, totalCount, pageSize) {
-  let totalPages = Math.ceil(totalCount / pageSize);
-  let newCurrentPage = currentPage;
+  let totalPages = Math.ceil(totalCount / pageSize)
+  let newCurrentPage = currentPage
 
   if (totalPages === 0) {
     // There are no entries, set current page to 1.
-    newCurrentPage = 1;
+    newCurrentPage = 1
   } else if (totalPages < currentPage) {
     // The current page is out of bounds, return last page instead
-    newCurrentPage = totalPages;
+    newCurrentPage = totalPages
   }
 
-  return newCurrentPage;
+  return newCurrentPage
 }
 
-export default reducer;
+export default reducer

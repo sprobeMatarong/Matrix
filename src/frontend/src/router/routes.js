@@ -34,4 +34,4 @@ export default [
     component: 'views/activate',
     layout: 'minimal',
   },
-];
+]

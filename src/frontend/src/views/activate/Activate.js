@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/styles';
-import Alert from '@material-ui/lab/Alert';
-import { Link as RouterLink } from 'react-router-dom';
-import { Link } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
-import queryString from 'query-string';
+import React, { useState, useEffect } from 'react'
+import { makeStyles } from '@material-ui/styles'
+import Alert from '@material-ui/lab/Alert'
+import { Link as RouterLink } from 'react-router-dom'
+import { Link } from '@material-ui/core'
+import { useDispatch } from 'react-redux'
+import queryString from 'query-string'
+import PropTypes from 'prop-types'
 
-import { activateUser } from 'services/auth';
-import { Page } from 'components';
+import { activateUser } from 'services/auth'
+import { Page } from 'components'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     paddingLeft: 100,
     paddingRight: 100,
@@ -20,36 +21,36 @@ const useStyles = makeStyles(theme => ({
       paddingRight: theme.spacing(2),
     },
   },
-}));
+}))
 
 function Activate(props) {
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(null);
+  const classes = useStyles()
+  const dispatch = useDispatch()
+  const [success, setSuccess] = useState(false)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    const token = queryString.parse(props.location.search).token;
+    const token = queryString.parse(props.location.search).token
 
     if (token) {
       dispatch(activateUser(token))
         .then(() => {
-          setSuccess(true);
+          setSuccess(true)
         })
-        .catch(e => {
-          setError(e.response.data.error);
-        });
+        .catch((e) => {
+          setError(e.response.data.error)
+        })
     } else {
-      setError('Invalid token');
+      setError('Invalid token')
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Page title="Activate Account" className={classes.root}>
       {success && (
         <Alert variant="outlined" severity="success">
-          You have successfully activated your account. You should be able to
-          login with your email and password.
+          You have successfully activated your account. You should be able to login with your email
+          and password.
           <Link component={RouterLink} to="/sign-in" variant="h6">
             Click here to login.
           </Link>
@@ -62,7 +63,11 @@ function Activate(props) {
         </Alert>
       )}
     </Page>
-  );
+  )
 }
 
-export default Activate;
+Activate.propTypes = {
+  location: PropTypes.object,
+}
+
+export default Activate

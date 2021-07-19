@@ -1,19 +1,20 @@
-import React, { lazy, Suspense } from 'react';
-import { useSelector } from 'react-redux';
-import { Route, Redirect } from 'react-router-dom';
+import React, { lazy, Suspense } from 'react'
+import { useSelector } from 'react-redux'
+import { Route, Redirect } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
-import Main from 'layouts/main';
-import { Loader } from 'components';
+import Main from 'layouts/main'
+import { Loader } from 'components'
 
 function Private(props) {
-  const { component, layout, ...rest } = props;
-  const auth = useSelector(state => state.auth);
+  const { component, layout, ...rest } = props
+  const auth = useSelector((state) => state.auth)
 
   if (!auth.isAuthenticated) {
     return (
       <Route
         {...rest}
-        render={props => (
+        render={(props) => (
           <Redirect
             to={{
               pathname: '/sign-in',
@@ -22,17 +23,17 @@ function Private(props) {
           />
         )}
       />
-    );
+    )
   }
 
-  const Layout = layout ? lazy(() => import(`../layouts/${layout}`)) : Main;
-  const Component = lazy(() => import(`../${component}`));
-  const renderLoader = Loader;
+  const Layout = layout ? lazy(() => import(`../layouts/${layout}`)) : Main
+  const Component = lazy(() => import(`../${component}`))
+  const renderLoader = Loader
 
   return (
     <Route
       {...rest}
-      render={props => (
+      render={(props) => (
         <Suspense fallback={renderLoader()}>
           <Layout>
             <Component {...props} />
@@ -40,7 +41,13 @@ function Private(props) {
         </Suspense>
       )}
     />
-  );
+  )
 }
 
-export default Private;
+Private.propTypes = {
+  component: PropTypes.any,
+  layout: PropTypes.any,
+  location: PropTypes.object,
+}
+
+export default Private

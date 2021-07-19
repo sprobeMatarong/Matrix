@@ -1,36 +1,37 @@
-import React, {useState} from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
-import Toolbar from './Toolbar';
-import Head from './Head';
-import CircularProgress from "@material-ui/core/CircularProgress";
-import TablePagination from "@material-ui/core/TablePagination";
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/core/styles'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableContainer from '@material-ui/core/TableContainer'
+import TableRow from '@material-ui/core/TableRow'
+import Paper from '@material-ui/core/Paper'
+import Checkbox from '@material-ui/core/Checkbox'
+import Toolbar from './Toolbar'
+import Head from './Head'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import TablePagination from '@material-ui/core/TablePagination'
 
 TableList.propTypes = {
   title: PropTypes.string.isRequired,
-  headCells: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.isRequired,
-    numeric: PropTypes.bool.isRequired,
-    label: PropTypes.string.isRequired,
-    display: PropTypes.array,
-  }).isRequired).isRequired,
-  data: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.isRequired,
-  })).isRequired,
+  headCells: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.isRequired,
+      numeric: PropTypes.bool.isRequired,
+      label: PropTypes.string.isRequired,
+      display: PropTypes.array,
+    }).isRequired
+  ).isRequired,
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.isRequired,
+    })
+  ).isRequired,
   pageSize: PropTypes.number,
   currentPage: PropTypes.number,
   sort: PropTypes.oneOf(['asc', 'desc']),
-  sortBy: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]),
+  sortBy: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   pageSizes: PropTypes.array,
   totalCount: PropTypes.number.isRequired,
   isLoading: PropTypes.bool.isRequired,
@@ -39,14 +40,14 @@ TableList.propTypes = {
   handleSort: PropTypes.func,
   handleDelete: PropTypes.func.isRequired,
   handleEdit: PropTypes.func.isRequired,
-};
+}
 
 TableList.defaultProps = {
   pageSize: 10,
   currentPage: 1,
   pageSizes: [5, 10, 50],
   sort: 'asc',
-};
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -71,10 +72,10 @@ const useStyles = makeStyles((theme) => ({
     top: 20,
     width: 1,
   },
-}));
+}))
 
 function TableList(props) {
-  const classes = useStyles();
+  const classes = useStyles()
   const {
     title,
     headCells,
@@ -89,68 +90,68 @@ function TableList(props) {
     sort,
     handleSort,
     handleDelete,
-    handleEdit
-  } = props;
-  const sortBy = props.sortBy || 'id';
+    handleEdit,
+  } = props
+  const sortBy = props.sortBy || 'id'
   // Selected rows
-  const [selected, setSelected] = useState([]);
+  const [selected, setSelected] = useState([])
   // Minus 1 for the current page because pagination component is zero based
-  const page = currentPage - 1;
+  const page = currentPage - 1
 
   const handleRequestSort = (event, property) => {
-    setSelected([]);
-    const isAsc = sortBy === property && sort === 'asc';
-    handleSort(isAsc ? 'desc' : 'asc', property);
-  };
+    setSelected([])
+    const isAsc = sortBy === property && sort === 'asc'
+    handleSort(isAsc ? 'desc' : 'asc', property)
+  }
   const handleChangePage = (event, newPage) => {
-    setSelected([]);
+    setSelected([])
     // +1 since the newPage is zero based value (zero(0) for first page)
-    handlePageChange(newPage + 1);
-  };
+    handlePageChange(newPage + 1)
+  }
   const handleChangeRowsPerPage = (event) => {
-    const newPageSize = parseInt(event.target.value);
+    const newPageSize = parseInt(event.target.value)
 
     if (pageSize !== newPageSize) {
-      setSelected([]);
-      handlePageSizeChange instanceof Function && handlePageSizeChange(newPageSize);
+      setSelected([])
+      handlePageSizeChange instanceof Function && handlePageSizeChange(newPageSize)
     }
-  };
+  }
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      let selection = data.map((n) => n.id);
-      setSelected(selection);
-      return;
+      let selection = data.map((n) => n.id)
+      setSelected(selection)
+      return
     }
 
-    setSelected([]);
-  };
+    setSelected([])
+  }
   const handleClick = (event, id) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
+    const selectedIndex = selected.indexOf(id)
+    let newSelected = []
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
+      newSelected = newSelected.concat(selected, id)
     } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
+      newSelected = newSelected.concat(selected.slice(1))
     } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
+      newSelected = newSelected.concat(selected.slice(0, -1))
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
+        selected.slice(selectedIndex + 1)
+      )
     }
 
-    setSelected(newSelected);
-  };
+    setSelected(newSelected)
+  }
   const isSelected = (id) => {
-    return selected.indexOf(id) !== -1;
-  };
+    return selected.indexOf(id) !== -1
+  }
   const deleteAction = (selectedIds) => {
-    handleDelete(selectedIds);
-    setSelected([]);
-  };
+    handleDelete(selectedIds)
+    setSelected([])
+  }
 
   return (
     <div className={classes.root}>
@@ -166,7 +167,7 @@ function TableList(props) {
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
-            size='medium'
+            size="medium"
             aria-label="table list"
           >
             <Head
@@ -181,35 +182,34 @@ function TableList(props) {
               isLoading={isLoading}
             />
             <TableBody>
-              {
-                !isLoading &&
-                  data.map((row, index) => {
-                    const isItemSelected = isSelected(row.id);
-                    const labelId = `table-checkbox-${index}`;
+              {!isLoading &&
+                data.map((row, index) => {
+                  const isItemSelected = isSelected(row.id)
+                  const labelId = `table-checkbox-${index}`
 
-                    return (
-                      <TableRow
-                        hover
-                        onClick={(event) => handleClick(event, row.id)}
-                        role="checkbox"
-                        aria-checked={isItemSelected}
-                        tabIndex={-1}
-                        key={row.id}
-                        selected={isItemSelected}
-                      >
-                        { createCells(headCells, row, isItemSelected, labelId) }
-                      </TableRow>
-                    );
-                  })
-              }
-              {
-                isLoading &&
-                  <TableRow style={{ height: 53 * pageSize }}>
-                    <TableCell colSpan={6} align={'center'}> { /* TODO colspan fix it */ }
-                      <CircularProgress />
-                    </TableCell>
-                  </TableRow>
-              }
+                  return (
+                    <TableRow
+                      hover
+                      onClick={(event) => handleClick(event, row.id)}
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={row.id}
+                      selected={isItemSelected}
+                    >
+                      {createCells(headCells, row, isItemSelected, labelId)}
+                    </TableRow>
+                  )
+                })}
+              {isLoading && (
+                <TableRow style={{ height: 53 * pageSize }}>
+                  <TableCell colSpan={6} align={'center'}>
+                    {' '}
+                    {/* TODO colspan fix it */}
+                    <CircularProgress />
+                  </TableCell>
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </TableContainer>
@@ -224,46 +224,41 @@ function TableList(props) {
         />
       </Paper>
     </div>
-  );
+  )
 }
 
 function createCells(headCells, rowData, isItemSelected, labelId) {
-  let cells = [];
+  let cells = []
 
   // Add checkbox column
   cells.push(
     <TableCell padding="checkbox" key={labelId}>
-      <Checkbox
-        checked={isItemSelected}
-        inputProps={{ 'aria-labelledby': labelId }}
-      />
+      <Checkbox checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} />
     </TableCell>
-  );
+  )
 
   // Iterate thru the headCells, this will be the basis for the display of data
   for (let i = 0; i < headCells.length; i++) {
-    const headCell = headCells[i];
+    const headCell = headCells[i]
 
     // Process only shown columns
     if (headCell.hide !== true) {
       // Default display value is base from the column ID
-      let value = rowData[headCell.id];
+      let value = rowData[headCell.id]
 
       // Value is an object, we need to get the specific value for display
-      if (headCell.display !== undefined && typeof value === "object") {
+      if (headCell.display !== undefined && typeof value === 'object') {
         // Iterate to all given indeces and value to be the value of the last index
         for (let ii = 0; ii < headCell.display.length; ii++) {
-          value = value[headCell.display[ii]];
+          value = value[headCell.display[ii]]
         }
       }
 
-      cells.push(
-        <TableCell key={`${headCell.id}-${rowData.id}`}>{value}</TableCell>
-      );
+      cells.push(<TableCell key={`${headCell.id}-${rowData.id}`}>{value}</TableCell>)
     }
   }
 
-  return cells;
+  return cells
 }
 
-export default TableList;
+export default TableList

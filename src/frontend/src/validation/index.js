@@ -1,24 +1,24 @@
-import { attributes as enAttributes } from 'validation/locale/en';
-import { messages as jpMessages } from 'validation/locale/ja';
+import { attributes as enAttributes } from 'validation/locale/en'
+import { messages as jpMessages } from 'validation/locale/ja'
 
 export function getAttributes(locale = 'en') {
   switch (locale) {
     case 'en':
-      return enAttributes;
+      return enAttributes
     case 'ja':
-      return null;
+      return null
     default:
-      return null;
+      return null
   }
 }
 
 export function getMessages(locale = 'en') {
   switch (locale) {
     case 'en':
-      return null;
+      return null
     case 'ja':
-      return jpMessages;
+      return jpMessages
     default:
-      return null;
+      return null
   }
 }

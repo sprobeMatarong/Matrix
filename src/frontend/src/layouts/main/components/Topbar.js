@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
-import { AppBar, Toolbar, Badge, Hidden, IconButton, Typography } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
-import InputIcon from '@material-ui/icons/Input';
-import { signOutUser } from 'services/auth';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react'
+import { Link as RouterLink } from 'react-router-dom'
+import clsx from 'clsx'
+import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/styles'
+import { AppBar, Toolbar, Badge, Hidden, IconButton, Typography } from '@material-ui/core'
+import MenuIcon from '@material-ui/icons/Menu'
+import NotificationsIcon from '@material-ui/icons/NotificationsOutlined'
+import InputIcon from '@material-ui/icons/Input'
+import { signOutUser } from 'services/auth'
+import { useDispatch } from 'react-redux'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     boxShadow: 'none',
   },
@@ -24,13 +24,13 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     color: theme.palette.white,
   },
-}));
+}))
 
-const Topbar = props => {
-  const { className, onSidebarOpen, ...rest } = props;
-  const classes = useStyles();
-  const [notifications] = useState([]);
-  const dispatch = useDispatch();
+const Topbar = (props) => {
+  const { className, onSidebarOpen, ...rest } = props
+  const classes = useStyles()
+  const [notifications] = useState([])
+  const dispatch = useDispatch()
 
   return (
     <AppBar {...rest} className={clsx(classes.root, className)}>
@@ -43,11 +43,7 @@ const Topbar = props => {
         <div className={classes.flexGrow} />
         <Hidden mdDown>
           <IconButton color="inherit">
-            <Badge
-              badgeContent={notifications.length}
-              color="primary"
-              variant="dot"
-            >
+            <Badge badgeContent={notifications.length} color="primary" variant="dot">
               <NotificationsIcon />
             </Badge>
           </IconButton>
@@ -67,12 +63,12 @@ const Topbar = props => {
         </Hidden>
       </Toolbar>
     </AppBar>
-  );
-};
+  )
+}
 
 Topbar.propTypes = {
   className: PropTypes.string,
   onSidebarOpen: PropTypes.func,
-};
+}
 
-export default Topbar;
+export default Topbar

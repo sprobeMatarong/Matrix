@@ -1,42 +1,44 @@
-import axios from 'axios';
-import store from 'store/config';
+import axios from 'axios'
+import store from 'store/config'
 
-import { showNotification } from 'store/notification/actionCreators';
-import { signOut } from 'store/auth/actionCreators';
+import { showNotification } from 'store/notification/actionCreators'
+import { signOut } from 'store/auth/actionCreators'
 
 // create new instance
-const Http = axios.create();
+const Http = axios.create()
 
 // set default config
-Http.defaults.baseURL = process.env.REACT_APP_API_URL;
-Http.defaults.headers.common.Accept = 'application/json';
+Http.defaults.baseURL = process.env.REACT_APP_API_URL
+Http.defaults.headers.common.Accept = 'application/json'
 
 /**
  * intercept the response so we can handle the
  * expected exceptions from the API
  */
 Http.interceptors.response.use(
-  function(response) {
-    return response;
+  function (response) {
+    return response
   },
-  function(error) {
+  function (error) {
     /**
      * This could be a CORS issue or
      * a dropped internet connection.
      */
     if (typeof error.response === 'undefined') {
-      return alert('A network error occurred.');
+      return alert('A network error occurred.')
     }
 
     switch (error.response.status) {
-      case 401:
-        const state = store.getState();
+      // The following case clauses are wrapped into blocks using brackets to avoid eslint no-case-declarations
+      case 401: {
+        const state = store.getState()
 
         if (state.auth.isAuthenticated) {
-          store.dispatch(signOut());
+          store.dispatch(signOut())
         }
 
-        break;
+        break
+      }
       case 500:
       case 562:
       case 563:
@@ -44,15 +46,15 @@ Http.interceptors.response.use(
       case 568:
       case 570:
         if (error.response.data && error.response.data.error) {
-          store.dispatch(showNotification(error.response.data.error, false));
+          store.dispatch(showNotification(error.response.data.error, false))
         }
-        break;
+        break
       default:
-        break;
+        break
     }
 
-    return Promise.reject(error);
-  },
-);
+    return Promise.reject(error)
+  }
+)
 
-export default Http;
+export default Http

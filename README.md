@@ -300,7 +300,24 @@ docker exec -it --user=root {PROJECT_NAME}_node sh
 
 ---
 
-### Usage
+## Frontend Coding Standards
+
+[ESLint](https://github.com/eslint/eslint) & [Prettier](https://github.com/prettier/prettier) has been configured and enabled for the Frontend source code to enforce uniform coding standards.
+
+If you encounter any `eslint` errors during development, just run this command to automatically fix some of the basic errors (spacing, formatting, etc).
+
+```
+docker-compose exec -it PROJECT_node sh
+npm run lint
+```
+
+Some errors aside from spacing, formatting & etc. needs to be fixed manually.
+
+**Note: Please don't disable some of the rules just to fix your errors. As much as possible, developer should fix the error and follow the coding standards.**
+
+---
+
+## Usage
 
 If you have already run the laravel seeders during the setup, you can test the frontend login using the following account:
 
@@ -308,6 +325,8 @@ If you have already run the laravel seeders during the setup, you can test the f
 email: admin@tcg.sprobe.ph
 password: Password2020!
 ```
+
+---
 
 ## Staging / Production Build
 

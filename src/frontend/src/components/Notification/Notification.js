@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import { Snackbar, SnackbarContent } from '@material-ui/core';
-import { green } from '@material-ui/core/colors';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/core/styles'
+import { Snackbar, SnackbarContent } from '@material-ui/core'
+import { green } from '@material-ui/core/colors'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   success: {
     backgroundColor: green[500],
     justifyContent: 'center',
@@ -12,11 +12,11 @@ const useStyles = makeStyles(theme => ({
   error: {
     backgroundColor: theme.palette.error.dark,
   },
-}));
+}))
 
 function Notification(props) {
-  const { message, open, onClose, success } = props;
-  const classes = useStyles();
+  const { message, open, onClose, success } = props
+  const classes = useStyles()
   return (
     <Snackbar
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -24,12 +24,9 @@ function Notification(props) {
       autoHideDuration={4000}
       onClose={onClose}
     >
-      <SnackbarContent
-        className={success ? classes.success : classes.error}
-        message={message}
-      />
+      <SnackbarContent className={success ? classes.success : classes.error} message={message} />
     </Snackbar>
-  );
+  )
 }
 
 Notification.propTypes = {
@@ -37,6 +34,6 @@ Notification.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   success: PropTypes.bool.isRequired,
-};
+}
 
-export default Notification;
+export default Notification

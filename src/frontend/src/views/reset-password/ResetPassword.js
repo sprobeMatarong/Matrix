@@ -1,23 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import { makeStyles } from '@material-ui/styles';
-import ReeValidate from 'ree-validate';
-import Alert from '@material-ui/lab/Alert';
-import {
-  Button,
-  TextField,
-  Link,
-  Typography,
-  CircularProgress,
-} from '@material-ui/core';
-import { useDispatch } from 'react-redux';
-import queryString from 'query-string';
+import React, { useState, useEffect } from 'react'
+import { Link as RouterLink } from 'react-router-dom'
+import { makeStyles } from '@material-ui/styles'
+import ReeValidate from 'ree-validate'
+import Alert from '@material-ui/lab/Alert'
+import { Button, TextField, Link, Typography, CircularProgress } from '@material-ui/core'
+import { useDispatch } from 'react-redux'
+import queryString from 'query-string'
+import PropTypes from 'prop-types'
 
-import { Page } from 'components';
-import { useFormHandler } from 'utils/hooks';
-import { resetPassword } from 'services/auth';
+import { Page } from 'components'
+import { useFormHandler } from 'utils/hooks'
+import { resetPassword } from 'services/auth'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     paddingLeft: 100,
     paddingRight: 100,
@@ -40,51 +35,49 @@ const useStyles = makeStyles(theme => ({
   submitButton: {
     margin: theme.spacing(2, 0),
   },
-}));
+}))
 
 const validator = new ReeValidate({
   password: 'required|min:8',
   password_confirmation: 'required|min:8',
   token: '',
-});
+})
 
 function ResetPassword(props) {
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  const [success, setSuccess] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [formState, handleChange, submitForm, hasError] = useFormHandler(
-    validator,
-  );
+  const classes = useStyles()
+  const dispatch = useDispatch()
+  const [success, setSuccess] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [formState, handleChange, submitForm, hasError] = useFormHandler(validator)
 
   useEffect(() => {
-    const token = queryString.parse(props.location.search).token;
+    const token = queryString.parse(props.location.search).token
 
-    formState.values.token = token || 'invalid_token';
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    formState.values.token = token || 'invalid_token'
+  }, [])
 
-  const handleSubmit = event => {
-    event.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault()
 
     submitForm(() => {
-      setLoading(true);
+      setLoading(true)
 
       dispatch(resetPassword(formState.values))
         .then(() => {
-          setSuccess(true);
+          setSuccess(true)
         })
-        .catch(e => {
+        .catch((e) => {
           if (e.response.data.error) {
-            const error = e.response.data.error;
+            const error = e.response.data.error
 
-            Object.keys(error).forEach(value => {
-              validator.errors.add(value, error[value][0]);
-            });
+            Object.keys(error).forEach((value) => {
+              validator.errors.add(value, error[value][0])
+            })
           }
         })
-        .finally(() => setLoading(false));
-    });
-  };
+        .finally(() => setLoading(false))
+    })
+  }
 
   return (
     <Page title="Forgot Password" className={classes.root}>
@@ -92,8 +85,8 @@ function ResetPassword(props) {
         {success && (
           <div>
             <Alert variant="outlined" severity="success">
-              You have successfully updated your password. You should be able to
-              login with your updated password.
+              You have successfully updated your password. You should be able to login with your
+              updated password.
               <Link component={RouterLink} to="/sign-in" variant="h6">
                 Click here to login.
               </Link>
@@ -113,9 +106,7 @@ function ResetPassword(props) {
               className={classes.textField}
               error={hasError('password')}
               fullWidth
-              helperText={
-                hasError('password') ? formState.errors.first('password') : null
-              }
+              helperText={hasError('password') ? formState.errors.first('password') : null}
               label="Password"
               name="password"
               onChange={handleChange}
@@ -162,7 +153,11 @@ function ResetPassword(props) {
         )}
       </form>
     </Page>
-  );
+  )
 }
 
-export default ResetPassword;
+ResetPassword.propTypes = {
+  location: PropTypes.object,
+}
+
+export default ResetPassword

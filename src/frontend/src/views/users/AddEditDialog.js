@@ -1,29 +1,29 @@
-import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import ImageIcon from '@material-ui/icons/ImageOutlined';
-import Typography from '@material-ui/core/Typography';
-import PropTypes from 'prop-types';
-import { makeStyles } from "@material-ui/styles";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogActions from "@material-ui/core/DialogActions";
-import {CircularProgress} from "@material-ui/core";
-import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
-import Tooltip from "@material-ui/core/Tooltip";
-import { useFormHandler } from "../../utils/hooks";
-import { userValidations } from 'views/sign-up/SignUp';
-import _ from 'lodash';
-import { useDispatch } from "react-redux";
-import { createUser, updateUser } from 'services/users';
-import { actionSetModalValues } from 'store/users/actionCreators';
-import reeValidate from 'ree-validate';
-import FormHelperText from '@material-ui/core/FormHelperText';
+import React, { useState } from 'react'
+import Button from '@material-ui/core/Button'
+import Dialog from '@material-ui/core/Dialog'
+import MuiDialogTitle from '@material-ui/core/DialogTitle'
+import IconButton from '@material-ui/core/IconButton'
+import CloseIcon from '@material-ui/icons/Close'
+import ImageIcon from '@material-ui/icons/ImageOutlined'
+import Typography from '@material-ui/core/Typography'
+import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/styles'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogActions from '@material-ui/core/DialogActions'
+import { CircularProgress } from '@material-ui/core'
+import TextField from '@material-ui/core/TextField'
+import Grid from '@material-ui/core/Grid'
+import Tooltip from '@material-ui/core/Tooltip'
+import { useFormHandler } from '../../utils/hooks'
+import { userValidations } from 'views/sign-up/SignUp'
+import _ from 'lodash'
+import { useDispatch } from 'react-redux'
+import { createUser, updateUser } from 'services/users'
+import { actionSetModalValues } from 'store/users/actionCreators'
+import reeValidate from 'ree-validate'
+import FormHelperText from '@material-ui/core/FormHelperText'
 
-const useStyles = makeStyles(theme => {
+const useStyles = makeStyles((theme) => {
   return {
     closeButton: {
       position: 'absolute',
@@ -70,8 +70,8 @@ const useStyles = makeStyles(theme => {
         },
       },
     },
-  };
-});
+  }
+})
 
 AddEditDialog.propTypes = {
   open: PropTypes.bool.isRequired,
@@ -88,26 +88,26 @@ AddEditDialog.propTypes = {
     password: PropTypes.string.isRequired,
   }).isRequired,
   handleClose: PropTypes.func.isRequired,
-};
+}
 
 const validator = new reeValidate({
   ...userValidations,
   avatar: 'image',
-});
+})
 
 export default function AddEditDialog(props) {
-  const classes = useStyles();
-  const {open, initialValues, handleClose} = props;
-  const isNew = initialValues.id === 0;
-  const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
+  const classes = useStyles()
+  const { open, initialValues, handleClose } = props
+  const isNew = initialValues.id === 0
+  const [loading, setLoading] = useState(false)
+  const dispatch = useDispatch()
 
-  const index = _.findIndex(validator.fields.items, ['name', 'password']);
-  let passwordField = validator.fields.items[index];
+  const index = _.findIndex(validator.fields.items, ['name', 'password'])
+  let passwordField = validator.fields.items[index]
 
   if (!isNew) {
     // For update users, password is not required
-    delete passwordField.rules.required;
+    delete passwordField.rules.required
   } else if (isNew && !passwordField.rules.required) {
     // For new users, password is required
     passwordField.rules = {
@@ -117,65 +117,64 @@ export default function AddEditDialog(props) {
   }
 
   // Put it back
-  validator.fields.items[index] = passwordField;
+  validator.fields.items[index] = passwordField
 
   const [formState, handleChange, submitForm, hasError, clearErrors] = useFormHandler(
     validator,
     initialValues
-  );
+  )
 
   const onClose = () => {
-    clearErrors();
-    handleClose();
-  };
+    clearErrors()
+    handleClose()
+  }
 
   const onSubmit = () => {
     submitForm(() => {
-      setLoading(true);
-      dispatch(actionSetModalValues(formState.values));
+      setLoading(true)
+      dispatch(actionSetModalValues(formState.values))
 
-      const dispatched = isNew ?
-        dispatch(createUser(formState.values)) :
-        dispatch(updateUser(formState.values, initialValues.id));
+      const dispatched = isNew
+        ? dispatch(createUser(formState.values))
+        : dispatch(updateUser(formState.values, initialValues.id))
 
       dispatched
         .then(() => {
-          handleClose(true);
+          handleClose(true)
         })
-        .catch(e => {
-          const errors = e.response.data.error;
-          Object.keys(errors).forEach(value => {
-            validator.errors.add(value, errors[value][0]);
-          });
-        }).finally(() => {
-          setLoading(false);
-        });
-    });
-  };
+        .catch((e) => {
+          const errors = e.response.data.error
+          Object.keys(errors).forEach((value) => {
+            validator.errors.add(value, errors[value][0])
+          })
+        })
+        .finally(() => {
+          setLoading(false)
+        })
+    })
+  }
 
   const imageDisplay = () => {
     // There's an avatar set
-    if (formState.values.avatar.length > 0) {
+    if (formState.values?.avatar?.length > 0) {
       switch (typeof formState.values.avatar) {
         case 'string':
-          return <img
-            src={formState.values.avatar}
-            alt=''
-            className={classes.avatarIcon}
-          />;
+          return <img src={formState.values.avatar} alt="" className={classes.avatarIcon} />
         case 'object':
           if (!hasError('avatar')) {
-            return <img
-              src={URL.createObjectURL(formState.values.avatar[0])}
-              alt=''
-              className={classes.avatarIcon}
-            />;
+            return (
+              <img
+                src={URL.createObjectURL(formState.values.avatar[0])}
+                alt=""
+                className={classes.avatarIcon}
+              />
+            )
           }
       }
     }
 
-    return <ImageIcon color='primary' className={classes.avatarIcon} />;
-  };
+    return <ImageIcon color="primary" className={classes.avatarIcon} />
+  }
 
   return (
     <Dialog
@@ -186,13 +185,8 @@ export default function AddEditDialog(props) {
       maxWidth={'sm'}
       fullWidth={true}
     >
-      <MuiDialogTitle
-        className={classes.modalTitle}
-        disableTypography
-      >
-        <Typography variant="h3">
-          {isNew ? 'Add' : 'Update'} User
-        </Typography>
+      <MuiDialogTitle className={classes.modalTitle} disableTypography>
+        <Typography variant="h3">{isNew ? 'Add' : 'Update'} User</Typography>
         <IconButton
           aria-label="close"
           className={classes.closeButton}
@@ -210,7 +204,7 @@ export default function AddEditDialog(props) {
                 value={formState.values.first_name}
                 error={hasError('first_name')}
                 helperText={hasError('first_name') && formState.errors.first('first_name')}
-                name='first_name'
+                name="first_name"
                 label="First Name"
                 onChange={handleChange}
                 fullWidth
@@ -221,7 +215,7 @@ export default function AddEditDialog(props) {
                 value={formState.values.last_name}
                 error={hasError('last_name')}
                 helperText={hasError('last_name') && formState.errors.first('last_name')}
-                name='last_name'
+                name="last_name"
                 label="Last Name"
                 onChange={handleChange}
                 fullWidth
@@ -232,7 +226,7 @@ export default function AddEditDialog(props) {
                 value={formState.values.email}
                 error={hasError('email')}
                 helperText={hasError('email') && formState.errors.first('email')}
-                name='email'
+                name="email"
                 label="Email"
                 onChange={handleChange}
                 fullWidth
@@ -240,72 +234,65 @@ export default function AddEditDialog(props) {
             </Grid>
             <Grid className={classes.fieldContainer} item xs={12}>
               <TextField
-                type='password'
+                type="password"
                 value={formState.values.password}
                 error={hasError('password')}
                 helperText={hasError('password') && formState.errors.first('password')}
-                name='password'
+                name="password"
                 label="Password"
                 onChange={handleChange}
                 fullWidth
               />
             </Grid>
           </Grid>
-          {
-            !isNew &&
-              <Grid
-                xs={4}
-                item
-                container
-                direction="row"
-                justify="center"
-                alignItems="stretch"
-                className={classes.imageContainer}
-              >
-                <Grid item xs={12}>
-                  <input
-                    accept="image/*"
-                    className={classes.fileInput}
-                    id="avatar"
-                    type="file"
-                    name='avatar'
-                    onChange={handleChange}
-                  />
-                  <Tooltip title='Select image.'>
-                    <label color='primary' htmlFor="avatar">
-                      {imageDisplay()}
-                    </label>
-                  </Tooltip>
-                  {
-                    hasError('avatar') &&
-                      <FormHelperText error={true}>
-                        { formState.errors.first('avatar') }
-                      </FormHelperText>
-                  }
-                </Grid>
-                <Grid item xs={12} container alignItems="flex-end">
-                  <Typography align='center' component='span'>Status: </Typography>
-                  <Typography align='center' component='span' className={classes.status}>
-                    {initialValues.status.name}
-                  </Typography>
-                </Grid>
+          {!isNew && (
+            <Grid
+              xs={4}
+              item
+              container
+              direction="row"
+              justify="center"
+              alignItems="stretch"
+              className={classes.imageContainer}
+            >
+              <Grid item xs={12}>
+                <input
+                  accept="image/*"
+                  className={classes.fileInput}
+                  id="avatar"
+                  type="file"
+                  name="avatar"
+                  onChange={handleChange}
+                />
+                <Tooltip title="Select image.">
+                  <label color="primary" htmlFor="avatar">
+                    {imageDisplay()}
+                  </label>
+                </Tooltip>
+                {hasError('avatar') && (
+                  <FormHelperText error={true}>{formState.errors.first('avatar')}</FormHelperText>
+                )}
               </Grid>
-          }
+              <Grid item xs={12} container alignItems="flex-end">
+                <Typography align="center" component="span">
+                  Status:{' '}
+                </Typography>
+                <Typography align="center" component="span" className={classes.status}>
+                  {initialValues.status.name}
+                </Typography>
+              </Grid>
+            </Grid>
+          )}
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button
-          autoFocus
-          onClick={() => onClose()}
-          disabled={loading}
-          color='primary'
-        >
+        <Button autoFocus onClick={() => onClose()} disabled={loading} color="primary">
           Close
         </Button>
         <Button
           disabled={loading}
-          color='primary'
-          variant='contained'
+          color="primary"
+          variant="contained"
           onClick={onSubmit}
           disableElevation
         >
@@ -314,5 +301,5 @@ export default function AddEditDialog(props) {
         </Button>
       </DialogActions>
     </Dialog>
-  );
+  )
 }

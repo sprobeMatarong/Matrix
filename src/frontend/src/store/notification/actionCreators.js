@@ -1,4 +1,4 @@
-import * as types from './actionTypes';
+import * as types from './actionTypes'
 
 export function showNotification(message, success = true) {
   return {
@@ -7,11 +7,11 @@ export function showNotification(message, success = true) {
       message: message,
       success: success,
     },
-  };
+  }
 }
 
 export function hideNotification() {
   return {
     type: types.HIDE_NOTIFICATION,
-  };
+  }
 }
