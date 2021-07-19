@@ -16,6 +16,7 @@ COPY ./src/frontend/package-lock.json /var/www/frontend
 RUN npm install
 
 COPY ./src/frontend/ /var/www/frontend
+RUN chown -R node:node /var/www/frontend
 
 # Expose the listening port
 EXPOSE 3000
