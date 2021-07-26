@@ -1,6 +1,6 @@
 # Sprobe Laravel ReactJS Boilerplate
 
-A base template for `ReactJS (16.9.0)` with backend API implementation using `Laravel (^8.40)` preconfigured `laravel/passport` authentication.
+A base template for `ReactJS (17.0.2)` with backend API implementation using `Laravel (^8.40)` preconfigured `laravel/passport` authentication.
 
 ## Specifications / Infrastructure Information
 
@@ -269,9 +269,16 @@ automatically via Hot Reload Module.
 Create the `src/frontend/.env` file with the following variable and corresponding values
 
 ```
-REACT_APP_API_URL=                   // THE API DOMAIN SET ON DOCKER ENV FILE
-REACT_APP_CLIENT_ID=                 // GENERATED FROM php artisan passport:install
-REACT_APP_CLIENT_SECRET=             // GENERATED FROM php artisan passport:install
+cp src/frontend/.env.example src/frontend/.env
+```
+
+Update the values in the `.env` file
+
+```
+REACT_APP_SITE_TITLE="My Site/App Title"  // The Suffix Site Title for all Pages  e.g Page - REACT_APP_SITE_TITLE
+REACT_APP_CLIENT_ID=                      // GENERATED FROM php artisan passport:install
+REACT_APP_CLIENT_SECRET=                  // GENERATED FROM php artisan passport:install
+REACT_APP_API_URL=                        // THE API DOMAIN SET ON DOCKER ENV FILE
 ```
 
 Restart the docker-containers
@@ -279,6 +286,8 @@ Restart the docker-containers
 ```
 docker-compose restart
 ```
+
+---
 
 ## NPM Packages
 
