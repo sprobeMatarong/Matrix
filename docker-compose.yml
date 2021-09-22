@@ -5,6 +5,9 @@ x-services-volume: &services-volume
   source: ./src
   target: /var/www
 
+volumes:
+  database:
+
 services:
   nginx:
     build:
@@ -72,6 +75,9 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       TZ: ${TIMEZONE}
+    volumes:
+      - ./docker/mysql/scripts:/docker-entrypoint-initdb.d
+      - database:/var/lib/mysql
 
   cron:
     build:
