@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { makeStyles } from '@material-ui/styles'
-import ReeValidate from 'ree-validate'
 import Alert from '@material-ui/lab/Alert'
 import { Button, TextField, Link, Typography, CircularProgress } from '@material-ui/core'
 import { useDispatch } from 'react-redux'
@@ -9,8 +8,9 @@ import queryString from 'query-string'
 import PropTypes from 'prop-types'
 
 import { Page } from 'components'
-import { useFormHandler } from 'utils/hooks'
+import { useForm } from 'react-hook-form'
 import { resetPassword } from 'services/auth'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,51 +37,78 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const validator = new ReeValidate({
-  password: 'required|min:8',
-  password_confirmation: 'required|min:8',
-  token: '',
-})
-
 function ResetPassword(props) {
   const classes = useStyles()
   const dispatch = useDispatch()
   const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [formState, handleChange, submitForm, hasError] = useFormHandler(validator)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+    watch,
+    setValue,
+  } = useForm()
+  const password = useRef({})
+  password.current = watch('password', '')
+  const { t } = useTranslation()
 
   useEffect(() => {
     const token = queryString.parse(props.location.search).token
-
-    formState.values.token = token || 'invalid_token'
+    setValue('token', token)
   }, [])
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
+  const handleReset = (data) => {
+    setLoading(true)
 
-    submitForm(() => {
-      setLoading(true)
+    dispatch(resetPassword(data))
+      .then(() => {
+        setSuccess(true)
+      })
+      .catch((e) => {
+        const { code, error } = e.response.data
+        // handle API validation error
+        if (code === 422 && error) {
+          const { password } = error
 
-      dispatch(resetPassword(formState.values))
-        .then(() => {
-          setSuccess(true)
-        })
-        .catch((e) => {
-          if (e.response.data.error) {
-            const error = e.response.data.error
-
-            Object.keys(error).forEach((value) => {
-              validator.errors.add(value, error[value][0])
+          if (password) {
+            setError('password', {
+              message: error.password[0],
             })
           }
-        })
-        .finally(() => setLoading(false))
-    })
+        }
+      })
+      .finally(() => setLoading(false))
+  }
+
+  const validationRules = {
+    password: {
+      required: {
+        value: String,
+        message: t('auth.required'),
+      },
+      minLength: {
+        value: 8,
+        message: t('auth.password.minLength'),
+      },
+      pattern: {
+        // 8 Characters, 1 Uppercase, 1 Special Character
+        value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+        message: t('auth.password.strong'),
+      },
+    },
+    password_confirmation: {
+      // custom validation rule
+      validate: (value) => {
+        return value === password.current || t('auth.password.confirm')
+      },
+    },
   }
 
   return (
     <Page title="Forgot Password" className={classes.root}>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(handleReset)}>
         {success && (
           <div>
             <Alert variant="outlined" severity="success">
@@ -104,32 +131,27 @@ function ResetPassword(props) {
             </Typography>
             <TextField
               className={classes.textField}
-              error={hasError('password')}
+              {...register('password', validationRules.password)}
+              error={errors && errors.password ? true : false}
+              helperText={errors ? errors?.password?.message : null}
               fullWidth
-              helperText={hasError('password') ? formState.errors.first('password') : null}
               label="Password"
               name="password"
-              onChange={handleChange}
               type="password"
-              value={formState.values.password || ''}
               variant="outlined"
             />
             <TextField
               className={classes.textField}
-              error={hasError('password_confirmation')}
+              {...register('password_confirmation', validationRules.password_confirmation)}
+              error={errors && errors.password_confirmation ? true : false}
+              helperText={errors ? errors?.password_confirmation?.message : null}
               fullWidth
-              helperText={
-                hasError('password_confirmation')
-                  ? formState.errors.first('password_confirmation')
-                  : null
-              }
               label="Confirm Password"
               name="password_confirmation"
-              onChange={handleChange}
               type="password"
-              value={formState.values.password_confirmation || ''}
               variant="outlined"
             />
+
             <Button
               className={classes.submitButton}
               color="primary"

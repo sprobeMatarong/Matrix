@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { makeStyles } from '@material-ui/styles'
-import ReeValidate from 'ree-validate'
 import Alert from '@material-ui/lab/Alert'
 import { Button, TextField, Link, Typography, CircularProgress } from '@material-ui/core'
 import { useDispatch } from 'react-redux'
 
 import { Page } from 'components'
-import { useFormHandler } from 'utils/hooks'
+import { useForm } from 'react-hook-form'
 import { sendForgotPasswordEmail } from 'services/auth'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,41 +35,58 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const validator = new ReeValidate({
-  email: 'required|email',
-})
-
 function ForgotPassword() {
   const classes = useStyles()
   const dispatch = useDispatch()
   const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [formState, handleChange, submitForm, hasError] = useFormHandler(validator)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm()
+  const { t } = useTranslation()
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
+  const handleForgot = (data) => {
+    setLoading(true)
 
-    submitForm(() => {
-      setLoading(true)
+    dispatch(sendForgotPasswordEmail(data))
+      .then(() => {
+        setSuccess(true)
+      })
+      .catch((e) => {
+        const { code, error } = e.response.data
+        // handle API validation error
+        if (code === 422 && error) {
+          const { email } = error
 
-      dispatch(sendForgotPasswordEmail(formState.values))
-        .then(() => {
-          setSuccess(true)
-        })
-        .catch((e) => {
-          if (e.response.data.error) {
-            const error = e.response.data.error
-
-            validator.errors.add('email', error)
+          if (email) {
+            setError('email', {
+              message: error.email[0],
+            })
           }
-        })
-        .finally(() => setLoading(false))
-    })
+        }
+      })
+      .finally(() => setLoading(false))
+  }
+
+  const validationRules = {
+    email: {
+      required: {
+        value: String,
+        message: t('auth.required'),
+      },
+      pattern: {
+        value: /\S+@\S+\.\S+/, // Regex Email Validation
+        message: t('auth.email'),
+      },
+    },
   }
 
   return (
     <Page title="Forgot Password" className={classes.root}>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(handleForgot)}>
         {success && (
           <div>
             <Alert variant="outlined" severity="success">
@@ -99,16 +116,16 @@ function ForgotPassword() {
             </Typography>
             <TextField
               className={classes.textField}
-              error={hasError('email')}
-              helperText={hasError('email') ? formState.errors.first('email') : null}
+              {...register('email', validationRules.email)}
+              error={errors && errors.email ? true : false}
+              helperText={errors ? errors?.email?.message : null}
               fullWidth
               label="Email"
               name="email"
-              onChange={handleChange}
               type="text"
-              value={formState.values.email || ''}
               variant="outlined"
             />
+
             <Button
               className={classes.submitButton}
               color="primary"

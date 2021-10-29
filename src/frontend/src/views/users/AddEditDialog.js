@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import MuiDialogTitle from '@material-ui/core/DialogTitle'
@@ -14,14 +14,11 @@ import { CircularProgress } from '@material-ui/core'
 import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
 import Tooltip from '@material-ui/core/Tooltip'
-import { useFormHandler } from '../../utils/hooks'
-import { userValidations } from 'views/sign-up/SignUp'
-import _ from 'lodash'
 import { useDispatch } from 'react-redux'
 import { createUser, updateUser } from 'services/users'
-import { actionSetModalValues } from 'store/users/actionCreators'
-import reeValidate from 'ree-validate'
 import FormHelperText from '@material-ui/core/FormHelperText'
+import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -75,7 +72,7 @@ const useStyles = makeStyles((theme) => {
 
 AddEditDialog.propTypes = {
   open: PropTypes.bool.isRequired,
-  initialValues: PropTypes.shape({
+  user: PropTypes.shape({
     id: PropTypes.number.isRequired,
     first_name: PropTypes.string.isRequired,
     last_name: PropTypes.string.isRequired,
@@ -90,90 +87,113 @@ AddEditDialog.propTypes = {
   handleClose: PropTypes.func.isRequired,
 }
 
-const validator = new reeValidate({
-  ...userValidations,
-  avatar: 'image',
-})
-
 export default function AddEditDialog(props) {
   const classes = useStyles()
-  const { open, initialValues, handleClose } = props
-  const isNew = initialValues.id === 0
+  const { open, user, handleClose } = props
+  const isNew = user.id === 0
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
+  const [apiError, setApiError] = useState(null)
+  const [avatarPreview, setAvatarPreview] = useState(null)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    setError,
+    clearErrors,
+  } = useForm()
+  const { t } = useTranslation()
 
-  const index = _.findIndex(validator.fields.items, ['name', 'password'])
-  let passwordField = validator.fields.items[index]
-
-  if (!isNew) {
-    // For update users, password is not required
-    delete passwordField.rules.required
-  } else if (isNew && !passwordField.rules.required) {
-    // For new users, password is required
-    passwordField.rules = {
-      required: [],
-      ...passwordField.rules,
+  useEffect(() => {
+    // set form values if form is edit
+    if (!isNew) {
+      setValue('first_name', user.first_name)
+      setValue('last_name', user.last_name)
+      setValue('email', user.email)
+      setValue('password', '')
+      setValue('avatar', '')
     }
-  }
 
-  // Put it back
-  validator.fields.items[index] = passwordField
-
-  const [formState, handleChange, submitForm, hasError, clearErrors] = useFormHandler(
-    validator,
-    initialValues
-  )
+    // if avatar is available from db record
+    setAvatarPreview(user.avatar)
+  }, [user])
 
   const onClose = () => {
     clearErrors()
     handleClose()
   }
 
-  const onSubmit = () => {
-    submitForm(() => {
-      setLoading(true)
-      dispatch(actionSetModalValues(formState.values))
+  const handleSubmission = (data) => {
+    setLoading(true)
 
-      const dispatched = isNew
-        ? dispatch(createUser(formState.values))
-        : dispatch(updateUser(formState.values, initialValues.id))
+    const dispatcher = isNew ? dispatch(createUser(data)) : dispatch(updateUser(data, user.id))
 
-      dispatched
-        .then(() => {
-          handleClose(true)
-        })
-        .catch((e) => {
-          const errors = e.response.data.error
-          Object.keys(errors).forEach((value) => {
-            validator.errors.add(value, errors[value][0])
+    dispatcher
+      .then(() => handleClose(true))
+      .catch((e) => {
+        const { code, error } = e.response.data
+        // handle API Form validation error
+        if (code === 422 && error) {
+          Object.keys(error).forEach((key) => {
+            setError(key, { message: error[key][0] })
           })
-        })
-        .finally(() => {
-          setLoading(false)
-        })
-    })
+        } else setApiError(error) // handle other errors
+      })
+      .finally(() => setLoading(false))
   }
 
   const imageDisplay = () => {
-    // There's an avatar set
-    if (formState.values?.avatar?.length > 0) {
-      switch (typeof formState.values.avatar) {
-        case 'string':
-          return <img src={formState.values.avatar} alt="" className={classes.avatarIcon} />
-        case 'object':
-          if (!hasError('avatar')) {
-            return (
-              <img
-                src={URL.createObjectURL(formState.values.avatar[0])}
-                alt=""
-                className={classes.avatarIcon}
-              />
-            )
-          }
-      }
-    }
+    return avatarPreview ? (
+      <img src={avatarPreview} alt="" className={classes.avatarIcon} />
+    ) : (
+      <ImageIcon color="primary" className={classes.avatarIcon} />
+    )
+  }
 
-    return <ImageIcon color="primary" className={classes.avatarIcon} />
+  const handleSelectAvatar = (event) => {
+    if (event.target.type === 'file' && event.target.files.length > 0) {
+      setAvatarPreview(URL.createObjectURL(event.target.files[0]))
+      setValue('avatar', event.target.files)
+    }
+  }
+
+  const validationRules = {
+    first_name: {
+      required: {
+        value: String,
+        message: t('auth.required'),
+      },
+    },
+    last_name: {
+      required: {
+        value: String,
+        message: t('auth.required'),
+      },
+    },
+    email: {
+      required: {
+        value: String,
+        message: t('auth.required'),
+      },
+      pattern: {
+        value: /\S+@\S+\.\S+/, // Regex Email Validation
+        message: t('auth.email'),
+      },
+    },
+    password: {
+      // Custom Validation with Dynamic required field
+      validate: (val) => {
+        // Remove as required if User Edit
+        if (!isNew && !val) return true
+
+        // password regex
+        const passwordPattern = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+
+        // validate only if value is provided by user
+        return (val && passwordPattern.test(val)) || t('auth.password.strong')
+      },
+    },
   }
 
   return (
@@ -185,121 +205,127 @@ export default function AddEditDialog(props) {
       maxWidth={'sm'}
       fullWidth={true}
     >
-      <MuiDialogTitle className={classes.modalTitle} disableTypography>
-        <Typography variant="h3">{isNew ? 'Add' : 'Update'} User</Typography>
-        <IconButton
-          aria-label="close"
-          className={classes.closeButton}
-          onClick={() => onClose()}
-          disabled={loading}
-        >
-          <CloseIcon />
-        </IconButton>
-      </MuiDialogTitle>
-      <DialogContent dividers>
-        <Grid container>
-          <Grid container item xs={isNew ? 12 : 8}>
-            <Grid className={classes.fieldContainer} item xs={12}>
-              <TextField
-                value={formState.values.first_name}
-                error={hasError('first_name')}
-                helperText={hasError('first_name') && formState.errors.first('first_name')}
-                name="first_name"
-                label="First Name"
-                onChange={handleChange}
-                fullWidth
-              />
-            </Grid>
-            <Grid className={classes.fieldContainer} item xs={12}>
-              <TextField
-                value={formState.values.last_name}
-                error={hasError('last_name')}
-                helperText={hasError('last_name') && formState.errors.first('last_name')}
-                name="last_name"
-                label="Last Name"
-                onChange={handleChange}
-                fullWidth
-              />
-            </Grid>
-            <Grid className={classes.fieldContainer} item xs={12}>
-              <TextField
-                value={formState.values.email}
-                error={hasError('email')}
-                helperText={hasError('email') && formState.errors.first('email')}
-                name="email"
-                label="Email"
-                onChange={handleChange}
-                fullWidth
-              />
-            </Grid>
-            <Grid className={classes.fieldContainer} item xs={12}>
-              <TextField
-                type="password"
-                value={formState.values.password}
-                error={hasError('password')}
-                helperText={hasError('password') && formState.errors.first('password')}
-                name="password"
-                label="Password"
-                onChange={handleChange}
-                fullWidth
-              />
-            </Grid>
-          </Grid>
-          {!isNew && (
-            <Grid
-              xs={4}
-              item
-              container
-              direction="row"
-              justify="center"
-              alignItems="stretch"
-              className={classes.imageContainer}
-            >
-              <Grid item xs={12}>
-                <input
-                  accept="image/*"
-                  className={classes.fileInput}
-                  id="avatar"
-                  type="file"
-                  name="avatar"
-                  onChange={handleChange}
+      <form onSubmit={handleSubmit(handleSubmission)}>
+        <MuiDialogTitle className={classes.modalTitle} disableTypography>
+          <Typography variant="h3">{isNew ? 'Add' : 'Update'} User</Typography>
+          <IconButton
+            aria-label="close"
+            className={classes.closeButton}
+            onClick={() => onClose()}
+            disabled={loading}
+          >
+            <CloseIcon />
+          </IconButton>
+        </MuiDialogTitle>
+        <DialogContent dividers>
+          <Grid container>
+            <Grid container item xs={isNew ? 12 : 8}>
+              <Grid className={classes.fieldContainer} item xs={12}>
+                <TextField
+                  {...register('first_name', validationRules.first_name)}
+                  error={errors && errors.first_name ? true : false}
+                  helperText={errors ? errors?.first_name?.message : null}
+                  name="first_name"
+                  label="First Name"
+                  fullWidth
                 />
-                <Tooltip title="Select image.">
-                  <label color="primary" htmlFor="avatar">
-                    {imageDisplay()}
-                  </label>
-                </Tooltip>
-                {hasError('avatar') && (
-                  <FormHelperText error={true}>{formState.errors.first('avatar')}</FormHelperText>
-                )}
               </Grid>
-              <Grid item xs={12} container alignItems="flex-end">
-                <Typography align="center" component="span">
-                  Status:{' '}
-                </Typography>
-                <Typography align="center" component="span" className={classes.status}>
-                  {initialValues.status.name}
-                </Typography>
+              <Grid className={classes.fieldContainer} item xs={12}>
+                <TextField
+                  {...register('last_name', validationRules.last_name)}
+                  error={errors && errors.last_name ? true : false}
+                  helperText={errors ? errors?.last_name?.message : null}
+                  name="last_name"
+                  label="Last Name"
+                  fullWidth
+                />
+              </Grid>
+              <Grid className={classes.fieldContainer} item xs={12}>
+                <TextField
+                  {...register('email', validationRules.email)}
+                  error={errors && errors.email ? true : false}
+                  helperText={errors ? errors?.email?.message : null}
+                  name="email"
+                  label="Email"
+                  fullWidth
+                />
+              </Grid>
+              <Grid className={classes.fieldContainer} item xs={12}>
+                <TextField
+                  {...register('password', validationRules.password)}
+                  error={errors && errors.password ? true : false}
+                  helperText={errors ? errors?.password?.message : null}
+                  name="password"
+                  label="Password"
+                  type="password"
+                  fullWidth
+                />
               </Grid>
             </Grid>
-          )}
-        </Grid>
-      </DialogContent>
-      <DialogActions>
-        <Button autoFocus onClick={() => onClose()} disabled={loading} color="primary">
-          Close
-        </Button>
-        <Button
-          disabled={loading}
-          color="primary"
-          variant="contained"
-          onClick={onSubmit}
-          disableElevation
-        >
-          {loading && <CircularProgress size={24} className={classes.loader} />}
-          {isNew ? 'Create' : 'Update'}
-        </Button>
-      </DialogActions>
+            {!isNew && (
+              <Grid
+                xs={4}
+                item
+                container
+                direction="row"
+                justify="center"
+                alignItems="stretch"
+                className={classes.imageContainer}
+              >
+                <Grid item xs={12}>
+                  <input
+                    accept="image/*"
+                    className={classes.fileInput}
+                    id="avatar"
+                    type="file"
+                    name="avatar"
+                    onChange={handleSelectAvatar}
+                  />
+                  <Tooltip title="Select image.">
+                    <label color="primary" htmlFor="avatar">
+                      {imageDisplay()}
+                    </label>
+                  </Tooltip>
+                  {errors && errors.avatar && (
+                    <FormHelperText error={true}>{errors.avatar}</FormHelperText>
+                  )}
+                </Grid>
+                <Grid item xs={12} container alignItems="flex-end">
+                  <Typography align="center" component="span">
+                    Status:{' '}
+                  </Typography>
+                  <Typography align="center" component="span" className={classes.status}>
+                    {user.status.name}
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={12} container alignItems="flex-end">
+                  {apiError && (
+                    <Typography className={classes.error} color="error" variant="h6">
+                      {apiError}
+                    </Typography>
+                  )}
+                </Grid>
+              </Grid>
+            )}
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={() => onClose()} disabled={loading} color="primary">
+            Close
+          </Button>
+          <Button
+            disabled={loading}
+            color="primary"
+            variant="contained"
+            type="submit"
+            disableElevation
+          >
+            {loading && <CircularProgress size={24} className={classes.loader} />}
+            {isNew ? 'Create' : 'Update'}
+          </Button>
+        </DialogActions>
+      </form>
     </Dialog>
   )
 }

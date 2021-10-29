@@ -4,12 +4,12 @@ import { makeStyles } from '@material-ui/styles'
 import PropTypes from 'prop-types'
 import { Button, TextField, Link, Typography, CircularProgress } from '@material-ui/core'
 import { useDispatch, useSelector } from 'react-redux'
-import ReeValidate from 'ree-validate'
 import { Redirect } from 'react-router-dom'
 
-import { useFormHandler } from 'utils/hooks'
+import { useForm } from 'react-hook-form'
 import { signInUser } from 'services/auth'
 import { Page } from 'components'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,21 +39,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const validator = new ReeValidate({
-  username: 'required|email',
-  password: 'required',
-})
-
 function SignIn() {
   const classes = useStyles()
   const dispatch = useDispatch()
   const auth = useSelector((state) => state.auth)
-  const [formState, handleChange, submitForm, hasError] = useFormHandler(validator)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
+  const { t } = useTranslation()
 
-  const handleSignIn = (event) => {
-    event.preventDefault()
+  const handleSignIn = (data) => {
+    dispatch(signInUser(data))
+  }
 
-    submitForm(() => dispatch(signInUser(formState.values)))
+  const validationRules = {
+    username: {
+      required: {
+        value: String,
+        message: t('auth.required'),
+      },
+      pattern: {
+        value: /\S+@\S+\.\S+/, // Regex Email Validation
+        message: t('auth.email'),
+      },
+    },
+    password: {
+      required: {
+        value: String,
+        message: t('auth.required'),
+      },
+    },
   }
 
   if (auth.isAuthenticated) {
@@ -62,37 +79,35 @@ function SignIn() {
 
   return (
     <Page title="Sign In" className={classes.root}>
-      <form onSubmit={handleSignIn}>
+      <form onSubmit={handleSubmit(handleSignIn)}>
         <Typography className={classes.title} variant="h2">
           Sign In
         </Typography>
         <TextField
           className={classes.textField}
-          error={hasError('username')}
-          helperText={hasError('username') ? formState.errors.first('username') : null}
+          {...register('username', validationRules.username)}
+          error={errors && errors.username ? true : false}
+          helperText={errors ? errors?.username?.message : null}
           fullWidth
           label="Username"
           name="username"
-          onChange={handleChange}
           type="text"
-          value={formState.values.username || ''}
           variant="outlined"
         />
         <TextField
           className={classes.textField}
-          error={hasError('password')}
-          helperText={hasError('password') ? formState.errors.first('password') : null}
+          {...register('password', validationRules.password)}
+          error={errors && errors.password ? true : false}
+          helperText={errors ? errors?.password?.message : null}
           fullWidth
           label="Password"
           name="password"
-          onChange={handleChange}
           type="password"
-          value={formState.values.password || ''}
           variant="outlined"
         />
         {auth.signInFailed && auth.error && (
           <Typography className={classes.error} color="error" variant="h6">
-            {auth.error?.error}
+            {auth.error?.message}
           </Typography>
         )}
         <Button

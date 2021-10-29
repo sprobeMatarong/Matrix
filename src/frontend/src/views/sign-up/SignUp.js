@@ -5,11 +5,10 @@ import Alert from '@material-ui/lab/Alert'
 import PropTypes from 'prop-types'
 import { Button, TextField, Link, Typography, CircularProgress } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
-import reeValidate from 'ree-validate'
-
-import { useFormHandler } from 'utils/hooks'
+import { useForm } from 'react-hook-form'
 import { signUpUser } from 'services/auth'
 import { Page } from 'components'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,44 +35,78 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const userValidations = {
-  first_name: 'required',
-  last_name: 'required',
-  email: 'required|email',
-  password: 'required|min:8',
-}
-
-const validator = new reeValidate(userValidations)
-
 function SignUp() {
   const classes = useStyles()
   const dispatch = useDispatch()
   const auth = useSelector((state) => state.auth)
   const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [formState, handleChange, submitForm, hasError] = useFormHandler(validator)
+  const [apiError, setApiError] = useState(null)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm()
+  const { t } = useTranslation()
 
-  const handleSignUp = (event) => {
-    event.preventDefault()
+  const handleSignUp = (data) => {
+    setLoading(true)
 
-    submitForm(() => {
-      setLoading(true)
+    dispatch(signUpUser(data))
+      .then(() => {
+        setSuccess(true)
+      })
+      .catch((e) => {
+        const { code, error } = e.response.data
+        // handle API validation error
+        if (code === 422 && error) {
+          Object.keys(error).forEach((key) => {
+            setError(key, { message: error[key][0] })
+          })
+        } else setApiError(error) // handle other errors
+      })
+      .finally(() => setLoading(false))
+  }
 
-      dispatch(signUpUser(formState.values))
-        .then(() => {
-          setSuccess(true)
-        })
-        .catch((e) => {
-          if (e.response.data.error) {
-            const error = e.response.data.error
-
-            Object.keys(error).forEach((value) => {
-              validator.errors.add(value, error[value][0])
-            })
-          }
-        })
-        .finally(() => setLoading(false))
-    })
+  const validationRules = {
+    first_name: {
+      required: {
+        value: String,
+        message: t('auth.required'),
+      },
+    },
+    last_name: {
+      required: {
+        value: String,
+        message: t('auth.required'),
+      },
+    },
+    email: {
+      required: {
+        value: String,
+        message: t('auth.required'),
+      },
+      pattern: {
+        value: /\S+@\S+\.\S+/, // Regex Email Validation
+        message: t('auth.email'),
+      },
+    },
+    password: {
+      required: {
+        value: String,
+        message: t('auth.required'),
+      },
+      minLength: {
+        value: 8,
+        message: t('auth.password.minLength'),
+      },
+      pattern: {
+        // 8 Characters, 1 Uppercase, 1 Special Character
+        value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+        message: t('auth.password.strong'),
+      },
+    },
   }
 
   if (auth.isAuthenticated) {
@@ -82,7 +115,7 @@ function SignUp() {
 
   return (
     <Page title="Sign Up" className={classes.root}>
-      <form onSubmit={handleSignUp}>
+      <form onSubmit={handleSubmit(handleSignUp)}>
         {success && (
           <div>
             <Alert variant="outlined" severity="success">
@@ -110,52 +143,55 @@ function SignUp() {
 
             <TextField
               className={classes.textField}
-              error={hasError('first_name')}
               fullWidth
-              helperText={hasError('first_name') ? formState.errors.first('first_name') : null}
+              {...register('first_name', validationRules.first_name)}
+              error={errors && errors.first_name ? true : false}
+              helperText={errors ? errors?.first_name?.message : null}
               label="First Name"
               name="first_name"
-              onChange={handleChange}
               type="text"
-              value={formState.values.first_name || ''}
               variant="outlined"
             />
             <TextField
               className={classes.textField}
-              error={hasError('last_name')}
               fullWidth
-              helperText={hasError('last_name') ? formState.errors.first('last_name') : null}
+              {...register('last_name', validationRules.last_name)}
+              error={errors && errors.last_name ? true : false}
+              helperText={errors ? errors?.last_name?.message : null}
               label="Last Name"
               name="last_name"
-              onChange={handleChange}
               type="text"
-              value={formState.values.last_name || ''}
               variant="outlined"
             />
             <TextField
               className={classes.textField}
-              error={hasError('email')}
               fullWidth
-              helperText={hasError('email') ? formState.errors.first('email') : null}
+              {...register('email', validationRules.email)}
+              error={errors && errors.email ? true : false}
+              helperText={errors ? errors?.email?.message : null}
               label="Email Address"
               name="email"
-              onChange={handleChange}
               type="email"
-              value={formState.values.email || ''}
               variant="outlined"
             />
             <TextField
               className={classes.textField}
-              error={hasError('password')}
               fullWidth
-              helperText={hasError('password') ? formState.errors.first('password') : null}
+              {...register('password', validationRules.password)}
+              error={errors && errors.password ? true : false}
+              helperText={errors ? errors?.password?.message : null}
               label="Password"
               name="password"
-              onChange={handleChange}
               type="password"
-              value={formState.values.password || ''}
               variant="outlined"
             />
+
+            {apiError && (
+              <Typography className={classes.error} color="error" variant="h6">
+                {apiError}
+              </Typography>
+            )}
+
             <Button
               className={classes.signUpButton}
               color="primary"

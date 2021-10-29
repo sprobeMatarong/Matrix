@@ -13,8 +13,7 @@ import InputBase from '@material-ui/core/InputBase'
 import IconButton from '@material-ui/core/IconButton'
 import SearchIcon from '@material-ui/icons/Search'
 import Grid from '@material-ui/core/Grid'
-import { useFormHandler } from '../../utils/hooks'
-import reeValidate from 'ree-validate'
+import { useForm } from 'react-hook-form'
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -53,7 +52,7 @@ function Users() {
   const sort = useSelector((state) => state.users.search.sort)
   const sortBy = useSelector((state) => state.users.search.sortBy)
   // Initial values to be feed to the dialog
-  const initialValues = useSelector((state) => ({
+  const user = useSelector((state) => ({
     id: state.users.modalValues.id,
     first_name: state.users.modalValues.firstName,
     last_name: state.users.modalValues.lastName,
@@ -68,25 +67,21 @@ function Users() {
     setOpen(false)
     dispatch(clearModalValues())
   }
-  const [formState, handleChange, submitForm] = useFormHandler(new reeValidate({ keyword: '' }))
-  const onSearch = (event) => {
-    event.preventDefault()
-    submitForm(() => {
-      dispatch(changeSearchCriteria(formState.values.keyword, page, limit, sort, sortBy))
-    })
+  const { register, handleSubmit } = useForm()
+  const onSearch = (data) => {
+    dispatch(changeSearchCriteria(data.keyword, page, limit, sort, sortBy))
   }
 
   return (
     <Page title="Users">
       <Grid container direction="row" justify="flex-end" alignItems="center">
         <Grid item xs={12} className={classes.actionContainer}>
-          <Paper component="form" className={classes.searchBar} onSubmit={onSearch}>
+          <Paper component="form" className={classes.searchBar} onSubmit={handleSubmit(onSearch)}>
             <InputBase
               className={classes.input}
               placeholder="Search"
               name="keyword"
-              value={formState.values.keyword}
-              onChange={handleChange}
+              {...register('keyword')}
             />
             <IconButton type="submit" className={classes.iconButton} aria-label="search">
               <SearchIcon />
@@ -111,7 +106,7 @@ function Users() {
         sort={sort}
         sortBy={sortBy}
       />
-      <AddEditDialog initialValues={initialValues} open={open} handleClose={closeDialog} />
+      <AddEditDialog user={user} open={open} handleClose={closeDialog} />
     </Page>
   )
 }

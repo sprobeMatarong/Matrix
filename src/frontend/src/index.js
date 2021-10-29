@@ -6,6 +6,7 @@ import App from 'App'
 import * as serviceWorker from 'serviceWorker'
 import store from 'store/config'
 import { authCheck } from 'store/auth/actionCreators'
+import './i18n'
 
 // check authentication
 store.dispatch(authCheck())

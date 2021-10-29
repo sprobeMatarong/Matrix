@@ -29,7 +29,7 @@ class InviteUser extends Mailable
     public function __construct(User $user, $token)
     {
         $this->user = $user;
-        $this->url = env('APP_URL') . "/invite?token={$token}";
+        $this->url = env('APP_URL') . "/activate?token={$token}";
     }
 
     /**

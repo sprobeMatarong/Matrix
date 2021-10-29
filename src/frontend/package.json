@@ -10,6 +10,7 @@
     "@material-ui/styles": "^4.3.3",
     "axios": "^0.19.0",
     "clsx": "latest",
+    "i18next": "^21.3.3",
     "lodash": "^4.17.15",
     "node-sass": "^4.12.0",
     "prop-types": "latest",
@@ -17,13 +18,14 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-helmet-async": "^1.0.4",
+    "react-hook-form": "^7.17.5",
+    "react-i18next": "^11.12.0",
     "react-redux": "^7.1.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
     "react-topbar-progress-indicator": "^4.0.1",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
-    "ree-validate": "3.0.2",
     "typeface-roboto": "0.0.75"
   },
   "scripts": {
