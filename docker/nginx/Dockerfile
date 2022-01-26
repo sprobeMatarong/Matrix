@@ -3,8 +3,8 @@ RUN apk update
 RUN apk add --no-cache certbot certbot-nginx openssl bash
 RUN adduser -S www-data -G www-data
 ARG ENVIRONMENT
-ARG API_DOMAIN
 ARG APP_DOMAIN
+ARG GENERATE_SELF_SIGNED_SSL
 RUN mkdir -p /var/www/_letsencrypt
 ADD ./docker/nginx/scripts/configure-$ENVIRONMENT.sh /configure.sh
 # Copy Optimized Nginx Config

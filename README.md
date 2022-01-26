@@ -8,7 +8,6 @@ A base template for `ReactJS (17.0.2)` with backend API implementation using `La
 -   PHP-FPM
 -   MySQL
 -   CS-Fixer
--   Composer
 -   Cron
 -   Node/NPM
 -   Redis
@@ -74,7 +73,6 @@ Starting {PROJECT_NAME}_mysql    ... done
 Starting {PROJECT_NAME}_data     ... done
 Starting {PROJECT_NAME}_node     ... done
 Starting {PROJECT_NAME}_fixer    ... done
-Starting {PROJECT_NAME}_composer ... done
 Starting {PROJECT_NAME}_cron     ... done
 Starting {PROJECT_NAME}_php      ... done
 Starting {PROJECT_NAME}_nginx    ... done
@@ -88,44 +86,24 @@ docker exec -it CONTAINER_NAME bash
 
 ---
 
-## Composer
-
-Install the composer packages of your project
-
-```
-docker-compose run --rm composer install
-```
-
-To install new / additional composer packages, run the following command:
-
-```
-docker-compose run --rm composer install owner/package
-```
-
-To remove a package:
-
-```
-docker-compose run --rm composer remove owner/package
-```
-
----
-
 ## Setting up Laravel
 
-1. Create the `.env` file and run the following to generate key for Laravel
-2. Update the database credentials values in `src/backend/.env` using your code text editor then clear the config via docker exec
-3. Run the migration
-4. If you have seeders, you can run it by using the following command
-5. Run the Laravel Passport installation
+1. Install the required php packages by running `composer install`
+2. Create the `.env` file and run the following to generate key for Laravel
+3. Update the database credentials values in `src/backend/.env` using your code text editor then clear the config via docker exec
+4. Run the migration
+5. If you have seeders, you can run it by using the following command
+6. Run the Laravel Passport installation
 
 ```
 docker exec -it {PROJECT_NAME}_php sh
-/var/www/backend # cp .env.example .env                             # 1
-/var/www/backend # php artisan key:generate                         # 1
-/var/www/backend # php artisan config:clear                         # 2
-/var/www/backend # php artisan migrate:fresh                        # 3
-/var/www/backend # php artisan db:seed                              # 4
-/var/www/backend # php artisan passport:install --force             # 5
+/var/www/backend # composer install                                 # 1
+/var/www/backend # cp .env.example .env                             # 2
+/var/www/backend # php artisan key:generate                         # 3
+/var/www/backend # php artisan config:clear                         # 4
+/var/www/backend # php artisan migrate:fresh                        # 5
+/var/www/backend # php artisan db:seed                              # 6
+/var/www/backend # php artisan passport:install --force             # 7
 ```
 
 Copy the generated password grant Client ID & Secret in the `src/backend/.env` file
@@ -141,6 +119,24 @@ After setting up all the values in the `.env` file, run the following command to
 ```
 docker exec -it {PROJECT_NAME}_php sh
 /var/www/backend # php artisan config:clear
+```
+
+---
+
+## Composer
+
+To install additional composer packages, run the following command:
+
+```
+docker exec -it {PROJECT_NAME}_php sh
+composer require owner/package
+```
+
+To remove a package:
+
+```
+docker exec -it {PROJECT_NAME}_php sh
+composer remove owner/package
 ```
 
 ---
@@ -174,20 +170,22 @@ docker-compose run --rm fixer fix <<file_name>>
 -   Running a Test Case
 
 ```
-docker-compose run --rm php ./phpunit tests/<<test_file>>
+docker exec -it {PROJECT_NAME}_php sh
+/var/www/backend #  ./phpunit tests/<<test_file>>
 ```
 
 -   Running the whole Test Suite
 
 ```
-docker-compose run --rm php ./phpunit
+docker exec -it {PROJECT_NAME}_php sh
+/var/www/backend #  ./phpunit
 ```
 
 The code coverage result will be available at  
-<https://API_DOMAIN/report>
+<https://APP_DOMAIN/api/report>
 
 The code coverage logs will be available at  
-<https://API_DOMAIN/report/logs>
+<https://APP_DOMAIN/api/report/logs>
 
 ---
 
@@ -248,13 +246,13 @@ OPCACHE_VALIDATE_TIMESTAMPS=0
 
 ## BACKEND
 
-To access the backend routes, use the **API_DOMAIN** you set in the `.env` file
+To access the backend routes, use the **APP_DOMAIN** you set in the `.env` file
 
 ```
-API_DOMAIN=api.tcg.local                  # for local development
+APP_DOMAIN=tcg.local                # for local development
 ```
 
-in this case: https://api.tcg.local/v1
+in this case: https://tcg.local/api/v1
 
 We are using **`v1`** as base suffix for our api routes following the rest standards. All routes should be declared in the **`src/backend/routes/api.php`** file.
 
