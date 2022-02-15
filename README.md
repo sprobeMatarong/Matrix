@@ -12,6 +12,7 @@ A base template for `ReactJS (17.0.2)` with backend API implementation using `La
 -   Cron
 -   Node/NPM
 -   Redis
+-   MailHog
 
 ## Prerequisites
 
@@ -334,6 +335,26 @@ If you have already run the laravel seeders during the setup, you can test the f
 email: admin@tcg.sprobe.ph
 password: Password2020!
 ```
+
+---
+
+## Mail Server
+
+This Base Template has `Mailhog` container you can use to test Email Sending events.  
+Make you to set the `src/backend/.env` file with these values:
+
+```
+MAIL_MAILER=smtp
+MAIL_HOST=mailhog
+MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=any_email_address_here@mail.com
+MAIL_FROM_NAME=Any_Name_Here
+```
+
+You can preview the emails sent by opening this link in your browser: [http://localhost:8025/](http://localhost:8025/)
 
 ---
 

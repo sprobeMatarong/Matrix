@@ -30,7 +30,6 @@ services:
       - node:app
       - mysql:mysql
       - php:php
-      - mailhog:mailhog
     volumes:
       - *services-volume
 
@@ -139,10 +138,3 @@ services:
     container_name: ${PROJECT_NAME}_redis
     ports:
       - "6379:6379"
-
-  mailhog:
-    image: mailhog/mailhog:latest
-    container_name: ${PROJECT_NAME}_mailhog
-    ports:
-      - 1025:1025
-      - 8025:8025
