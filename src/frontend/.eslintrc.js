@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   parserOptions: {
-    ecmaVersion: 2020,
+    ecmaVersion: 'latest',
     sourceType: 'module',
     ecmaFeatures: {
       jsx: true,
@@ -17,11 +17,12 @@ module.exports = {
     amd: true,
     node: true,
     jest: true,
-    es6: true,
+    es2021: true,
   },
   extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:prettier/recommended'],
   rules: {
+    'react/react-in-jsx-scope': 'off',
     'prettier/prettier': ['error', {}, { usePrettierrc: true }],
   },
-  plugins: ['simple-import-sort'],
-}
+  plugins: ['react'],
+};

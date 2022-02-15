@@ -1,37 +1,55 @@
-export default [
+const routes = [
+  // Dont Remove. Handle 404 Pages
+  {
+    path: '*',
+    component: 'pages/NotFound',
+    auth: false,
+  },
   {
     path: '/',
-    component: 'views/dashboard',
+    component: 'pages/Home',
     auth: true,
   },
   {
-    path: '/users',
-    component: 'views/users',
-    auth: true,
+    path: '/about',
+    component: 'pages/About',
+    auth: false,
   },
   {
-    path: '/sign-in',
-    component: 'views/sign-in',
-    layout: 'minimal',
+    path: '/signup',
+    component: 'pages/Signup',
+    auth: false,
   },
   {
-    path: '/sign-up',
-    component: 'views/sign-up',
-    layout: 'minimal',
+    path: '/login',
+    component: 'pages/Login',
+    auth: false,
   },
   {
     path: '/forgot-password',
-    component: 'views/forgot-password',
-    layout: 'minimal',
+    component: 'pages/ForgotPassword',
+    auth: false,
   },
   {
-    path: '/password/reset',
-    component: 'views/reset-password',
-    layout: 'minimal',
+    path: '/reset-password',
+    component: 'pages/ResetPassword',
+    auth: false,
   },
   {
     path: '/activate',
-    component: 'views/activate',
-    layout: 'minimal',
+    component: 'pages/Activate',
+    auth: false,
   },
-]
+  {
+    path: '/profile',
+    component: 'pages/Profile',
+    auth: true,
+  },
+  {
+    path: '/terms',
+    component: 'pages/Terms',
+    auth: false,
+  },
+];
+
+export default routes;
