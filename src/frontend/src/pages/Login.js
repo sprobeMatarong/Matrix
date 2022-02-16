@@ -11,9 +11,18 @@ import {
   Button,
 } from '@mui/material';
 import { useAuth } from '../hooks/useAuth';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 function Login() {
   const { login } = useAuth();
+
+  // form validation
+  const schema = yup.object({
+    username: yup.string().required().email(),
+    password: yup.string().required(),
+  });
+
   const {
     register,
     handleSubmit,
@@ -21,9 +30,8 @@ function Login() {
     setError,
     formState: { errors },
   } = useForm({
-    defaultValues: {
-      checkbox: false,
-    },
+    resolver: yupResolver(schema),
+    defaultValues: { checkbox: false },
   });
 
   const handleLogin = async (data) => {
@@ -31,25 +39,6 @@ function Login() {
     await login({ username, password, setError })
       .then(() => (window.location = '/'))
       .catch((err) => console.log(err.response.data));
-  };
-
-  const validationRules = {
-    username: {
-      required: {
-        value: String,
-        message: 'This is a required field',
-      },
-      pattern: {
-        value: /\S+@\S+\.\S+/, // Regex Email Validation
-        message: 'Invalid Email Provided',
-      },
-    },
-    password: {
-      required: {
-        value: String,
-        message: 'This is a required field',
-      },
-    },
   };
 
   return (
@@ -64,7 +53,7 @@ function Login() {
       <form onSubmit={handleSubmit(handleLogin)}>
         <Stack spacing={3}>
           <TextField
-            {...register('username', validationRules.username)}
+            {...register('username')}
             error={errors && errors.username ? true : false}
             helperText={errors ? errors?.username?.message : null}
             fullWidth
@@ -75,7 +64,7 @@ function Login() {
           />
 
           <TextField
-            {...register('password', validationRules.password)}
+            {...register('password')}
             error={errors && errors.password ? true : false}
             helperText={errors ? errors?.password?.message : null}
             fullWidth

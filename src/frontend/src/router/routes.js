@@ -31,7 +31,7 @@ const routes = [
     auth: false,
   },
   {
-    path: '/reset-password',
+    path: '/password/reset',
     component: 'pages/ResetPassword',
     auth: false,
   },

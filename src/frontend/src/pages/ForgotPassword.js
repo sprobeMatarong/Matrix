@@ -2,43 +2,43 @@ import { Alert, Container, Stack, Typography, TextField, Button, Box, Grid } fro
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import api from '../utils/api';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 function ForgotPassword() {
-  const [submitted, setSubmitted] = useState(false);
+  const [alert, setAlert] = useState(null);
+
+  // form validation
+  const schema = yup.object({
+    email: yup.string().required().email(),
+  });
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
     setError,
-  } = useForm();
+  } = useForm({ resolver: yupResolver(schema) });
 
   const handleForgot = async (data) => {
     await api
       .post('/password/forgot', data)
       .then(() => {
-        setSubmitted(true);
+        setAlert({
+          success: true,
+          message: 'Please check your inbox for the instructions on how to reset your password.',
+        });
         reset();
       })
       .catch((err) => {
         const { error } = err.response.data;
-        Object.keys(error).map((prop) => {
-          setError(prop, { message: error[prop][0] }, { shouldFocus: true });
-        });
+        if (typeof error === 'object') {
+          Object.keys(error).map((prop) => {
+            setError(prop, { message: error[prop][0] }, { shouldFocus: true });
+          });
+        } else setAlert({ success: false, message: error });
       });
-  };
-
-  const validationRules = {
-    email: {
-      required: {
-        value: String,
-        message: 'This field is required.',
-      },
-      pattern: {
-        value: /\S+@\S+\.\S+/, // Regex Email Validation
-        message: 'Please Provide a valid email',
-      },
-    },
   };
 
   return (
@@ -56,7 +56,7 @@ function ForgotPassword() {
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12}>
             <TextField
-              {...register('email', validationRules.email)}
+              {...register('email')}
               error={errors && errors.email ? true : false}
               helperText={errors ? errors?.email?.message : null}
               fullWidth
@@ -74,9 +74,9 @@ function ForgotPassword() {
           </Grid>
         </Grid>
 
-        {submitted && (
-          <Alert severity="success" sx={{ my: 4 }}>
-            Please check your inbox for the instructions on how to reset your password.
+        {alert && (
+          <Alert severity={alert.success ? 'success' : 'error'} sx={{ my: 4 }}>
+            {alert.message}
           </Alert>
         )}
       </Box>

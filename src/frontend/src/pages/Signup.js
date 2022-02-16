@@ -1,63 +1,57 @@
-import { useForm } from 'react-hook-form';
 import { Alert, Container, Stack, Typography, Box, TextField, Button, Grid } from '@mui/material';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import api from '../utils/api';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 function Signup() {
-  const [registered, setRegistered] = useState(false);
+  const [alert, setAlert] = useState(null);
+
+  // form validation
+  const schema = yup.object({
+    first_name: yup.string().required(),
+    last_name: yup.string().required(),
+    email: yup.string().required().email(),
+    password: yup
+      .string()
+      .required()
+      .min(8)
+      .matches(
+        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+        'Password must contain the following: 1 uppercase, 1 special character and a minimum of 8 characters.'
+      ),
+    password_confirmation: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match'),
+  });
+
   const {
     register,
     handleSubmit,
     reset,
     setError,
     formState: { errors },
-  } = useForm();
+  } = useForm({ resolver: yupResolver(schema) });
 
   const handleSignUp = async (data) => {
     return await api
       .post('/register', data)
       .then(() => {
-        setRegistered(true);
+        setAlert({
+          success: true,
+          message:
+            'Please check your inbox for a confirmation email. Click the link to complete the registration process.',
+        });
         reset();
       })
       .catch((err) => {
         const { error } = err.response.data;
-        Object.keys(error).map((prop) => {
-          setError(prop, { message: error[prop][0] }, { shouldFocus: true });
-        });
+        if (typeof error === 'object') {
+          Object.keys(error).map((prop) => {
+            setError(prop, { message: error[prop][0] }, { shouldFocus: true });
+          });
+        } else setAlert({ success: false, message: error });
       });
-  };
-
-  const validationRules = {
-    first_name: {
-      required: {
-        value: String,
-        message: 'This is a required field',
-      },
-    },
-    last_name: {
-      required: {
-        value: String,
-        message: 'This is a required field',
-      },
-    },
-    email: {
-      required: {
-        value: String,
-        message: 'This is a required field',
-      },
-      pattern: {
-        value: /\S+@\S+\.\S+/, // Regex Email Validation
-        message: 'Invalid Email Provided',
-      },
-    },
-    password: {
-      required: {
-        value: String,
-        message: 'This is a required field',
-      },
-    },
   };
 
   return (
@@ -73,7 +67,7 @@ function Signup() {
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
-              {...register('first_name', validationRules.first_name)}
+              {...register('first_name')}
               error={errors && errors.first_name ? true : false}
               helperText={errors ? errors?.first_name?.message : null}
               name="first_name"
@@ -86,7 +80,7 @@ function Signup() {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
-              {...register('last_name', validationRules.last_name)}
+              {...register('last_name')}
               error={errors && errors.last_name ? true : false}
               helperText={errors ? errors?.last_name?.message : null}
               required
@@ -101,7 +95,7 @@ function Signup() {
 
           <Grid item xs={12}>
             <TextField
-              {...register('email', validationRules.email)}
+              {...register('email')}
               error={errors && errors.email ? true : false}
               helperText={errors ? errors?.email?.message : null}
               fullWidth
@@ -114,12 +108,25 @@ function Signup() {
 
           <Grid item xs={12}>
             <TextField
-              {...register('password', validationRules.password)}
+              {...register('password')}
               error={errors && errors.password ? true : false}
               helperText={errors ? errors?.password?.message : null}
               fullWidth
               label="Password"
               name="password"
+              type="password"
+              variant="outlined"
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={12}>
+            <TextField
+              {...register('password_confirmation')}
+              error={errors && errors.password_confirmation ? true : false}
+              helperText={errors ? errors?.password_confirmation?.message : null}
+              fullWidth
+              label="Confirm Password"
+              name="password_confirmation"
               type="password"
               variant="outlined"
             />
@@ -140,10 +147,9 @@ function Signup() {
         </Grid>
       </Box>
 
-      {registered && (
-        <Alert severity="success" sx={{ my: 4 }}>
-          Please check your inbox for a confirmation email. Click the link to complete the
-          registration process.
+      {alert && (
+        <Alert severity={alert.success ? 'success' : 'error'} sx={{ my: 4 }}>
+          {alert.message}
         </Alert>
       )}
     </Container>
