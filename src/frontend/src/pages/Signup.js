@@ -5,24 +5,28 @@ import { Link } from 'react-router-dom';
 import api from '../utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 
 function Signup() {
   const [alert, setAlert] = useState(null);
+  const { t } = useTranslation();
 
   // form validation
   const schema = yup.object({
-    first_name: yup.string().required(),
-    last_name: yup.string().required(),
-    email: yup.string().required().email(),
+    first_name: yup.string().required(t('form.required')),
+    last_name: yup.string().required(t('form.required')),
+    email: yup.string().required(t('form.required')).email(t('form.email')),
     password: yup
       .string()
-      .required()
-      .min(8)
+      .required(t('form.required'))
+      .min(8, t('form.password.minLength'))
       .matches(
         /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
-        'Password must contain the following: 1 uppercase, 1 special character and a minimum of 8 characters.'
+        t('form.password.strong')
       ),
-    password_confirmation: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match'),
+    password_confirmation: yup
+      .string()
+      .oneOf([yup.ref('password'), null], t('form.password.confirm')),
   });
 
   const {
@@ -58,9 +62,8 @@ function Signup() {
     <Container maxWidth="xs" sx={{ pt: 8 }}>
       <Stack sx={{ mb: 5 }}>
         <Typography variant="h4" gutterBottom>
-          Create your FREE Account
+          {t('pages.signup.create_free_account')}
         </Typography>
-        <Typography sx={{ color: 'text.secondary' }}>It&#39;s free and always be.</Typography>
       </Stack>
 
       <Box component="form" noValidate onSubmit={handleSubmit(handleSignUp)} sx={{ mt: 3 }}>
@@ -71,10 +74,9 @@ function Signup() {
               error={errors && errors.first_name ? true : false}
               helperText={errors ? errors?.first_name?.message : null}
               name="first_name"
-              required
               fullWidth
               id="first_name"
-              label="First Name"
+              label={t('labels.first_name')}
               type="text"
             />
           </Grid>
@@ -83,13 +85,11 @@ function Signup() {
               {...register('last_name')}
               error={errors && errors.last_name ? true : false}
               helperText={errors ? errors?.last_name?.message : null}
-              required
               fullWidth
               id="last_name"
-              label="Last Name"
+              label={t('labels.last_name')}
               name="last_name"
               type="text"
-              autoComplete="family-name"
             />
           </Grid>
 
@@ -99,7 +99,7 @@ function Signup() {
               error={errors && errors.email ? true : false}
               helperText={errors ? errors?.email?.message : null}
               fullWidth
-              label="Email Address"
+              label={t('labels.email_address')}
               name="email"
               type="text"
               variant="outlined"
@@ -112,7 +112,7 @@ function Signup() {
               error={errors && errors.password ? true : false}
               helperText={errors ? errors?.password?.message : null}
               fullWidth
-              label="Password"
+              label={t('labels.password')}
               name="password"
               type="password"
               variant="outlined"
@@ -125,7 +125,7 @@ function Signup() {
               error={errors && errors.password_confirmation ? true : false}
               helperText={errors ? errors?.password_confirmation?.message : null}
               fullWidth
-              label="Confirm Password"
+              label={t('labels.confirm_password')}
               name="password_confirmation"
               type="password"
               variant="outlined"
@@ -134,13 +134,13 @@ function Signup() {
 
           <Grid item xs={12}>
             <Button fullWidth size="large" type="submit" variant="contained">
-              Register
+              {t('labels.signup')}
             </Button>
 
             <Typography color="text.secondary" variant="body2" sx={{ mt: 2 }}>
-              By clicking Register, you agree that you have read and agree to the{' '}
+              {t('pages.signup.agree_to_terms')}{' '}
               <Link to="/terms" target="_blank">
-                Terms & Conditions.
+                {t('pages.signup.terms_conditions')}
               </Link>
             </Typography>
           </Grid>

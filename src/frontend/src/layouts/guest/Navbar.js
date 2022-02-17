@@ -4,8 +4,12 @@ import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
 import { Link } from 'react-router-dom';
 import Logo from '../../logo.svg';
+import { useTranslation } from 'react-i18next';
+import LanguageSelect from '../../components/LanguageSelect';
 
 function Navbar() {
+  const { t } = useTranslation();
+
   return (
     <AppBar
       position="static"
@@ -53,11 +57,13 @@ function Navbar() {
           </Button>
         </nav>
         <Button component={Link} to="/signup" variant="outlined" sx={{ my: 1, mx: 1 }}>
-          Signup
+          {t('labels.signup')}
         </Button>
         <Button component={Link} to="/login" variant="contained" disableElevation sx={{ my: 1 }}>
-          Login
+          {t('labels.login')}
         </Button>
+
+        <LanguageSelect />
       </Toolbar>
     </AppBar>
   );

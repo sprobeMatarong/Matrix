@@ -4,13 +4,15 @@ import { useForm } from 'react-hook-form';
 import api from '../utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 
 function ForgotPassword() {
   const [alert, setAlert] = useState(null);
+  const { t } = useTranslation();
 
   // form validation
   const schema = yup.object({
-    email: yup.string().required().email(),
+    email: yup.string().required(t('form.required')).email(t('form.email')),
   });
 
   const {
@@ -27,7 +29,7 @@ function ForgotPassword() {
       .then(() => {
         setAlert({
           success: true,
-          message: 'Please check your inbox for the instructions on how to reset your password.',
+          message: t('pages.forgot_password.success'),
         });
         reset();
       })
@@ -45,10 +47,10 @@ function ForgotPassword() {
     <Container maxWidth="xs" sx={{ pt: 8 }}>
       <Stack sx={{ mb: 5 }}>
         <Typography variant="h4" gutterBottom>
-          Forgot Password?
+          {t('labels.forgot_password')}
         </Typography>
         <Typography sx={{ color: 'text.secondary' }}>
-          Enter your email below to recover your account.
+          {t('pages.forgot_password.sub_heading')}
         </Typography>
       </Stack>
 
@@ -60,7 +62,7 @@ function ForgotPassword() {
               error={errors && errors.email ? true : false}
               helperText={errors ? errors?.email?.message : null}
               fullWidth
-              label="Email Address"
+              label={t('labels.email_address')}
               name="email"
               type="text"
               variant="outlined"
@@ -69,7 +71,7 @@ function ForgotPassword() {
 
           <Grid item xs={12}>
             <Button fullWidth size="large" type="submit" variant="contained">
-              Forgot
+              {t('labels.submit')}
             </Button>
           </Grid>
         </Grid>

@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import Avatar from '@mui/material/Avatar';
 import { deepOrange } from '@mui/material/colors';
 import Popover from '@mui/material/Popover';
+import LanguageSelect from '../../components/LanguageSelect';
 
 const drawerWidth = 240;
 
@@ -81,6 +82,8 @@ function Navbar({ open, onToggle, onLogout }) {
         <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
           {title}
         </Typography>
+
+        <LanguageSelect />
 
         <IconButton color="inherit">
           <Badge badgeContent={4} color="secondary">

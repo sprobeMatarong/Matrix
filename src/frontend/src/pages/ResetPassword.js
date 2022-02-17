@@ -4,14 +4,40 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import api from '../utils/api';
+import { useTranslation } from 'react-i18next';
 
 function ResetPassword() {
   const [alert, setAlert] = useState(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const url = new URL(window.location.href);
     setValue('token', url.searchParams.get('token'));
   }, []);
+
+  // form validation
+  const schema = yup.object({
+    password: yup
+      .string()
+      .required(t('form.required'))
+      .min(8, t('form.password.minLength'))
+      .matches(
+        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+        t('form.password.strong')
+      ),
+    password_confirmation: yup
+      .string()
+      .oneOf([yup.ref('password'), null], t('form.password.confirm')),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setError,
+    setValue,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(schema) });
 
   const handleReset = async (data) => {
     return await api
@@ -19,7 +45,7 @@ function ResetPassword() {
       .then(() => {
         setAlert({
           success: true,
-          message: 'Your password has been updated successfully.',
+          message: t('pages.reset_password.success'),
         });
         reset();
       })
@@ -33,35 +59,15 @@ function ResetPassword() {
       });
   };
 
-  // form validation
-  const schema = yup.object({
-    password: yup
-      .string()
-      .required()
-      .min(8)
-      .matches(
-        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
-        'Password must contain the following: 1 uppercase, 1 special character and a minimum of 8 characters.'
-      ),
-    password_confirmation: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match'),
-  });
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    setError,
-    setValue,
-    formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) });
-
   return (
     <Container maxWidth="xs" sx={{ pt: 8 }}>
       <Stack sx={{ mb: 5 }}>
         <Typography variant="h4" gutterBottom>
-          Reset Password
+          {t('labels.reset_password')}
         </Typography>
-        <Typography sx={{ color: 'text.secondary' }}>Please enter your new password.</Typography>
+        <Typography sx={{ color: 'text.secondary' }}>
+          {t('pages.reset_password.sub_heading')}
+        </Typography>
       </Stack>
 
       <Box component="form" noValidate onSubmit={handleSubmit(handleReset)} sx={{ mt: 3 }}>
@@ -72,7 +78,7 @@ function ResetPassword() {
               error={errors && errors.password ? true : false}
               helperText={errors ? errors?.password?.message : null}
               fullWidth
-              label="New Password"
+              label={t('labels.new_password')}
               name="password"
               type="password"
               variant="outlined"
@@ -85,7 +91,7 @@ function ResetPassword() {
               error={errors && errors.password_confirmation ? true : false}
               helperText={errors ? errors?.password_confirmation?.message : null}
               fullWidth
-              label="Confirm New Password"
+              label={t('labels.confirm_new_password')}
               name="password_confirmation"
               type="password"
               variant="outlined"
@@ -94,7 +100,7 @@ function ResetPassword() {
 
           <Grid item xs={12}>
             <Button fullWidth size="large" type="submit" variant="contained">
-              Reset
+              {t('labels.submit')}
             </Button>
           </Grid>
         </Grid>
