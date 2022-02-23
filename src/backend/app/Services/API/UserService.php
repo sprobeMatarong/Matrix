@@ -73,7 +73,7 @@ class UserService
 
         // perform user search
         $results = $query->skip($skip)
-                        ->orderBy('id', 'DESC')
+                        ->orderBy($conditions['sort'], $conditions['order'])
                         ->paginate($limit);
 
         $urlParams = ['keyword' => $conditions['keyword'], 'limit' => $limit];

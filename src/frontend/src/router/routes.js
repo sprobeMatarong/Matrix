@@ -50,6 +50,11 @@ const routes = [
     component: 'pages/Terms',
     auth: false,
   },
+  {
+    path: '/users',
+    component: 'pages/Users',
+    auth: true,
+  },
 ];
 
 export default routes;

@@ -34,4 +34,14 @@ class SearchUserRequest extends FormRequest
     {
         return (int) $this->input('limit', config('search.results_per_page')); // set via config
     }
+
+    public function getOrder()
+    {
+        return $this->input('order', 'desc');
+    }
+
+    public function getSort()
+    {
+        return $this->input('sort', 'id');
+    }
 }

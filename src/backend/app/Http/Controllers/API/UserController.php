@@ -49,6 +49,8 @@ class UserController extends Controller
                 'keyword' => $request->getKeyword(),
                 'page' => $request->getPage(),
                 'limit' => $request->getLimit(),
+                'order' => $request->getOrder(),
+                'sort' => $request->getSort(),
             ];
 
             $results = $this->userService->search($conditions);
