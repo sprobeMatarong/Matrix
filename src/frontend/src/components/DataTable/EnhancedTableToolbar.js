@@ -3,15 +3,18 @@ import { alpha } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
+import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 
 EnhancedTableToolbar.propTypes = {
   selectedCount: PropTypes.number.isRequired,
+  onClickEdit: PropTypes.func.isRequired,
+  onClickDelete: PropTypes.func.isRequired,
 };
 
-function EnhancedTableToolbar({ selectedCount }) {
+function EnhancedTableToolbar({ selectedCount, onClickEdit, onClickDelete }) {
   return (
     <Toolbar
       sx={{
@@ -35,7 +38,7 @@ function EnhancedTableToolbar({ selectedCount }) {
 
       {selectedCount > 0 ? (
         <Tooltip title="Delete">
-          <IconButton>
+          <IconButton onClick={onClickDelete}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -43,6 +46,14 @@ function EnhancedTableToolbar({ selectedCount }) {
         <Tooltip title="Filter list">
           <IconButton>
             <FilterListIcon />
+          </IconButton>
+        </Tooltip>
+      )}
+
+      {selectedCount === 1 && (
+        <Tooltip title="Edit">
+          <IconButton onClick={onClickEdit}>
+            <EditIcon />
           </IconButton>
         </Tooltip>
       )}

@@ -52,7 +52,7 @@ const routes = [
   },
   {
     path: '/users',
-    component: 'pages/Users',
+    component: 'pages/users/Users',
     auth: true,
   },
 ];

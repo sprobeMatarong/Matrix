@@ -1,12 +1,15 @@
-import api from '../utils/api';
+import api from '../../utils/api';
 import { useEffect, useState } from 'react';
-import DataTable from '../components/DataTable';
-import { criteria, meta as defaultMeta } from '../config/search';
+import DataTable from '../../components/DataTable';
+import { criteria, meta as defaultMeta } from '../../config/search';
+import EditModal from './EditModal';
 
 function Users() {
   const [data, setData] = useState([]);
+  const [user, setUser] = useState(null);
   const [query, setQuery] = useState(criteria);
   const [meta, setMeta] = useState(defaultMeta);
+  const [isEdit, setIsEdit] = useState(false);
 
   const fetchUsers = async () => {
     return await api.get(`/users?${new URLSearchParams(query).toString()}`).then((response) => {
@@ -65,18 +68,40 @@ function Users() {
     setQuery({ ...query, ...{ keyword: event.target.value, page: 1 } });
   };
 
+  const handleEdit = (id) => {
+    const user = data.find((user) => user.id === id);
+    setIsEdit(true);
+    setUser(user);
+    // show edit modal
+    // send api request
+    // update redux
+  };
+
+  const handleDelete = (ids) => {
+    console.log(ids);
+    // show confirm modal
+    // send api request
+    // reload page
+  };
+
   return (
-    <DataTable
-      header={headers}
-      data={data}
-      page={query.page}
-      total={meta.lastPage}
-      order={query.order}
-      sort={query.sort}
-      handleChangePage={handleChangePage}
-      handleSort={handleSort}
-      handleChangeKeyword={handleChangeKeyword}
-    />
+    <>
+      <DataTable
+        header={headers}
+        data={data}
+        page={query.page}
+        total={meta.lastPage}
+        order={query.order}
+        sort={query.sort}
+        handleChangePage={handleChangePage}
+        handleSort={handleSort}
+        handleChangeKeyword={handleChangeKeyword}
+        handleEdit={handleEdit}
+        handleDelete={handleDelete}
+      />
+
+      <EditModal open={isEdit} user={user} handleClose={() => setIsEdit(false)} />
+    </>
   );
 }
 

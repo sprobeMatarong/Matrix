@@ -13,6 +13,8 @@ import Pagination from '@mui/material/Pagination';
 import TableContainer from '@mui/material/TableContainer';
 import EnhancedTableHead from './EnhancedTableHead';
 import EnhancedTableToolbar from './EnhancedTableToolbar';
+import InputAdornment from '@mui/material/InputAdornment';
+import SearchIcon from '@mui/icons-material/Search';
 
 DataTable.propTypes = {
   header: PropTypes.array.isRequired,
@@ -24,6 +26,8 @@ DataTable.propTypes = {
   sort: PropTypes.string,
   handleSort: PropTypes.func,
   handleChangeKeyword: PropTypes.func,
+  handleDelete: PropTypes.func,
+  handleEdit: PropTypes.func,
 };
 
 DataTable.defaultProps = {
@@ -45,6 +49,8 @@ function DataTable(props) {
     handleChangePage,
     handleSort,
     handleChangeKeyword,
+    handleDelete,
+    handleEdit,
   } = props;
   const [selected, setSelected] = useState([]);
 
@@ -77,6 +83,12 @@ function DataTable(props) {
     setSelected(newSelected);
   };
 
+  // handle event from parent component
+  const handleClickEdit = () => handleEdit(selected[0]);
+
+  // handle event from parent component
+  const handleClickDelete = () => handleDelete(selected);
+
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
   return (
@@ -86,11 +98,23 @@ function DataTable(props) {
         size="small"
         sx={{ width: '100%', display: 'flex', alignItems: 'end', mb: 2 }}
         onKeyUp={handleChangeKeyword}
+        InputProps={{
+          style: { backgroundColor: '#fff' },
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
         placeholder="Enter keyword"
       />
 
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar selectedCount={selected.length} />
+        <EnhancedTableToolbar
+          selectedCount={selected.length}
+          onClickEdit={handleClickEdit}
+          onClickDelete={handleClickDelete}
+        />
 
         <TableContainer>
           <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size="medium">
