@@ -8,7 +8,10 @@ function Page({ title, children, ...rest }) {
       <HelmetProvider>
         <Helmet>
           <title>
-            {title} - {process.env.REACT_APP_SITE_TITLE}
+            {title}{' '}
+            {process.env.REACT_APP_SITE_TITLE
+              ? ` - ${process.env.REACT_APP_SITE_TITLE}`
+              : ' - Sprobe Base Template'}
           </title>
         </Helmet>
       </HelmetProvider>
