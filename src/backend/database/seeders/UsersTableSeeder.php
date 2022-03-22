@@ -42,7 +42,7 @@ class UsersTableSeeder extends Seeder
             'first_name' => 'Sprobe',
             'last_name' => 'Administrator',
             'email' => 'admin@tcg.sprobe.ph',
-            'password' => Hash::make('Password2020!'),
+            'password' => Hash::make('Password2022!'),
             'user_status_id' => $status->id,
             'email_verified_at' => Carbon::now(),
         ]);

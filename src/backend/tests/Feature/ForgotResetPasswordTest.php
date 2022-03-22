@@ -103,8 +103,8 @@ class ForgotResetPasswordTest extends TestCase
                         '/' . config('app.api_version') . '/password/reset',
                         [
                             'token' => 'RandomString',
-                            'password' => 'Password2020!',
-                            'password_confirmation' => 'Password2020!',
+                            'password' => 'Password2022!',
+                            'password_confirmation' => 'Password2022!',
                         ]
                     );
         $result = $response->getData();

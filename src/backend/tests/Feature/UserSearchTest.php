@@ -34,7 +34,7 @@ class UserSearchTest extends TestCase
         // set admin details
         self::$ADMIN = [
             'email' => 'admin@tcg.sprobe.ph',
-            'password' => 'Password2020!',
+            'password' => 'Password2022!',
         ];
 
         // Login as Admin once only
