@@ -12,7 +12,7 @@ class CreateUserRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'first_name' => 'required',
@@ -21,18 +21,18 @@ class CreateUserRequest extends FormRequest
         ];
     }
 
-    public function getFirstName()
+    public function getFirstName() : string
     {
-        return $this->input('first_name', null);
+        return $this->input('first_name');
     }
 
-    public function getLastName()
+    public function getLastName() : string
     {
-        return $this->input('last_name', null);
+        return $this->input('last_name');
     }
 
-    public function getEmail()
+    public function getEmail() : string
     {
-        return $this->input('email', null);
+        return $this->input('email');
     }
 }

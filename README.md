@@ -1,6 +1,6 @@
 # Sprobe Laravel ReactJS Boilerplate
 
-A base template for `ReactJS (17.0.2)` with backend API implementation using `Laravel (^8.40)` preconfigured `laravel/passport` authentication.
+A base template for `ReactJS (17.0.2)` with backend API implementation using `Laravel (^9.2)` preconfigured `laravel/passport(^10.3)` authentication.
 
 ## Specifications / Infrastructure Information
 
@@ -333,7 +333,7 @@ If you have already run the laravel seeders during the setup, you can test the f
 
 ```
 email: admin@tcg.sprobe.ph
-password: Password2020!
+password: Password2022!
 ```
 
 ---

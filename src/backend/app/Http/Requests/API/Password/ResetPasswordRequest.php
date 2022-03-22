@@ -12,7 +12,7 @@ class ResetPasswordRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'token' => 'required',
@@ -20,13 +20,13 @@ class ResetPasswordRequest extends FormRequest
         ];
     }
 
-    public function getToken()
+    public function getToken(): string
     {
-        return $this->input('token', null);
+        return $this->input('token');
     }
 
-    public function getPassword()
+    public function getPassword(): string
     {
-        return $this->input('password', null);
+        return $this->input('password');
     }
 }

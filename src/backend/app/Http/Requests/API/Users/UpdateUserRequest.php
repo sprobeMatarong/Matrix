@@ -13,7 +13,7 @@ class UpdateUserRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'first_name' => 'required',
@@ -24,32 +24,32 @@ class UpdateUserRequest extends FormRequest
         ];
     }
 
-    public function getId()
+    public function getId() : int
     {
         return (int) $this->route('id');
     }
 
-    public function getFirstName()
+    public function getFirstName() : string
     {
-        return $this->input('first_name', null);
+        return $this->input('first_name');
     }
 
-    public function getLastName()
+    public function getLastName() : string
     {
-        return $this->input('last_name', null);
+        return $this->input('last_name');
     }
 
-    public function getEmail()
+    public function getEmail() : string
     {
-        return $this->input('email', null);
+        return $this->input('email');
     }
 
-    public function getPassword()
+    public function getPassword() : ?string
     {
-        return $this->input('password', null);
+        return $this->input('password');
     }
 
-    public function getAvatar()
+    public function getAvatar() : mixed
     {
         return $this->file('avatar', null);
     }
