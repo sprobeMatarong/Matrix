@@ -33,7 +33,7 @@ if [ ! -f "$COVERAGE_LOGS"/index.html ]; then
 fi
 
 # add the file to the HTML list
-sed -i 's/<div style="display: none;"><\/div>/<div style="display: none;"><\/div>\n<li><a href="'"$LOG_FILE"'">'"$LOG_FILE_NAME"'<\/a><span class="date">'"$NOW"'<\/a><\/li>/g' "$COVERAGE_LOGS"/index.html
+sed -i 's/<div style="display: none;"><\/div>/<div style="display: none;"><\/div>\n<li class="list-group-item"><a href="'"$LOG_FILE"'" class="float-left">'"$LOG_FILE_NAME"'<\/a><span class="float-right">'"$NOW"'<\/a><\/li>/g' "$COVERAGE_LOGS"/index.html
 
 # remove the original log file so there is only 1 place to review history
 rm "$COVERAGE"/logfile.xml
