@@ -33,6 +33,7 @@ const Backdrop = styled('div')`
 const style = {
   width: 400,
   bgcolor: 'background.paper',
+  borderRadius: '4px',
 };
 
 Modal.propTypes = {

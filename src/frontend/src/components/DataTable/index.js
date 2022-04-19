@@ -2,6 +2,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
+import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Checkbox from '@mui/material/Checkbox';
@@ -15,6 +16,7 @@ import EnhancedTableHead from './EnhancedTableHead';
 import EnhancedTableToolbar from './EnhancedTableToolbar';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
+import AddIcon from '@mui/icons-material/Add';
 
 DataTable.propTypes = {
   header: PropTypes.array.isRequired,
@@ -28,6 +30,7 @@ DataTable.propTypes = {
   handleChangeKeyword: PropTypes.func,
   handleDelete: PropTypes.func,
   handleEdit: PropTypes.func,
+  handleAdd: PropTypes.func,
 };
 
 DataTable.defaultProps = {
@@ -51,6 +54,7 @@ function DataTable(props) {
     handleChangeKeyword,
     handleDelete,
     handleEdit,
+    handleAdd,
   } = props;
   const [selected, setSelected] = useState([]);
 
@@ -93,21 +97,34 @@ function DataTable(props) {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <TextField
-        variant="outlined"
-        size="small"
-        sx={{ width: '100%', display: 'flex', alignItems: 'end', mb: 2 }}
-        onKeyUp={handleChangeKeyword}
-        InputProps={{
-          style: { backgroundColor: '#fff' },
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          ),
-        }}
-        placeholder="Enter keyword"
-      />
+      <Box sx={{ display: 'flex', justifyContent: 'end', mb: 2 }}>
+        <Box sx={{ alignItems: 'center' }}>
+          <Button
+            onClick={() => handleAdd()}
+            size="medium"
+            variant="contained"
+            sx={{ mr: 1 }}
+            startIcon={<AddIcon />}
+          >
+            Add New
+          </Button>
+
+          <TextField
+            variant="outlined"
+            size="small"
+            onKeyUp={handleChangeKeyword}
+            InputProps={{
+              style: { backgroundColor: '#fff' },
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+            placeholder="Enter keyword"
+          />
+        </Box>
+      </Box>
 
       <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar

@@ -2,14 +2,14 @@ import api from '../../utils/api';
 import { useEffect, useState } from 'react';
 import DataTable from '../../components/DataTable';
 import { criteria, meta as defaultMeta } from '../../config/search';
-import EditModal from './EditModal';
+import AddEditModal from './AddEditModal';
 
 function Users() {
   const [data, setData] = useState([]);
   const [user, setUser] = useState(null);
   const [query, setQuery] = useState(criteria);
   const [meta, setMeta] = useState(defaultMeta);
-  const [isEdit, setIsEdit] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const fetchUsers = async () => {
     return await api.get(`/users?${new URLSearchParams(query).toString()}`).then((response) => {
@@ -68,13 +68,11 @@ function Users() {
     setQuery({ ...query, ...{ keyword: event.target.value, page: 1 } });
   };
 
-  const handleEdit = (id) => {
-    const user = data.find((user) => user.id === id);
-    setIsEdit(true);
-    setUser(user);
-    // show edit modal
-    // send api request
-    // update redux
+  const handleEdit = async (id) => {
+    await api.get(`/users/${id}`).then(({ data }) => {
+      setOpen(true);
+      setUser(data.data);
+    });
   };
 
   const handleDelete = (ids) => {
@@ -82,6 +80,25 @@ function Users() {
     // show confirm modal
     // send api request
     // reload page
+  };
+
+  const handleAdd = () => {
+    setUser(null);
+    setOpen(true);
+  };
+
+  const handleSaveEvent = (response) => {
+    if (!user) {
+      setData([response, ...data]);
+      setOpen(false);
+      return;
+    }
+
+    let updatedList = [...data];
+    const index = updatedList.findIndex((row) => parseInt(row.id) === parseInt(response.id));
+    updatedList[index] = response;
+    setData(updatedList);
+    setOpen(false);
   };
 
   return (
@@ -98,9 +115,15 @@ function Users() {
         handleChangeKeyword={handleChangeKeyword}
         handleEdit={handleEdit}
         handleDelete={handleDelete}
+        handleAdd={handleAdd}
       />
 
-      <EditModal open={isEdit} user={user} handleClose={() => setIsEdit(false)} />
+      <AddEditModal
+        open={open}
+        user={user}
+        handleSaveEvent={handleSaveEvent}
+        handleClose={() => setOpen(false)}
+      />
     </>
   );
 }
