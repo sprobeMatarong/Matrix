@@ -75,11 +75,14 @@ function Users() {
     });
   };
 
-  const handleDelete = (ids) => {
-    console.log(ids);
-    // show confirm modal
-    // send api request
-    // reload page
+  const handleDelete = async (ids) => {
+    // @TODO change alert to modal
+    if (confirm('Are you sure you want to delete the selected users?')) {
+      await api.delete(`/users/bulk-delete`, { data: { ids } }).then(() => {
+        // @TODO toast message
+        window.location.reload();
+      });
+    }
   };
 
   const handleAdd = () => {

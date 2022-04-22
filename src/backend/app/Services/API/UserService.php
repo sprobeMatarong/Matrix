@@ -167,7 +167,7 @@ class UserService
      * @param int $id
      * @return bool
      */
-    public function delete(int $id)
+    public function delete(int $id) : bool
     {
         // retrieve user
         $user = $this->findById($id);
@@ -176,6 +176,17 @@ class UserService
         $user->delete();
 
         return true;
+    }
+
+    /**
+     * Deletes the user in the database
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function bulkDelete(array $ids) : bool
+    {
+        return $this->user->whereIn('id', $ids)->delete();
     }
 
     /**

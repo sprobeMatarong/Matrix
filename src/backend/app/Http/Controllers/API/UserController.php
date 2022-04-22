@@ -9,6 +9,7 @@ use App\Http\Requests\API\Users\RegisterUserRequest;
 use App\Http\Requests\API\Users\UpdateUserRequest;
 use App\Http\Requests\API\Users\SearchUserRequest;
 use App\Http\Requests\API\Users\ActivateAccountRequest;
+use App\Http\Requests\API\Users\BulkDeleteRequest;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\NewUserResource;
 use Illuminate\Http\Request;
@@ -158,6 +159,28 @@ class UserController extends Controller
         try {
             // perform user delete
             $this->response['deleted'] = $this->userService->delete((int) $id);
+        } catch (Exception $e) {
+            $this->response = [
+                'error' => $e->getMessage(),
+                'code' => 500,
+            ];
+        }
+
+        return response()->json($this->response, $this->response['code']);
+    }
+
+    /**
+     * Delete user.
+     *
+     * @param App\Http\Requests\API\Users\BulkDeleteRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function bulkDelete(BulkDeleteRequest $request)
+    {
+        try {
+            $ids = $request->getIds();
+            // perform bulk user delete
+            $this->response['deleted'] = $this->userService->bulkDelete($ids);
         } catch (Exception $e) {
             $this->response = [
                 'error' => $e->getMessage(),

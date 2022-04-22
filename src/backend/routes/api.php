@@ -42,5 +42,6 @@ Route::prefix('users')
         Route::post('/', [UserController::class, 'create']);
         Route::get('{id}', [UserController::class, 'read']);
         Route::put('{id}', [UserController::class, 'update']);
+        Route::delete('bulk-delete', [UserController::class, 'bulkDelete']);
         Route::delete('{id}', [UserController::class, 'delete']);
     });
