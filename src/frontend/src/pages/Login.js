@@ -14,6 +14,7 @@ import { useAuth } from '../hooks/useAuth';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 function Login() {
   const { login } = useAuth();
@@ -40,7 +41,11 @@ function Login() {
     const { username, password } = data;
     await login({ username, password, setError })
       .then(() => (window.location = '/'))
-      .catch((err) => console.log(err.response.data));
+      .catch((err) => {
+        const { message } = err.response.data;
+        console.log(message);
+        toast(message, { type: 'error' });
+      });
   };
 
   return (
