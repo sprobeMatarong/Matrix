@@ -4,6 +4,8 @@ import { useAuth } from '../../hooks/useAuth';
 import { Container, CssBaseline, Box, Toolbar } from '@mui/material';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 function Dashboard() {
   const [open, setOpen] = useState(true);
@@ -37,6 +39,16 @@ function Dashboard() {
           </Box>
         </Box>
       )}
+
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        draggable
+      />
     </>
   );
 }

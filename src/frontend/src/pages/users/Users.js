@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import DataTable from '../../components/DataTable';
 import { criteria, meta as defaultMeta } from '../../config/search';
 import AddEditModal from './AddEditModal';
+import { toast } from 'react-toastify';
 
 function Users() {
   const [data, setData] = useState([]);
@@ -76,11 +77,10 @@ function Users() {
   };
 
   const handleDelete = async (ids) => {
-    // @TODO change alert to modal
     if (confirm('Are you sure you want to delete the selected users?')) {
       await api.delete(`/users/bulk-delete`, { data: { ids } }).then(() => {
-        // @TODO toast message
-        window.location.reload();
+        fetchUsers();
+        toast('Users has been deleted!', { type: 'success' });
       });
     }
   };
@@ -92,8 +92,9 @@ function Users() {
 
   const handleSaveEvent = (response) => {
     if (!user) {
-      setData([response, ...data]);
+      fetchUsers();
       setOpen(false);
+      toast('User has been created!', { type: 'success' });
       return;
     }
 
@@ -102,6 +103,7 @@ function Users() {
     updatedList[index] = response;
     setData(updatedList);
     setOpen(false);
+    toast('User details has been updated!', { type: 'success' });
   };
 
   return (

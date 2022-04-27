@@ -103,7 +103,7 @@ function DataTable(props) {
             onClick={() => handleAdd()}
             size="medium"
             variant="contained"
-            sx={{ mr: 1 }}
+            sx={{ mr: 1, height: '40px' }}
             startIcon={<AddIcon />}
           >
             Add New
