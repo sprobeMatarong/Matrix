@@ -17,6 +17,7 @@ import EnhancedTableToolbar from './EnhancedTableToolbar';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
+import { useTranslation } from 'react-i18next';
 
 DataTable.propTypes = {
   header: PropTypes.array.isRequired,
@@ -57,6 +58,7 @@ function DataTable(props) {
     handleAdd,
   } = props;
   const [selected, setSelected] = useState([]);
+  const { t } = useTranslation();
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -106,7 +108,7 @@ function DataTable(props) {
             sx={{ mr: 1, height: '40px' }}
             startIcon={<AddIcon />}
           >
-            Add New
+            {t('labels.add_new')}
           </Button>
 
           <TextField
@@ -121,7 +123,7 @@ function DataTable(props) {
                 </InputAdornment>
               ),
             }}
-            placeholder="Enter keyword"
+            placeholder={t('labels.enter_keyword')}
           />
         </Box>
       </Box>

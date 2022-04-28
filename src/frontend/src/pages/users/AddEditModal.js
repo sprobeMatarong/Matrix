@@ -44,29 +44,19 @@ export default function AddEditModal({ user, open, handleClose, handleSaveEvent 
     clearErrors();
     setLoading(false);
 
-    setTitle('Add User');
-    setValue('first_name', null);
-    setValue('last_name', null);
-    setValue('email', null);
+    setTitle(t('pages.users.add_user'));
+    setValue('first_name', '');
+    setValue('last_name', '');
+    setValue('email', '');
 
     if (user) {
       // pre-fill the form
-      setTitle('Edit User');
+      setTitle(t('pages.users.edit_user'));
       setValue('first_name', user.first_name);
       setValue('last_name', user.last_name);
       setValue('email', user.email);
     }
   }, [user]);
-
-  // useEffect(() => {
-  //   if (edit) setTitle('Edit User');
-  //   else {
-  //     setTitle('Add User');
-  //     setValue('first_name', null);
-  //     setValue('last_name', null);
-  //     setValue('email', null);
-  //   }
-  // }, [edit]);
 
   const handleUpdate = (data) => {
     setLoading(true);
@@ -135,7 +125,7 @@ export default function AddEditModal({ user, open, handleClose, handleSaveEvent 
               startIcon={<SaveIcon />}
               type="submit"
             >
-              {user ? 'Update' : 'Save'}
+              {user ? t('labels.update') : t('labels.save')}
             </LoadingButton>
           </Box>
         </form>

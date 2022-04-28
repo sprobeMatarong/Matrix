@@ -22,9 +22,13 @@ const ja = {
       password: 'パスワード',
       confirm_password: 'パスワードを認証する',
       submit: '送信',
+      update: 'アップデート',
+      save: '保存する',
+      add_new: '新しく追加する',
       reset_password: 'パスワードを再設定する',
       new_password: '新しいパスワード',
       confirm_new_password: '新しいパスワードを確認',
+      enter_keyword: 'キーワードを入力してください',
     },
     pages: {
       signup: {
@@ -39,6 +43,19 @@ const ja = {
       reset_password: {
         sub_heading: '新しいパスワードを入力してください。',
         success: 'パスワードは正常に更新されました。',
+      },
+      users: {
+        user_created: 'ユーザーが作成されました。',
+        user_updated: 'ユーザーの詳細が更新されました。',
+        user_deleted: 'ユーザーが削除されました',
+        add_user: 'ユーザーを追加する',
+        edit_user: 'ユーザー編集',
+        delete_user: 'ユーザーを削除',
+        first_name: 'ファーストネーム',
+        last_name: '苗字',
+        email_address: '電子メールアドレス',
+        status: '状態',
+        delete_confirmation: '選択したユーザーを削除してもよろしいですか？',
       },
     },
   },

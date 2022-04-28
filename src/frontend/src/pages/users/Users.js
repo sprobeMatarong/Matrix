@@ -4,8 +4,10 @@ import DataTable from '../../components/DataTable';
 import { criteria, meta as defaultMeta } from '../../config/search';
 import AddEditModal from './AddEditModal';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 function Users() {
+  const { t } = useTranslation();
   const [data, setData] = useState([]);
   const [user, setUser] = useState(null);
   const [query, setQuery] = useState(criteria);
@@ -34,25 +36,25 @@ function Users() {
       id: 'first_name',
       numeric: false,
       disablePadding: false,
-      label: 'First Name',
+      label: t('pages.users.first_name'),
     },
     {
       id: 'last_name',
       numeric: false,
       disablePadding: false,
-      label: 'Last Name',
+      label: t('pages.users.last_name'),
     },
     {
       id: 'email',
       numeric: false,
       disablePadding: false,
-      label: 'Email Address',
+      label: t('pages.users.email_address'),
     },
     {
       id: 'status.name',
       numeric: false,
       disablePadding: false,
-      label: 'Status',
+      label: t('pages.users.status'),
     },
   ];
 
@@ -77,10 +79,10 @@ function Users() {
   };
 
   const handleDelete = async (ids) => {
-    if (confirm('Are you sure you want to delete the selected users?')) {
+    if (confirm(t('pages.users.delete_confirmation'))) {
       await api.delete(`/users/bulk-delete`, { data: { ids } }).then(() => {
         fetchUsers();
-        toast('Users has been deleted!', { type: 'success' });
+        toast(t('pages.users.user_deleted'), { type: 'success' });
       });
     }
   };
@@ -94,7 +96,7 @@ function Users() {
     if (!user) {
       fetchUsers();
       setOpen(false);
-      toast('User has been created!', { type: 'success' });
+      toast(t('pages.users.user_created'), { type: 'success' });
       return;
     }
 
@@ -103,7 +105,7 @@ function Users() {
     updatedList[index] = response;
     setData(updatedList);
     setOpen(false);
-    toast('User details has been updated!', { type: 'success' });
+    toast(t('pages.users.user_updated'), { type: 'success' });
   };
 
   return (

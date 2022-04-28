@@ -22,9 +22,13 @@ const en = {
       password: 'Password',
       confirm_password: 'Confirm Password',
       submit: 'Submit',
+      update: 'Update',
+      save: 'Save',
+      add_new: 'Add New',
       reset_password: 'Reset Password',
       new_password: 'New Password',
       confirm_new_password: 'Confirm New Password',
+      enter_keyword: 'Enter Keyword',
     },
     pages: {
       signup: {
@@ -38,6 +42,19 @@ const en = {
       },
       reset_password: {
         sub_heading: 'Please enter your new password.',
+      },
+      users: {
+        user_created: 'The user has been created.',
+        user_updated: 'User details have been updated.',
+        user_deleted: 'User has been deleted.',
+        add_user: 'Add User',
+        edit_user: 'Edit User',
+        delete_user: 'Delete user',
+        first_name: 'First Name',
+        last_name: 'Last Name',
+        email_address: 'Email Address',
+        status: 'Status',
+        delete_confirmation: 'Are you sure you want to delete the selected user(s)?',
       },
     },
   },
