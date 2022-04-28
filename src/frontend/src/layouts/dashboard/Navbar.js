@@ -12,6 +12,7 @@ import Avatar from '@mui/material/Avatar';
 import { deepOrange } from '@mui/material/colors';
 import Popover from '@mui/material/Popover';
 import LanguageSelect from '../../components/LanguageSelect';
+import { useTranslation } from 'react-i18next';
 
 const drawerWidth = 240;
 
@@ -43,6 +44,7 @@ function Navbar({ open, onToggle, onLogout }) {
   const location = useLocation();
   const [title, setTitle] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const link = links.find((link) => link.path === location.pathname);
@@ -113,11 +115,11 @@ function Navbar({ open, onToggle, onLogout }) {
           }}
         >
           <ListItemButton component={Link} to="/profile">
-            <ListItemText primary="Profile" onClick={handleClose} />
+            <ListItemText primary={t('menu.profile')} onClick={handleClose} />
           </ListItemButton>
 
           <ListItemButton onClick={onLogout}>
-            <ListItemText primary="Logout" />
+            <ListItemText primary={t('menu.logout')} />
           </ListItemButton>
         </Popover>
       </Toolbar>

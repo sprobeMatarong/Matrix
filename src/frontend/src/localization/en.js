@@ -57,6 +57,19 @@ const en = {
         delete_confirmation: 'Are you sure you want to delete the selected user(s)?',
       },
     },
+    menu: {
+      home: 'Home',
+      about: 'About',
+      contact: 'Contact',
+      faq: 'FAQ',
+      dashboard: 'Dashboard',
+      users: 'Users',
+      orders: 'Orders',
+      reports: 'Reports',
+      integrations: 'Integrations',
+      profile: 'Profile',
+      logout: 'Logout',
+    },
   },
 };
 

@@ -8,6 +8,7 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
 import { Link, useLocation } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
+import { useTranslation } from 'react-i18next';
 
 const links = [
   {
@@ -16,14 +17,14 @@ const links = [
     icon: <DashboardIcon />,
   },
   {
-    label: 'Orders',
-    path: '/orders',
-    icon: <ShoppingCartIcon />,
-  },
-  {
     label: 'Users',
     path: '/users',
     icon: <PeopleIcon />,
+  },
+  {
+    label: 'Orders',
+    path: '/orders',
+    icon: <ShoppingCartIcon />,
   },
   {
     label: 'Reports',
@@ -39,10 +40,18 @@ const links = [
 
 function SidebarMenu() {
   const location = useLocation();
+  const { t } = useTranslation();
+  const localizeLinks = [...links];
+
+  // add localization to menu items
+  localizeLinks.map((link) => {
+    link.label = t(`menu.${link.path.replace('/', '')}`);
+    return link;
+  });
 
   return (
     <>
-      {links.map((item, key) => {
+      {localizeLinks.map((item, key) => {
         return (
           <ListItemButton
             key={key}

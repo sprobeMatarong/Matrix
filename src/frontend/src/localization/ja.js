@@ -58,6 +58,19 @@ const ja = {
         delete_confirmation: '選択したユーザーを削除してもよろしいですか？',
       },
     },
+    menu: {
+      home: '家',
+      about: '約',
+      contact: 'コンタクト',
+      faq: 'FAQ',
+      dashboard: 'ダッシュボード',
+      users: 'ユーザー',
+      orders: '注文',
+      reports: 'レポート',
+      integrations: '統合',
+      profile: 'プロフィール',
+      logout: 'ログアウト',
+    },
   },
 };
 
