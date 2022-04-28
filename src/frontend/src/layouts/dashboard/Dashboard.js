@@ -17,7 +17,7 @@ function Dashboard() {
       {user && (
         <Box sx={{ display: 'flex' }}>
           <CssBaseline />
-          <Navbar open={open} onToggle={toggleDrawer} onLogout={logout} />
+          <Navbar open={open} onToggle={toggleDrawer} onLogout={logout} user={user} />
 
           <Sidebar open={open} onToggle={toggleDrawer} />
 

@@ -38,9 +38,10 @@ Navbar.propTypes = {
   open: PropTypes.bool,
   onToggle: PropTypes.func,
   onLogout: PropTypes.func,
+  user: PropTypes.object,
 };
 
-function Navbar({ open, onToggle, onLogout }) {
+function Navbar({ open, onToggle, onLogout, user }) {
   const location = useLocation();
   const [title, setTitle] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -57,6 +58,12 @@ function Navbar({ open, onToggle, onLogout }) {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const getInitials = (words) => {
+    let initials = '';
+    words.map((word) => (initials += word.substr(0, 1)));
+    return initials;
   };
 
   const openAccountDropdown = Boolean(anchorEl);
@@ -98,7 +105,7 @@ function Navbar({ open, onToggle, onLogout }) {
           aria-describedby={id}
           onClick={handleClick}
         >
-          XO
+          {getInitials([user.first_name, user.last_name])}
         </Avatar>
 
         <Popover

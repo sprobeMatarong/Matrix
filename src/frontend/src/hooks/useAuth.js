@@ -11,7 +11,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     () =>
       api
         .get('/profile')
-        .then((res) => res.data)
+        .then((res) => res.data.data)
         .catch(() => {
           if (error.response.status != 409) throw error;
           navigate('/verify-email');
