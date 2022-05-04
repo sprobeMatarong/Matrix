@@ -11,6 +11,11 @@ const routes = [
     auth: true,
   },
   {
+    path: '/dashboard',
+    component: 'pages/Dashboard',
+    auth: true,
+  },
+  {
     path: '/about',
     component: 'pages/About',
     auth: false,

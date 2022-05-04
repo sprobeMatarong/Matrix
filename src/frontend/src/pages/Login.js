@@ -40,7 +40,7 @@ function Login() {
   const handleLogin = async (data) => {
     const { username, password } = data;
     await login({ username, password, setError })
-      .then(() => (window.location = '/'))
+      .then(() => (window.location = '/dashboard'))
       .catch((err) => {
         const { message } = err.response.data;
         console.log(message);

@@ -1,0 +1,30 @@
+import { styled } from '@mui/material/styles';
+import { Paper, Typography } from '@mui/material';
+import PropTypes from 'prop-types';
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(4),
+  color: theme.palette.text.secondary,
+}));
+
+NumberWidget.propTypes = {
+  label: PropTypes.string,
+  value: PropTypes.number,
+};
+
+function NumberWidget({ label, value }) {
+  return (
+    <Item>
+      <Typography variant="subtitle1" sx={{ textTransform: 'uppercase' }}>
+        {label}
+      </Typography>
+      <Typography variant="h3" component="h3">
+        {value}
+      </Typography>
+    </Item>
+  );
+}
+
+export default NumberWidget;
