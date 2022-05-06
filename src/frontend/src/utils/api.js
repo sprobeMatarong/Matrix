@@ -13,11 +13,7 @@ const handleError = (error) => {
   const code = error.response && parseInt(error.response.status);
   const originalRequest = error.config;
   const { data } = originalRequest;
-  let params = data ? JSON.parse(data) : null;
-  // handle data with file upload attachments
-  if (data && data instanceof FormData) {
-    params = data;
-  }
+  let params = data && data instanceof FormData ? data : JSON.parse(data);
 
   // handle failed attempt on refreshing the token
   if (
