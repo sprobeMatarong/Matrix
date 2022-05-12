@@ -222,7 +222,7 @@ class UserServiceTest extends TestCase
 
     public function testSearchNoResults()
     {
-        $results = $this->service->search(['keyword' => 'randomString']);
+        $results = $this->service->search(['keyword' => 'randomString', 'sort' => 'id', 'order' => 'DESC']);
         $this->assertEquals(0, count($results['data']));
         $this->assertEquals(0, $results['meta']['total']);
         $this->assertEquals(1, $results['meta']['lastPage']);
@@ -232,7 +232,7 @@ class UserServiceTest extends TestCase
 
     public function testSearchByKeyword()
     {
-        $results = $this->service->search(['keyword' => self::$KEYWORD]);
+        $results = $this->service->search(['keyword' => self::$KEYWORD, 'sort' => 'id', 'order' => 'DESC']);
 
         foreach ($results['data'] as $user) {
             $hasKeyword = false;
@@ -272,6 +272,8 @@ class UserServiceTest extends TestCase
         $results = $this->service->search([
                         'limit' => $limit,
                         'keyword' => self::$KEYWORD,
+                        'sort' => 'id',
+                        'order' => 'DESC',
                     ]);
 
         // verify limit matches the data per page
@@ -288,6 +290,8 @@ class UserServiceTest extends TestCase
                         'page' => $page,
                         'limit' => $limit,
                         'keyword' => self::$KEYWORD,
+                        'sort' => 'id',
+                        'order' => 'DESC',
                     ]);
 
         // Verify page matches the result
