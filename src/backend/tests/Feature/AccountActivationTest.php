@@ -65,7 +65,11 @@ class AccountActivationTest extends TestCase
      */
     public function testActivate()
     {
-        $response = $this->json('POST', '/' . config('app.api_version') . '/activate', ['token' => self::$token->token]);
+        $response = $this->json('POST', '/' . config('app.api_version') . '/activate', [
+            'token' => self::$token->token,
+            'password' => 'Pass1234!',
+            'password_confirmation' => 'Pass1234!',
+        ]);
         $response->assertStatus(200);
         $result = $response->getData();
         $this->assertEquals('Active', $result->data->status);
@@ -76,7 +80,11 @@ class AccountActivationTest extends TestCase
      */
     public function testInvalidToken()
     {
-        $response = $this->json('POST', '/' . config('app.api_version') . '/activate', ['token' => self::$token->token]);
+        $response = $this->json('POST', '/' . config('app.api_version') . '/activate', [
+            'token' => self::$token->token,
+            'password' => 'Pass1234!',
+            'password_confirmation' => 'Pass1234!',
+        ]);
         $response->assertStatus(500);
         $result = $response->getData();
         $this->assertEquals((new ActivationTokenNotFoundException)->getMessage(), $result->error);

@@ -230,11 +230,12 @@ class UserController extends Controller
     public function activate(ActivateAccountRequest $request)
     {
         try {
-            $user = $this->userService
-                    ->activateByToken(
-                        $request->getToken(),
-                        $request->getPassword()
-                    );
+            $formData = [
+                'token' => $request->getToken(),
+                'password' => $request->getPassword(),
+            ];
+
+            $user = $this->userService->activate($formData);
             $this->response['data'] = new NewUserResource($user);
         } catch (Exception $e) {
             $this->response = [

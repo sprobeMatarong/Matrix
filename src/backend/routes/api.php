@@ -26,6 +26,7 @@ Route::put('/profile', [ProfileController::class, 'update']);
 
 // user logout
 Route::delete('oauth/token', [TokenController::class, 'delete'])->middleware('auth:api');
+Route::get('/token/verify', [TokenController::class, 'verify']);
 
 Route::post('register', [UserController::class, 'register']);
 

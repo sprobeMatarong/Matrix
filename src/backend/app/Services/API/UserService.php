@@ -192,16 +192,14 @@ class UserService
     /**
      * Service function that activates the user account.
      *
-     * @param string $token
-     * @param string|null $password  Provided if User is Created Manually in the dashboard instead of signup
+     * @param array $data
      * @return User $user
      */
-    public function activateByToken(string $token, string $password = null) : User
+    public function activate(array $data) : User
     {
         $activationToken = ActivationToken::with('user.status')
-                                            ->where('token', $token)
-                                            ->where('revoked', false)
-                                            ->first();
+                                        ->where('token', $data['token'])
+                                        ->first();
 
         if (!($activationToken instanceof ActivationToken)) {
             throw new ActivationTokenNotFoundException;
@@ -217,15 +215,10 @@ class UserService
 
         // set form data
         $formData = [
-            'password' => Hash::make($password),
+            'password' => Hash::make($data['password']),
             'user_status_id' => $status->id,
             'email_verified_at' => Carbon::now(),
         ];
-
-        // exclude password update if not provided
-        if (strlen($password) < 1) {
-            unset($formData['password']);
-        }
 
         // update user details
         $user->update($formData);

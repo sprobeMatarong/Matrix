@@ -102,7 +102,10 @@ class UserServiceTest extends TestCase
         $this->expectException('App\Exceptions\ActivationTokenNotFoundException');
         $this->expectExceptionMessage('Invalid/Expired Activation Token.');
 
-        $this->service->activateByToken('some random string', '#!#RSDA!@#da');
+        $this->service->activate([
+            'token' => 'some random string',
+            'password' => '#!#RSDA!@#da',
+        ]);
     }
 
     public function testActivateByToken()
@@ -113,7 +116,11 @@ class UserServiceTest extends TestCase
                                 ])
                                 ->first();
         // perform activation
-        $user = $this->service->activateByToken($query->token, $this->data['password']);
+        $user = $this->service->activate([
+            'token' => $query->token,
+            'password' => $this->data['password']
+        ]);
+
         // verify user is not active
         $this->assertEquals(config('user.statuses.active'), $user->status->name);
     }

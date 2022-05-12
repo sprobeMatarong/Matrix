@@ -16,7 +16,7 @@ class ActivateAccountRequest extends FormRequest
     {
         return [
             'token' => 'required',
-            'password' => ['sometimes', new Password, 'confirmed'],
+            'password' => [new Password, 'confirmed'],
         ];
     }
 
