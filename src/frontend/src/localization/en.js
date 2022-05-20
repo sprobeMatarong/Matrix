@@ -38,10 +38,11 @@ const en = {
       },
       forgot_password: {
         sub_heading: 'To recover your account, please enter your email address below.',
-        check_inbox: 'Check your inbox for instructions on how to reset your password.',
+        success: 'Check your inbox for instructions on how to reset your password.',
       },
       reset_password: {
         sub_heading: 'Please enter your new password.',
+        success: 'The password has been updated successfully.',
       },
       users: {
         user_created: 'The user has been created.',
@@ -55,6 +56,11 @@ const en = {
         email_address: 'Email Address',
         status: 'Status',
         delete_confirmation: 'Are you sure you want to delete the selected user(s)?',
+      },
+      activate: {
+        heading: 'Activate Account',
+        subtitle: 'Set your password to activate your account.',
+        activated: 'Your Account has been activated. You can now login to your account!',
       },
     },
     menu: {

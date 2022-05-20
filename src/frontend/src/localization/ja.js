@@ -57,6 +57,11 @@ const ja = {
         status: '状態',
         delete_confirmation: '選択したユーザーを削除してもよろしいですか？',
       },
+      activate: {
+        heading: 'アカウントをアクティブ化',
+        subtitle: 'アカウントをアクティブ化するためのパスワードを設定します。',
+        activated: 'アカウントが有効になりました。 これで、アカウントにログインできます。',
+      },
     },
     menu: {
       home: '家',

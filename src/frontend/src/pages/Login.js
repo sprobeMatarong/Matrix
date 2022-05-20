@@ -43,7 +43,6 @@ function Login() {
       .then(() => (window.location = '/dashboard'))
       .catch((err) => {
         const { message } = err.response.data;
-        console.log(message);
         toast(message, { type: 'error' });
       });
   };

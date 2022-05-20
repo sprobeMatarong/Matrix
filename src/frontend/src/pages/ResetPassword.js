@@ -1,19 +1,26 @@
-import { useEffect, useState } from 'react';
-import { Alert, Container, Stack, Typography, TextField, Button, Box, Grid } from '@mui/material';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import api from '../utils/api';
+import { toast } from 'react-toastify';
+import { useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import { useQuery } from '../hooks/useQuery';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Alert, Container, Stack, Typography, TextField, Button, Box, Grid } from '@mui/material';
 
 function ResetPassword() {
-  const [alert, setAlert] = useState(null);
+  const query = useQuery();
+  const navigate = useNavigate();
   const { t } = useTranslation();
+  const [alert, setAlert] = useState(null);
+  const [token, setToken] = useState(null);
+  const [valid, setValid] = useState(false);
 
   useEffect(() => {
-    const url = new URL(window.location.href);
-    setValue('token', url.searchParams.get('token'));
-  }, []);
+    setToken(() => query.get('token'));
+    if (token) verifyToken();
+  }, [token]);
 
   // form validation
   const schema = yup.object({
@@ -33,21 +40,20 @@ function ResetPassword() {
   const {
     register,
     handleSubmit,
-    reset,
     setError,
-    setValue,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
   const handleReset = async (data) => {
+    const { password, password_confirmation } = data;
     return await api
-      .post('password/reset', data)
+      .post('password/reset', { password, password_confirmation, token })
       .then(() => {
-        setAlert({
-          success: true,
-          message: t('pages.reset_password.success'),
+        toast(t('pages.reset_password.success'), {
+          type: 'success',
         });
-        reset();
+
+        setTimeout(() => navigate('/login'), 1000);
       })
       .catch((err) => {
         const { error } = err.response.data;
@@ -59,58 +65,74 @@ function ResetPassword() {
       });
   };
 
+  const verifyToken = async () => {
+    const query = new URLSearchParams({ type: 'password_reset', token }).toString();
+
+    await api
+      .get(`/token/verify?${query}`)
+      .then(({ data }) => {
+        const { verified } = data.data;
+        setValid(verified);
+      })
+      .catch(() => navigate('/page-not-found'));
+  };
+
   return (
     <Container maxWidth="xs" sx={{ pt: 8 }}>
-      <Stack sx={{ mb: 5 }}>
-        <Typography variant="h4" gutterBottom>
-          {t('labels.reset_password')}
-        </Typography>
-        <Typography sx={{ color: 'text.secondary' }}>
-          {t('pages.reset_password.sub_heading')}
-        </Typography>
-      </Stack>
+      {valid && (
+        <>
+          <Stack sx={{ mb: 5 }}>
+            <Typography variant="h4" gutterBottom>
+              {t('labels.reset_password')}
+            </Typography>
+            <Typography sx={{ color: 'text.secondary' }}>
+              {t('pages.reset_password.sub_heading')}
+            </Typography>
+          </Stack>
 
-      <Box component="form" noValidate onSubmit={handleSubmit(handleReset)} sx={{ mt: 3 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={12}>
-            <TextField
-              {...register('password')}
-              error={errors && errors.password ? true : false}
-              helperText={errors ? errors?.password?.message : null}
-              fullWidth
-              label={t('labels.new_password')}
-              name="password"
-              type="password"
-              variant="outlined"
-            />
-          </Grid>
+          <Box component="form" noValidate onSubmit={handleSubmit(handleReset)} sx={{ mt: 3 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={12}>
+                <TextField
+                  {...register('password')}
+                  error={errors && errors.password ? true : false}
+                  helperText={errors ? errors?.password?.message : null}
+                  fullWidth
+                  label={t('labels.new_password')}
+                  name="password"
+                  type="password"
+                  variant="outlined"
+                />
+              </Grid>
 
-          <Grid item xs={12} sm={12}>
-            <TextField
-              {...register('password_confirmation')}
-              error={errors && errors.password_confirmation ? true : false}
-              helperText={errors ? errors?.password_confirmation?.message : null}
-              fullWidth
-              label={t('labels.confirm_new_password')}
-              name="password_confirmation"
-              type="password"
-              variant="outlined"
-            />
-          </Grid>
+              <Grid item xs={12} sm={12}>
+                <TextField
+                  {...register('password_confirmation')}
+                  error={errors && errors.password_confirmation ? true : false}
+                  helperText={errors ? errors?.password_confirmation?.message : null}
+                  fullWidth
+                  label={t('labels.confirm_new_password')}
+                  name="password_confirmation"
+                  type="password"
+                  variant="outlined"
+                />
+              </Grid>
 
-          <Grid item xs={12}>
-            <Button fullWidth size="large" type="submit" variant="contained">
-              {t('labels.submit')}
-            </Button>
-          </Grid>
-        </Grid>
+              <Grid item xs={12}>
+                <Button fullWidth size="large" type="submit" variant="contained">
+                  {t('labels.submit')}
+                </Button>
+              </Grid>
+            </Grid>
 
-        {alert && (
-          <Alert severity={alert.success ? 'success' : 'error'} sx={{ my: 4 }}>
-            {alert.message}
-          </Alert>
-        )}
-      </Box>
+            {alert && (
+              <Alert severity={alert.success ? 'success' : 'error'} sx={{ my: 4 }}>
+                {alert.message}
+              </Alert>
+            )}
+          </Box>
+        </>
+      )}
     </Container>
   );
 }
