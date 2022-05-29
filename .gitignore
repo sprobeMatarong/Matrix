@@ -1,5 +1,5 @@
 src/backend/composer.lock
-src/backend/.php_cs.cache
+src/backend/.php-cs-fixer.cache
 src/backend/public/css
 src/backend/public/js
 src/backend/public/report/*

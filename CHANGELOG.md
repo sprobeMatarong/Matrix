@@ -15,3 +15,7 @@
 ### Removed
 - Composer Docker Container
 - Removed subdomain nginx config for Backend API.
+
+### Updates
+- Updated PHPCS (Php Coding Standard) Fixer container to support PHP 8.1
+- Updated Rules to adhere PSR12 and PHPCSFixer standards.

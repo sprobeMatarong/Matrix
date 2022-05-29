@@ -1,5 +1,5 @@
 FROM php:cli-alpine
-ADD ./docker/fixer/php-cs-fixer-v2.phar /usr/local/bin/php-cs-fixer
+ADD ./docker/fixer/php-cs-fixer.phar /usr/local/bin/php-cs-fixer
 RUN ["chmod", "+x", "/usr/local/bin/php-cs-fixer"]
 WORKDIR /var/www/backend
 ENTRYPOINT ["php-cs-fixer"]

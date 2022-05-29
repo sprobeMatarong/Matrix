@@ -141,26 +141,26 @@ composer remove owner/package
 
 ---
 
-## PSR2 Coding Style
+## PHP Coding Standards Fixer
 
 Running the Coding Standards Fixer Container
 
-To check without applying any fixes, run the following command:
+To check the PHP Files if it follows the PHP Coding Standards without applying any fixes, run the following command:
 
 ```
-docker-compose run --rm fixer fix --dry-run -v
+./fixer . --dry-run
 ```
 
-To fix all your PHP code to adhere the PSR2 Coding style, run:
+To fix all your PHP code to adhere the PHP Coding Standards, run:
 
 ```
-docker-compose run --rm fixer fix
+./fixer .
 ```
 
 To Apply fix only to a specific file
 
 ```
-docker-compose run --rm fixer fix <<file_name>>
+./fixer <<file_name>>
 ```
 
 ## Unit Testing
