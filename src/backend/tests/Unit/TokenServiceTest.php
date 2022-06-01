@@ -3,8 +3,8 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use App\Models\ActivationToken;
 use App\Models\PasswordReset;
+use App\Models\ActivationToken;
 use App\Services\API\TokenService;
 
 class TokenServiceTest extends TestCase
@@ -51,7 +51,7 @@ class TokenServiceTest extends TestCase
         parent::__construct();
         $this->createApplication();
 
-        $this->tokenService = new TokenService(new ActivationToken, new PasswordReset);
+        $this->tokenService = new TokenService(new ActivationToken(), new PasswordReset());
     }
 
     public function testVerifyMissingTypeField()
@@ -88,7 +88,7 @@ class TokenServiceTest extends TestCase
     public function testVerifyActivationToken()
     {
         $token = $this->tokenService->verify(['type' => 'activation', 'token' => self::$TOKEN]);
-    
+
         $this->assertTrue($token instanceof ActivationToken);
         $this->assertEquals($token->token, self::$TOKEN);
     }
@@ -96,7 +96,7 @@ class TokenServiceTest extends TestCase
     public function testVerifyPasswordResetToken()
     {
         $token = $this->tokenService->verify(['type' => 'password_reset', 'token' => self::$TOKEN]);
-    
+
         $this->assertTrue($token instanceof PasswordReset);
         $this->assertEquals($token->token, self::$TOKEN);
     }

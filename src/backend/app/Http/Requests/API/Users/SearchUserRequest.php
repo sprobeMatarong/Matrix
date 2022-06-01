@@ -11,7 +11,7 @@ class SearchUserRequest extends FormRequest
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'keyword' => 'nullable',
@@ -20,17 +20,17 @@ class SearchUserRequest extends FormRequest
         ];
     }
 
-    public function getKeyword() : ?string
+    public function getKeyword(): ?string
     {
         return $this->input('keyword', '');
     }
 
-    public function getPage() : int
+    public function getPage(): int
     {
         return (int) $this->input('page', 1); // page default to 1.
     }
 
-    public function getLimit() : int
+    public function getLimit(): int
     {
         return (int) $this->input('limit', config('search.results_per_page')); // set via config
     }

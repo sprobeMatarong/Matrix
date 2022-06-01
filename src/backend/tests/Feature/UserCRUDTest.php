@@ -39,16 +39,16 @@ class UserCRUDTest extends TestCase
         // Login as Admin once only
         if (!self::$ACCESS_TOKEN) {
             $response = $this->json(
-                            'POST',
-                            '/' . config('app.api_version') . '/oauth/token',
-                            [
-                                'client_id' => (integer) config('app.client_id'),
-                                'client_secret' => config('app.client_secret'),
-                                'grant_type' => 'password',
-                                'username' => self::$ADMIN['email'],
-                                'password' => self::$ADMIN['password'],
-                            ]
-                        );
+                'POST',
+                '/' . config('app.api_version') . '/oauth/token',
+                [
+                    'client_id' => (int) config('app.client_id'),
+                    'client_secret' => config('app.client_secret'),
+                    'grant_type' => 'password',
+                    'username' => self::$ADMIN['email'],
+                    'password' => self::$ADMIN['password'],
+                ]
+            );
             $result = json_decode((string) $response->getContent());
 
             // store access token to be used in testing
@@ -125,7 +125,7 @@ class UserCRUDTest extends TestCase
 
         foreach ($this->data as $key => $value) {
             // password is not returned in response
-            if ($key === 'password') {
+            if ('password' === $key) {
                 continue;
             }
             // validate if user data matches the params of the request
@@ -141,7 +141,7 @@ class UserCRUDTest extends TestCase
                     ->json('GET', '/' . config('app.api_version') . '/users/999999999999');
         $response->assertStatus(500);
         $result = json_decode((string) $response->getContent());
-        $this->assertEquals((new UserNotFoundException)->getMessage(), $result->error);
+        $this->assertEquals((new UserNotFoundException())->getMessage(), $result->error);
     }
 
     public function testRead()
@@ -156,7 +156,7 @@ class UserCRUDTest extends TestCase
 
         foreach ($this->data as $key => $value) {
             // password is not returned in response
-            if ($key === 'password') {
+            if ('password' === $key) {
                 continue;
             }
             // validate if user data matches the created user
@@ -275,11 +275,11 @@ class UserCRUDTest extends TestCase
 
         foreach ($params as $key => $value) {
             // password is not returned in response
-            if ($key === 'password') {
+            if ('password' === $key) {
                 continue;
             }
 
-            if ($key === 'avatar') {
+            if ('avatar' === $key) {
                 // remove root url
                 $file = str_replace(config('app.storage_disk_url'), '', $result->data->avatar);
                 $this->assertNotNull($result->data->avatar);
@@ -317,11 +317,11 @@ class UserCRUDTest extends TestCase
 
         foreach ($params as $key => $value) {
             // password is not returned in response
-            if ($key === 'password') {
+            if ('password' === $key) {
                 continue;
             }
 
-            if ($key === 'avatar') {
+            if ('avatar' === $key) {
                 // verify avatar is retained if user didnt uploaded new image
                 $this->assertEquals($result->data->avatar, self::$USER->avatar);
 
@@ -353,7 +353,7 @@ class UserCRUDTest extends TestCase
 
         foreach ($params as $key => $value) {
             // password is not returned in response
-            if ($key === 'password' || $key === 'avatar') {
+            if ('password' === $key || 'avatar' === $key) {
                 continue;
             }
 
@@ -375,7 +375,7 @@ class UserCRUDTest extends TestCase
                             ->json('DELETE', '/' . config('app.api_version') . '/users/999999999');
         $response->assertStatus(500);
         $result = json_decode((string) $response->getContent());
-        $this->assertEquals((new UserNotFoundException)->getMessage(), $result->error);
+        $this->assertEquals((new UserNotFoundException())->getMessage(), $result->error);
     }
 
     public function testDelete()

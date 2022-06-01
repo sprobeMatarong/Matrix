@@ -9,7 +9,8 @@ use Illuminate\Queue\SerializesModels;
 
 class UserSignUp extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * @var App\Models\User

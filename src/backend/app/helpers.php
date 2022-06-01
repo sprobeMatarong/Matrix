@@ -52,7 +52,7 @@ if (!function_exists('get_initials')) {
      * @param string $content
      * @return string $initials
      */
-    function get_initials(string $content) : string
+    function get_initials(string $content): string
     {
         $initials = '';
 

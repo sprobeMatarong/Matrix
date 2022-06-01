@@ -12,20 +12,20 @@ class ActivateAccountRequest extends FormRequest
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'token' => 'required',
-            'password' => [new Password, 'confirmed'],
+            'password' => [new Password(), 'confirmed'],
         ];
     }
 
-    public function getToken() : string
+    public function getToken(): string
     {
         return $this->input('token');
     }
 
-    public function getPassword() : ?string
+    public function getPassword(): ?string
     {
         return $this->input('password', null);
     }

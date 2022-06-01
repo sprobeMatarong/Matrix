@@ -12,14 +12,14 @@ class ForgotPasswordRequest extends FormRequest
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
-            'email' => ['required', new EmailAddress],
+            'email' => ['required', new EmailAddress()],
         ];
     }
 
-    public function getEmail() : string
+    public function getEmail(): string
     {
         return $this->input('email');
     }

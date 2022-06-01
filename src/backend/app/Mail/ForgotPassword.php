@@ -9,7 +9,8 @@ use Illuminate\Queue\SerializesModels;
 
 class ForgotPassword extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     /** @var App\Models\PasswordReset */
     protected $passwordReset;

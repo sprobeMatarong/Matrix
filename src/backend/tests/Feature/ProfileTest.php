@@ -29,7 +29,7 @@ class ProfileTest extends TestCase
         $this->createApplication();
     }
 
-    public static function setUpBeforeClass() : void
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
@@ -37,7 +37,7 @@ class ProfileTest extends TestCase
         self::$USER = User::findOrFail(1);
     }
 
-    public static function tearDownAfterClass() : void
+    public static function tearDownAfterClass(): void
     {
         // restore original data
         self::$USER->update([

@@ -9,8 +9,8 @@ use RuntimeException;
 use App\Models\UserStatus;
 use App\Mail\ForgotPassword;
 use App\Mail\PasswordChange;
-use InvalidArgumentException;
 use App\Models\PasswordReset;
+use InvalidArgumentException;
 use App\Exceptions\InvalidPasswordResetTokenException;
 
 class PasswordService
@@ -85,7 +85,7 @@ class PasswordService
                     ->first();
 
         if (!($token instanceof PasswordReset)) {
-            throw new InvalidPasswordResetTokenException;
+            throw new InvalidPasswordResetTokenException();
         }
 
         // get active user status

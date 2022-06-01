@@ -3,8 +3,8 @@
 namespace Tests\Feature;
 
 use Hash;
-use App\Models\User;
 use Tests\TestCase;
+use App\Models\User;
 
 class LoginUserTest extends TestCase
 {
@@ -48,7 +48,7 @@ class LoginUserTest extends TestCase
 
         // test variables
         $this->data = [
-            'client_id' => (integer) config('app.client_id'),
+            'client_id' => (int) config('app.client_id'),
             'client_secret' => config('app.client_secret'),
             'grant_type' => 'password',
             'username' => self::$user['email'],

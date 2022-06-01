@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\UserStatus;
+use Illuminate\Database\Seeder;
 
 class UserStatusesTableSeeder extends Seeder
 {

@@ -40,16 +40,16 @@ class UserSearchTest extends TestCase
         // Login as Admin once only
         if (!self::$ACCESS_TOKEN) {
             $response = $this->json(
-                            'POST',
-                            '/' . config('app.api_version') . '/oauth/token',
-                            [
-                                'client_id' => (integer) config('app.client_id'),
-                                'client_secret' => config('app.client_secret'),
-                                'grant_type' => 'password',
-                                'username' => self::$ADMIN['email'],
-                                'password' => self::$ADMIN['password'],
-                            ]
-                        );
+                'POST',
+                '/' . config('app.api_version') . '/oauth/token',
+                [
+                    'client_id' => (int) config('app.client_id'),
+                    'client_secret' => config('app.client_secret'),
+                    'grant_type' => 'password',
+                    'username' => self::$ADMIN['email'],
+                    'password' => self::$ADMIN['password'],
+                ]
+            );
             $result = json_decode((string) $response->getContent());
             // store access token to be used in testing
             self::$ACCESS_TOKEN = $result->access_token;

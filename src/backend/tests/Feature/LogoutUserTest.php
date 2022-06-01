@@ -3,8 +3,8 @@
 namespace Tests\Feature;
 
 use Hash;
-use App\Models\User;
 use Tests\TestCase;
+use App\Models\User;
 
 class LogoutUserTest extends TestCase
 {
@@ -73,7 +73,7 @@ class LogoutUserTest extends TestCase
             'POST',
             '/' . config('app.api_version') . '/oauth/token',
             [
-                'client_id' => (Integer) config('app.client_id'),
+                'client_id' => (int) config('app.client_id'),
                 'client_secret' => config('app.client_secret'),
                 'grant_type' => 'password',
                 'username' => self::$user['email'],

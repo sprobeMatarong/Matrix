@@ -12,26 +12,26 @@ class CreateUserRequest extends FormRequest
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => ['required', new EmailAddress, 'unique:users,email'],
+            'email' => ['required', new EmailAddress(), 'unique:users,email'],
         ];
     }
 
-    public function getFirstName() : string
+    public function getFirstName(): string
     {
         return $this->input('first_name');
     }
 
-    public function getLastName() : string
+    public function getLastName(): string
     {
         return $this->input('last_name');
     }
 
-    public function getEmail() : string
+    public function getEmail(): string
     {
         return $this->input('email');
     }

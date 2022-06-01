@@ -88,7 +88,7 @@ class RegisterUserTest extends TestCase
         $user = $result->data;
 
         foreach ($this->data as $key => $value) {
-            if ($key === 'password') {
+            if ('password' === $key) {
                 continue;
             }
 

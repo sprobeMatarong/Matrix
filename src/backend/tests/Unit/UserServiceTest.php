@@ -54,7 +54,7 @@ class UserServiceTest extends TestCase
             'password' => '!p4ssW0rd',
         ];
 
-        $this->service = new UserService(new User);
+        $this->service = new UserService(new User());
     }
 
     public function testCreateInvalidParamType()
@@ -87,7 +87,7 @@ class UserServiceTest extends TestCase
 
         foreach ($this->data as $key => $value) {
             // verify password is hashed properly
-            if ($key === 'password') {
+            if ('password' === $key) {
                 $this->assertTrue(Hash::check($this->data['password'], self::$USER->password));
 
                 continue;
@@ -197,7 +197,7 @@ class UserServiceTest extends TestCase
 
         // verify if details are updated
         foreach (self::$UPDATED_DATA as $key => $value) {
-            if ($key === 'password') {
+            if ('password' === $key) {
                 $this->assertTrue(Hash::check($value, $user->password));
             } else {
                 $this->assertEquals($user->$key, self::$UPDATED_DATA[$key]);

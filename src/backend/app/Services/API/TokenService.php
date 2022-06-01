@@ -3,9 +3,9 @@
 namespace App\Services\API;
 
 use Hash;
+use App\Models\PasswordReset;
 use InvalidArgumentException;
 use App\Models\ActivationToken;
-use App\Models\PasswordReset;
 
 class TokenService
 {
@@ -29,7 +29,7 @@ class TokenService
 
     /**
      * Verifies if the token is valid
-     * 
+     *
      * @param array $data
      * @return mixed
      */

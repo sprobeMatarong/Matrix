@@ -3,22 +3,22 @@
 namespace App\Services\API;
 
 use DB;
-use Mail;
 use Hash;
+use Mail;
 use Exception;
-use App\Models\User;
-use App\Models\ActivationToken;
-use App\Models\UserStatus;
-use App\Mail\UserSignUp;
-use App\Mail\InviteUser;
 use Carbon\Carbon;
+use App\Models\User;
+use App\Mail\InviteUser;
+use App\Mail\UserSignUp;
+use App\Models\UserStatus;
+use App\Traits\Uploadable;
+use App\Models\ActivationToken;
+use Illuminate\Http\UploadedFile;
+use App\Http\Resources\UserResource;
 use App\Exceptions\UserNotFoundException;
 use App\Exceptions\UserNotCreatedException;
 use App\Exceptions\UserStatusNotFoundException;
 use App\Exceptions\ActivationTokenNotFoundException;
-use App\Traits\Uploadable;
-use App\Http\Resources\UserResource;
-use Illuminate\Http\UploadedFile;
 
 class UserService
 {
@@ -98,7 +98,7 @@ class UserService
             $status = UserStatus::where('name', config('user.statuses.pending'))->first();
 
             if (!($status instanceof UserStatus)) {
-                throw new UserStatusNotFoundException;
+                throw new UserStatusNotFoundException();
             }
 
             // get create type. set default to invite if not provided
@@ -109,7 +109,7 @@ class UserService
             $user = $this->user->create($params);
 
             if (!($user instanceof User)) {
-                throw new UserNotCreatedException;
+                throw new UserNotCreatedException();
             }
 
             $token = Hash::make(time() . uniqid());
@@ -117,7 +117,7 @@ class UserService
             $user->activationTokens()->save(new ActivationToken(['token' => $token]));
 
             // send email
-            $template = ($type === 'signup') ? UserSignUp::class : InviteUser::class;
+            $template = ('signup' === $type) ? UserSignUp::class : InviteUser::class;
             Mail::to($user)->send(new $template($user, $token));
 
             DB::commit();
@@ -167,7 +167,7 @@ class UserService
      * @param int $id
      * @return bool
      */
-    public function delete(int $id) : bool
+    public function delete(int $id): bool
     {
         // retrieve user
         $user = $this->findById($id);
@@ -184,7 +184,7 @@ class UserService
      * @param int $id
      * @return bool
      */
-    public function bulkDelete(array $ids) : bool
+    public function bulkDelete(array $ids): bool
     {
         return $this->user->whereIn('id', $ids)->delete();
     }
@@ -195,20 +195,20 @@ class UserService
      * @param array $data
      * @return User $user
      */
-    public function activate(array $data) : User
+    public function activate(array $data): User
     {
         $activationToken = ActivationToken::with('user.status')
                                         ->where('token', $data['token'])
                                         ->first();
 
         if (!($activationToken instanceof ActivationToken)) {
-            throw new ActivationTokenNotFoundException;
+            throw new ActivationTokenNotFoundException();
         }
 
         $status = UserStatus::where('name', config('user.statuses.active'))->first();
 
         if (!($status instanceof UserStatus)) {
-            throw new UserStatusNotFoundException;
+            throw new UserStatusNotFoundException();
         }
 
         $user = $activationToken->user;
@@ -246,7 +246,7 @@ class UserService
                     ->first();
 
         if (!($user instanceof User)) {
-            throw new UserNotFoundException;
+            throw new UserNotFoundException();
         }
 
         return $user;
@@ -264,7 +264,7 @@ class UserService
         $user = $this->user->find($id);
 
         if (!($user instanceof User)) {
-            throw new UserNotFoundException;
+            throw new UserNotFoundException();
         }
 
         return $user;

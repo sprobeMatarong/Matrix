@@ -3,17 +3,17 @@
 namespace App\Http\Controllers\API;
 
 use Exception;
+use Illuminate\Http\Request;
 use App\Services\API\UserService;
-use App\Http\Requests\API\Users\CreateUserRequest;
-use App\Http\Requests\API\Users\RegisterUserRequest;
-use App\Http\Requests\API\Users\UpdateUserRequest;
-use App\Http\Requests\API\Users\SearchUserRequest;
-use App\Http\Requests\API\Users\ActivateAccountRequest;
-use App\Http\Requests\API\Users\BulkDeleteRequest;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\NewUserResource;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Requests\API\Users\BulkDeleteRequest;
+use App\Http\Requests\API\Users\CreateUserRequest;
+use App\Http\Requests\API\Users\SearchUserRequest;
+use App\Http\Requests\API\Users\UpdateUserRequest;
+use App\Http\Requests\API\Users\RegisterUserRequest;
+use App\Http\Requests\API\Users\ActivateAccountRequest;
 
 class UserController extends Controller
 {

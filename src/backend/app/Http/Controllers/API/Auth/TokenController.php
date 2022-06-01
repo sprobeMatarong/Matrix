@@ -4,8 +4,8 @@ namespace App\Http\Controllers\API\Auth;
 
 use Exception;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Services\API\TokenService;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\API\Token\VerifyTokenRequest;
 
 class TokenController extends Controller
@@ -15,7 +15,7 @@ class TokenController extends Controller
 
     /**
      * TokenController constructor
-     * 
+     *
      * @param App\Services\API\TokenService $tokenService
      */
     public function __construct(TokenService $tokenService)
@@ -46,7 +46,7 @@ class TokenController extends Controller
 
     /**
      * Verify if token is valid
-     * 
+     *
      * @param App\Http\Requests\API\Token\VerifyTokenRequest $request
      * @return \Illuminate\Http\Response
      */

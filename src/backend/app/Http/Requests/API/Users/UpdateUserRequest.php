@@ -13,43 +13,43 @@ class UpdateUserRequest extends FormRequest
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => ['required', new EmailAddress, 'unique:users,email,' . $this->getId() . ',id'],
-            'password' => ['nullable', new Password],
+            'email' => ['required', new EmailAddress(), 'unique:users,email,' . $this->getId() . ',id'],
+            'password' => ['nullable', new Password()],
             'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], // limit to 2MB
         ];
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return (int) $this->route('id');
     }
 
-    public function getFirstName() : string
+    public function getFirstName(): string
     {
         return $this->input('first_name');
     }
 
-    public function getLastName() : string
+    public function getLastName(): string
     {
         return $this->input('last_name');
     }
 
-    public function getEmail() : string
+    public function getEmail(): string
     {
         return $this->input('email');
     }
 
-    public function getPassword() : ?string
+    public function getPassword(): ?string
     {
         return $this->input('password');
     }
 
-    public function getAvatar() : mixed
+    public function getAvatar(): mixed
     {
         return $this->file('avatar', null);
     }

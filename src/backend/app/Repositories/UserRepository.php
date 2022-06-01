@@ -12,10 +12,10 @@ use App\Exceptions\UserPendingException;
 use App\Exceptions\AuthModelNotSetException;
 use App\Exceptions\UserStatusNotFoundException;
 use App\Exceptions\InvalidUserPasswordException;
-use App\Exceptions\InvalidUserCredentialsException;
 use Laravel\Passport\Bridge\User as PassportUser;
-use League\OAuth2\Server\Exception\OAuthServerException;
+use App\Exceptions\InvalidUserCredentialsException;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
+use League\OAuth2\Server\Exception\OAuthServerException;
 use League\OAuth2\Server\Repositories\UserRepositoryInterface;
 
 class UserRepository implements UserRepositoryInterface
@@ -36,8 +36,8 @@ class UserRepository implements UserRepositoryInterface
         $this->request = $request;
 
         $this->statusError = [
-            config('user.statuses.pending') => new UserPendingException,
-            config('user.statuses.locked') => new UserLockedException,
+            config('user.statuses.pending') => new UserPendingException(),
+            config('user.statuses.locked') => new UserLockedException(),
         ];
     }
 
@@ -62,17 +62,17 @@ class UserRepository implements UserRepositoryInterface
 
             // verify if model is provided
             if (!($model)) {
-                throw new AuthModelNotSetException;
+                throw new AuthModelNotSetException();
             }
 
             // checks if user exist
-            $user = (new $model)->with('status')
+            $user = (new $model())->with('status')
                         ->where('email', $username)
                         ->first();
 
             // if user not found
             if (!($user)) {
-                throw new InvalidUserCredentialsException;
+                throw new InvalidUserCredentialsException();
             }
 
             if (array_key_exists($user->status->name, $this->statusError)) {
@@ -83,7 +83,7 @@ class UserRepository implements UserRepositoryInterface
             if (Hash::check($password, $user->password) === false) {
                 $this->updateLoginAttempts($user);
 
-                throw new InvalidUserPasswordException;
+                throw new InvalidUserPasswordException();
             }
 
             // reset number of attempts if password is correct
@@ -109,13 +109,13 @@ class UserRepository implements UserRepositoryInterface
             $user_status = UserStatus::where('name', config('user.statuses.locked'))->first();
 
             if (!($user_status instanceof UserStatus)) {
-                throw new UserStatusNotFoundException;
+                throw new UserStatusNotFoundException();
             }
 
             // update user status
             $user->update(['user_status_id' => $user_status->id]);
 
-            throw new UserLockedException;
+            throw new UserLockedException();
         }
 
         $user->login_attempts += 1;

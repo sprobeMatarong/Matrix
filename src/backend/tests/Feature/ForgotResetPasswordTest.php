@@ -41,7 +41,7 @@ class ForgotResetPasswordTest extends TestCase
     {
         parent::setUpBeforeClass();
 
-        $userService = new UserService(new User);
+        $userService = new UserService(new User());
         $status = UserStatus::where('name', 'Active')->first();
         self::$DATA['user_status_id'] = $status->id;
         // create user
@@ -76,7 +76,7 @@ class ForgotResetPasswordTest extends TestCase
         $response = $this->json('POST', '/' . config('app.api_version') . '/password/forgot', ['email' => 'test@mail.com']);
         $result = $response->getData();
         $this->assertEquals(500, $response->getStatusCode());
-        $this->assertEquals((new UserNotFoundException)->getMessage(), $result->error);
+        $this->assertEquals((new UserNotFoundException())->getMessage(), $result->error);
     }
 
     public function testForgotPassword()
@@ -99,30 +99,30 @@ class ForgotResetPasswordTest extends TestCase
     public function testResetPasswordInvalidExpiredToken()
     {
         $response = $this->json(
-                        'POST',
-                        '/' . config('app.api_version') . '/password/reset',
-                        [
+            'POST',
+            '/' . config('app.api_version') . '/password/reset',
+            [
                             'token' => 'RandomString',
                             'password' => 'Password2022!',
                             'password_confirmation' => 'Password2022!',
                         ]
-                    );
+        );
         $result = $response->getData();
         $this->assertEquals(500, $response->getStatusCode());
-        $this->assertEquals((new InvalidPasswordResetTokenException)->getMessage(), $result->error);
+        $this->assertEquals((new InvalidPasswordResetTokenException())->getMessage(), $result->error);
     }
 
     public function testResetPasswordInvalidPasswordFormat()
     {
         $response = $this->json(
-                    'POST',
-                    '/' . config('app.api_version') . '/password/reset',
-                    [
+            'POST',
+            '/' . config('app.api_version') . '/password/reset',
+            [
                         'token' => self::$TOKEN,
                         'password' => 'notvalidpassword!',
                         'password_confirmation' => 'notvalidpassword!',
                     ]
-                );
+        );
         $result = $response->getData();
         $this->assertEquals(422, $response->getStatusCode());
         $result = json_decode((string) $response->getContent());
@@ -135,14 +135,14 @@ class ForgotResetPasswordTest extends TestCase
     public function testResetPassword()
     {
         $response = $this->json(
-                        'POST',
-                        '/' . config('app.api_version') . '/password/reset',
-                        [
+            'POST',
+            '/' . config('app.api_version') . '/password/reset',
+            [
                             'token' => self::$TOKEN,
                             'password' => self::$PASSWORD,
                             'password_confirmation' => self::$PASSWORD,
                         ]
-                    );
+        );
         $result = $response->getData();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($result->reset);

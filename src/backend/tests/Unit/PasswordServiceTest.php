@@ -35,7 +35,7 @@ class PasswordServiceTest extends TestCase
     {
         parent::setUpBeforeClass();
         // create the user temporarily
-        self::$USER = (new UserService(new User))->create(self::$DATA);
+        self::$USER = (new UserService(new User()))->create(self::$DATA);
     }
 
     /**
@@ -48,9 +48,9 @@ class PasswordServiceTest extends TestCase
         $this->createApplication();
 
         $this->passwordService = new PasswordService(
-                                    new PasswordReset,
-                                    new UserService(new User)
-                                );
+            new PasswordReset(),
+            new UserService(new User())
+        );
     }
 
     public function testforgotWithInvalidEmail()

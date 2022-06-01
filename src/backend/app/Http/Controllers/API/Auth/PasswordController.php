@@ -4,10 +4,10 @@ namespace App\Http\Controllers\API\Auth;
 
 use Exception;
 use Illuminate\Http\Request;
-use App\Http\Requests\API\Password\ForgotPasswordRequest;
-use App\Http\Requests\API\Password\ResetPasswordRequest;
-use App\Services\API\PasswordService;
 use App\Http\Controllers\Controller;
+use App\Services\API\PasswordService;
+use App\Http\Requests\API\Password\ResetPasswordRequest;
+use App\Http\Requests\API\Password\ForgotPasswordRequest;
 
 class PasswordController extends Controller
 {

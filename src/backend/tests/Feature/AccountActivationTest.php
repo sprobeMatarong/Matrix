@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Models\ActivationToken;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\UserStatus;
+use App\Models\ActivationToken;
 use App\Services\API\UserService;
 use App\Exceptions\ActivationTokenNotFoundException;
 
@@ -41,7 +41,7 @@ class AccountActivationTest extends TestCase
     {
         parent::setUpBeforeClass();
 
-        self::$service = new UserService(new User);
+        self::$service = new UserService(new User());
         $status = UserStatus::where('name', 'Pending')->first();
         self::$data['user_status_id'] = $status->id;
 
@@ -87,6 +87,6 @@ class AccountActivationTest extends TestCase
         ]);
         $response->assertStatus(500);
         $result = $response->getData();
-        $this->assertEquals((new ActivationTokenNotFoundException)->getMessage(), $result->error);
+        $this->assertEquals((new ActivationTokenNotFoundException())->getMessage(), $result->error);
     }
 }

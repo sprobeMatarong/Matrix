@@ -9,7 +9,8 @@ use Illuminate\Queue\SerializesModels;
 
 class PasswordChange extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     /** @var string*/
     public $view;
