@@ -30,6 +30,9 @@ const ja = {
       confirm_new_password: '新しいパスワードを確認',
       enter_keyword: 'キーワードを入力してください',
       get_started: 'はじめましょう',
+      integrations: '統合',
+      settings: '設定',
+      documentation: 'ドキュメンテーション',
     },
     pages: {
       signup: {

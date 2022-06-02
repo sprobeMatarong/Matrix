@@ -60,6 +60,11 @@ const routes = [
     component: 'pages/users/Users',
     auth: true,
   },
+  {
+    path: '/integrations',
+    component: 'pages/Integrations',
+    auth: true,
+  },
 ];
 
 export default routes;

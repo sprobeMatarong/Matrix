@@ -30,6 +30,9 @@ const en = {
       confirm_new_password: 'Confirm New Password',
       enter_keyword: 'Enter Keyword',
       get_started: 'Get Started',
+      integrations: 'Integrations',
+      settings: 'Settings',
+      documentation: 'Documentation',
     },
     pages: {
       signup: {
