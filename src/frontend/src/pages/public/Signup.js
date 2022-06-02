@@ -2,7 +2,7 @@ import { Alert, Container, Stack, Typography, Box, TextField, Button, Grid } fro
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import api from '../utils/api';
+import api from '../../utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';

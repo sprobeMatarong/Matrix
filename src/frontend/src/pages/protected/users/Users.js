@@ -1,7 +1,7 @@
-import api from '../../utils/api';
+import api from '../../../utils/api';
 import { useEffect, useState } from 'react';
-import DataTable from '../../components/DataTable';
-import { criteria, meta as defaultMeta } from '../../config/search';
+import DataTable from '../../../components/DataTable';
+import { criteria, meta as defaultMeta } from '../../../config/search';
 import AddEditModal from './AddEditModal';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import Modal from '../../components/Modal';
+import Modal from '../../../components/Modal';
 import { Grid, TextField } from '@mui/material';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
-import api from '../../utils/api';
+import api from '../../../utils/api';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';
 

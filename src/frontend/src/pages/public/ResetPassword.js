@@ -1,9 +1,9 @@
 import * as yup from 'yup';
-import api from '../utils/api';
+import api from '../../utils/api';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
-import { useQuery } from '../hooks/useQuery';
+import { useQuery } from '../../hooks/useQuery';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { yupResolver } from '@hookform/resolvers/yup';

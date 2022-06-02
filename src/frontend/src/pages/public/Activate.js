@@ -1,9 +1,9 @@
 import * as yup from 'yup';
-import api from '../utils/api';
+import api from '../../utils/api';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { useState, useEffect } from 'react';
-import { useQuery } from '../hooks/useQuery';
+import { useQuery } from '../../hooks/useQuery';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import SendIcon from '@mui/icons-material/Send';

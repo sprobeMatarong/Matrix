@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import api from '../utils/api';
+import api from '../../utils/api';
 import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -8,7 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Container, Typography, Grid, TextField, Box } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';
-import AvatarField from '../components/AvatarField';
+import AvatarField from '../../components/AvatarField';
 
 function Profile() {
   const { t } = useTranslation();

@@ -2,67 +2,67 @@ const routes = [
   // Dont Remove. Handle 404 Pages
   {
     path: '*',
-    component: 'pages/NotFound',
+    component: 'pages/public/NotFound',
     auth: false,
   },
   {
     path: '/',
-    component: 'pages/Home',
+    component: 'pages/public/Home',
     auth: false,
   },
   {
     path: '/dashboard',
-    component: 'pages/Dashboard',
+    component: 'pages/protected/Dashboard',
     auth: true,
   },
   {
     path: '/about',
-    component: 'pages/About',
+    component: 'pages/public/About',
     auth: false,
   },
   {
     path: '/signup',
-    component: 'pages/Signup',
+    component: 'pages/public/Signup',
     auth: false,
   },
   {
     path: '/login',
-    component: 'pages/Login',
+    component: 'pages/public/Login',
     auth: false,
   },
   {
     path: '/forgot-password',
-    component: 'pages/ForgotPassword',
+    component: 'pages/public/ForgotPassword',
     auth: false,
   },
   {
     path: '/password/reset',
-    component: 'pages/ResetPassword',
+    component: 'pages/public/ResetPassword',
     auth: false,
   },
   {
     path: '/activate',
-    component: 'pages/Activate',
+    component: 'pages/public/Activate',
     auth: false,
   },
   {
     path: '/profile',
-    component: 'pages/Profile',
+    component: 'pages/protected/Profile',
     auth: true,
   },
   {
     path: '/terms',
-    component: 'pages/Terms',
+    component: 'pages/public/Terms',
     auth: false,
   },
   {
     path: '/users',
-    component: 'pages/users/Users',
+    component: 'pages/protected/users/Users',
     auth: true,
   },
   {
     path: '/integrations',
-    component: 'pages/Integrations',
+    component: 'pages/protected/Integrations',
     auth: true,
   },
 ];

@@ -1,7 +1,7 @@
 import { Alert, Container, Stack, Typography, TextField, Button, Box, Grid } from '@mui/material';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import api from '../utils/api';
+import api from '../../utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
