@@ -29,6 +29,7 @@ const ja = {
       new_password: '新しいパスワード',
       confirm_new_password: '新しいパスワードを確認',
       enter_keyword: 'キーワードを入力してください',
+      get_started: 'はじめましょう',
     },
     pages: {
       signup: {
@@ -61,6 +62,13 @@ const ja = {
         heading: 'アカウントをアクティブ化',
         subtitle: 'アカウントをアクティブ化するためのパスワードを設定します。',
         activated: 'アカウントが有効になりました。 これで、アカウントにログインできます。',
+      },
+      dashboard: {
+        main_heading: 'React Base Templateへようこそ！',
+        sub_heading: 'Reactプロジェクトの開発に関する軽量の定型文。',
+        new_users: '新しいユーザー',
+        total_sales: '総売上高',
+        total_orders: '総注文数',
       },
     },
     menu: {

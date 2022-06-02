@@ -50,7 +50,7 @@ function Navbar({ open, onToggle, onLogout, user }) {
   useEffect(() => {
     const link = links.find((link) => link.path === location.pathname);
     if (link) setTitle(link.label);
-  }, []);
+  }, [location]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

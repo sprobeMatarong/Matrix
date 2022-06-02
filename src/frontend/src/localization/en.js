@@ -29,6 +29,7 @@ const en = {
       new_password: 'New Password',
       confirm_new_password: 'Confirm New Password',
       enter_keyword: 'Enter Keyword',
+      get_started: 'Get Started',
     },
     pages: {
       signup: {
@@ -61,6 +62,13 @@ const en = {
         heading: 'Activate Account',
         subtitle: 'Set your password to activate your account.',
         activated: 'Your Account has been activated. You can now login to your account!',
+      },
+      dashboard: {
+        main_heading: 'Welcome to React Base Template!',
+        sub_heading: 'A lightweight boilerplate about the development of a React project.',
+        new_users: 'New Users',
+        total_sales: 'Total Sales',
+        total_orders: 'Total Orders',
       },
     },
     menu: {

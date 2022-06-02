@@ -8,7 +8,7 @@ const routes = [
   {
     path: '/',
     component: 'pages/Home',
-    auth: true,
+    auth: false,
   },
   {
     path: '/dashboard',
