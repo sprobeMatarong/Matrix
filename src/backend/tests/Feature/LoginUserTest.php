@@ -3,8 +3,10 @@
 namespace Tests\Feature;
 
 use Hash;
+use Config;
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\UserStatus;
 
 class LoginUserTest extends TestCase
 {
@@ -18,7 +20,11 @@ class LoginUserTest extends TestCase
         'email' => 'test@test.com',
         'password' => '',
         'user_status_id' => 1,
+        'login_attempts' => 0,
     ];
+
+    /** @var \App\Models\User */
+    private static $MODEL;
 
     /** @var string */
     private static $password = 'password';
@@ -32,7 +38,7 @@ class LoginUserTest extends TestCase
         parent::setUp();
 
         self::$user['password'] = Hash::make(self::$password);
-        User::updateOrCreate(
+        self::$MODEL = User::updateOrCreate(
             ['email' => self::$user['email']],
             self::$user
         );
@@ -63,11 +69,7 @@ class LoginUserTest extends TestCase
     public function tearDown(): void
     {
         // delete user
-        $user = User::where('email', self::$user['email'])->first();
-
-        if ($user) {
-            $user->delete();
-        }
+        self::$MODEL->delete();
 
         parent::tearDown();
     }
@@ -142,6 +144,22 @@ class LoginUserTest extends TestCase
         $this->assertEquals('invalid_request', $result->error);
     }
 
+    public function testUserRepositoryWrongAuthModel()
+    {
+        $provider = config('auth.guards.api.provider');
+        $model = config("auth.providers.{$provider}.model");
+
+        // change auth model
+        Config::set("auth.providers.{$provider}.model", null);
+        $response = $this->json('POST', '/' . config('app.api_version') . '/oauth/token', $this->data);
+        $response->assertStatus(401);
+        $result = json_decode((string) $response->getContent());
+        $this->assertEquals('missing_auth_model', $result->error);
+
+        // restore original auth model
+        Config::set("auth.providers.{$provider}.model", $model);
+    }
+
     /**
      * Successful Login
      * @return void
@@ -169,6 +187,26 @@ class LoginUserTest extends TestCase
         $response->assertStatus(401);
         $result = json_decode((string) $response->getContent());
         $this->assertEquals($result->error, 'user_locked');
+    }
+
+    public function testUserRepositoryUpdateLoginAttemptsMissingStatus()
+    {
+        $status = UserStatus::where('name', config('user.statuses.locked'))->firstOrFail();
+        $status->update(['name' => 'LockedRenamed']);
+
+        // lock user before testing
+        User::updateOrCreate(
+            ['email' => self::$user['email']],
+            ['login_attempts' => 10]
+        );
+
+        $this->data['password'] = 'wrong';
+        $response = $this->json('POST', '/' . config('app.api_version') . '/oauth/token', $this->data);
+        $response->assertStatus(500);
+        $result = json_decode((string) $response->getContent());
+
+        // restore original status name
+        $status->update(['name' => 'Locked']);
     }
 
     public function testLockedAccountWithCorrectPassword()

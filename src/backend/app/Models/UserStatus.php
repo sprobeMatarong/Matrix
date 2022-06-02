@@ -13,6 +13,9 @@ class UserStatus extends Model
      */
     protected $fillable = ['name'];
 
+    /** @var bool */
+    public $timestamps = false;
+
     /**
      * Retrieve all Users under this status
      *

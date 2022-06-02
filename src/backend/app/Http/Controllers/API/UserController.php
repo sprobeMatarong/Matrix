@@ -170,7 +170,7 @@ class UserController extends Controller
     }
 
     /**
-     * Delete user.
+     * Bulk Delete users.
      *
      * @param App\Http\Requests\API\Users\BulkDeleteRequest $request
      * @return \Illuminate\Http\Response
@@ -181,12 +181,12 @@ class UserController extends Controller
             $ids = $request->getIds();
             // perform bulk user delete
             $this->response['deleted'] = $this->userService->bulkDelete($ids);
-        } catch (Exception $e) {
+        } catch (Exception $e) { // @codeCoverageIgnoreStart
             $this->response = [
                 'error' => $e->getMessage(),
                 'code' => 500,
             ];
-        }
+        } // @codeCoverageIgnoreEnd
 
         return response()->json($this->response, $this->response['code']);
     }

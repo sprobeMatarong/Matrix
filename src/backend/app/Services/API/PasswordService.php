@@ -89,11 +89,7 @@ class PasswordService
         }
 
         // get active user status
-        $status = UserStatus::where('name', config('user.statuses.active'))->first();
-
-        if (!($status instanceof UserStatus)) {
-            throw new RuntimeException('Unable to retrieve user status');
-        }
+        $status = UserStatus::where('name', config('user.statuses.active'))->firstOrFail();
 
         // retrieve user to fetch new password
         $user = $this->userService->findByEmail($token->email);

@@ -95,11 +95,7 @@ class UserService
 
         try {
             $params['password'] = Hash::make($params['password']);
-            $status = UserStatus::where('name', config('user.statuses.pending'))->first();
-
-            if (!($status instanceof UserStatus)) {
-                throw new UserStatusNotFoundException();
-            }
+            $status = UserStatus::where('name', config('user.statuses.pending'))->firstOrFail();
 
             // get create type. set default to invite if not provided
             $type = array_key_exists('type', $params) ? $params['type'] : 'invite';
@@ -108,9 +104,9 @@ class UserService
             $params['user_status_id'] = $status->id;
             $user = $this->user->create($params);
 
-            if (!($user instanceof User)) {
+            if (!($user instanceof User)) { // @codeCoverageIgnoreStart
                 throw new UserNotCreatedException();
-            }
+            } // @codeCoverageIgnoreEnd
 
             $token = Hash::make(time() . uniqid());
 
@@ -205,11 +201,7 @@ class UserService
             throw new ActivationTokenNotFoundException();
         }
 
-        $status = UserStatus::where('name', config('user.statuses.active'))->first();
-
-        if (!($status instanceof UserStatus)) {
-            throw new UserStatusNotFoundException();
-        }
+        $status = UserStatus::where('name', config('user.statuses.active'))->firstOrFail();
 
         $user = $activationToken->user;
 
