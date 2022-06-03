@@ -9,10 +9,10 @@ import { useLocation, Link } from 'react-router-dom';
 import { links } from './components/SidebarMenu';
 import PropTypes from 'prop-types';
 import Avatar from '@mui/material/Avatar';
-import { deepOrange } from '@mui/material/colors';
 import Popover from '@mui/material/Popover';
 import LanguageSelect from '../../components/LanguageSelect';
 import { useTranslation } from 'react-i18next';
+import stringToColor from '../../utils/stringToColor';
 
 const drawerWidth = 240;
 
@@ -52,18 +52,39 @@ function Navbar({ open, onToggle, onLogout, user }) {
     if (link) setTitle(link.label);
   }, [location]);
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const handleClick = (event) => setAnchorEl(event.currentTarget);
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const handleClose = () => setAnchorEl(null);
 
-  const getInitials = (words) => {
-    let initials = '';
-    words.map((word) => (initials += word.substr(0, 1)));
-    return initials;
+  const getAvatarProps = (user) => {
+    // set initial props
+    const props = {
+      onClick: handleClick,
+      sx: {
+        marginLeft: '16px',
+        cursor: 'pointer',
+      },
+    };
+
+    return user.avatar
+      ? {
+          ...props,
+          ...{
+            alt: user.full_name,
+            src: user.avatar,
+          },
+        }
+      : {
+          ...props,
+          ...{
+            sx: {
+              bgcolor: stringToColor(user.full_name),
+              marginLeft: '16px',
+              cursor: 'pointer',
+            },
+            children: `${user.full_name.split(' ')[0][0]}${user.full_name.split(' ')[1][0]}`,
+          },
+        };
   };
 
   const openAccountDropdown = Boolean(anchorEl);
@@ -100,13 +121,7 @@ function Navbar({ open, onToggle, onLogout, user }) {
           </Badge>
         </IconButton>
 
-        <Avatar
-          sx={{ bgcolor: deepOrange[500], marginLeft: '16px', cursor: 'pointer' }}
-          aria-describedby={id}
-          onClick={handleClick}
-        >
-          {getInitials([user.first_name, user.last_name])}
-        </Avatar>
+        <Avatar {...getAvatarProps(user)} />
 
         <Popover
           id={id}

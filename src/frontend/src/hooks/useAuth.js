@@ -6,7 +6,11 @@ import { useNavigate } from 'react-router-dom';
 export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
   const navigate = useNavigate();
 
-  const { data: user, error } = useSWR(
+  const {
+    data: user,
+    error,
+    mutate,
+  } = useSWR(
     '/profile',
     () =>
       api
@@ -58,5 +62,6 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     user,
     login,
     logout,
+    mutate,
   };
 };

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { useEffect, useState, useRef } from 'react';
+import stringToColor from '../utils/stringToColor';
 
 AvatarField.propTypes = {
   url: PropTypes.string,
@@ -44,7 +45,7 @@ function AvatarField({ width, url, label, onFileSelect, editable }) {
 
   const getAvatarProps = () => {
     let props = {
-      bgcolor: 'white',
+      bgcolor: stringToColor(label),
       width,
       height: 140,
       display: 'flex',

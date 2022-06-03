@@ -5,14 +5,15 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Container, Typography, Grid, TextField, Box } from '@mui/material';
+import { Container, Typography, Grid, TextField, Box, Card } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';
 import AvatarField from '../../components/AvatarField';
+import { useAuth } from '../../hooks/useAuth';
 
 function Profile() {
   const { t } = useTranslation();
-  const [user, setUser] = useState(null);
+  const { user, mutate } = useAuth();
   const [loading, setLoading] = useState(false);
 
   // form validation
@@ -31,12 +32,6 @@ function Profile() {
     resolver: yupResolver(schema),
   });
 
-  const getUserProfile = async () => {
-    return await api.get('/profile').then(({ data }) => {
-      setUser(data.data);
-    });
-  };
-
   const handleUpdate = async (data) => {
     setLoading(true);
 
@@ -54,8 +49,9 @@ function Profile() {
           'Content-Type': 'multipart/form-data',
         },
       })
-      .then(() => {
+      .then(({ data }) => {
         setLoading(false);
+        mutate({ ...user, ...{ user: data.data } });
         toast(t('pages.users.user_updated'), { type: 'success' });
       })
       .catch((err) => {
@@ -72,8 +68,8 @@ function Profile() {
       setValue('first_name', user.first_name);
       setValue('last_name', user.last_name);
       setValue('email', user.email);
-    } else getUserProfile();
-  }, [user]);
+    }
+  }, []);
 
   return (
     <Container maxWidth="sm" sx={{ pt: 6 }}>
@@ -82,73 +78,75 @@ function Profile() {
       </Typography>
 
       {user && (
-        <form onSubmit={handleSubmit(handleUpdate)}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <AvatarField
-                width={140}
-                label={user.full_name}
-                url={user.avatar}
-                onFileSelect={(url) => setValue('avatar', url)}
-                editable={true}
-              />
-            </Grid>
+        <Card sx={{ p: 3 }}>
+          <form onSubmit={handleSubmit(handleUpdate)}>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <AvatarField
+                  width={140}
+                  label={user.full_name}
+                  url={user.avatar}
+                  onFileSelect={(url) => setValue('avatar', url)}
+                  editable={true}
+                />
+              </Grid>
 
-            <Grid item xs={6}>
-              <TextField
-                {...register('first_name')}
-                error={errors && errors.first_name ? true : false}
-                helperText={errors ? errors?.first_name?.message : null}
-                fullWidth
-                label={t('labels.first_name')}
-                name="first_name"
-                type="text"
-                variant="outlined"
-              />
-            </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  {...register('first_name')}
+                  error={errors && errors.first_name ? true : false}
+                  helperText={errors ? errors?.first_name?.message : null}
+                  fullWidth
+                  label={t('labels.first_name')}
+                  name="first_name"
+                  type="text"
+                  variant="outlined"
+                />
+              </Grid>
 
-            <Grid item xs={6}>
-              <TextField
-                {...register('last_name')}
-                error={errors && errors.last_name ? true : false}
-                helperText={errors ? errors?.last_name?.message : null}
-                fullWidth
-                label={t('labels.last_name')}
-                name="last_name"
-                type="text"
-                variant="outlined"
-              />
-            </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  {...register('last_name')}
+                  error={errors && errors.last_name ? true : false}
+                  helperText={errors ? errors?.last_name?.message : null}
+                  fullWidth
+                  label={t('labels.last_name')}
+                  name="last_name"
+                  type="text"
+                  variant="outlined"
+                />
+              </Grid>
 
-            <Grid item xs={12}>
-              <TextField
-                {...register('email')}
-                error={errors && errors.email ? true : false}
-                helperText={errors ? errors?.email?.message : null}
-                fullWidth
-                label={t('labels.email_address')}
-                name="email"
-                type="text"
-                variant="outlined"
-              />
-            </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  {...register('email')}
+                  error={errors && errors.email ? true : false}
+                  helperText={errors ? errors?.email?.message : null}
+                  fullWidth
+                  label={t('labels.email_address')}
+                  name="email"
+                  type="text"
+                  variant="outlined"
+                />
+              </Grid>
 
-            <Grid item xs={12}>
-              <Box sx={{ width: '100%', display: 'flex', justifyContent: 'end' }}>
-                <LoadingButton
-                  color="primary"
-                  loading={loading}
-                  loadingPosition="start"
-                  variant="contained"
-                  startIcon={<SaveIcon />}
-                  type="submit"
-                >
-                  {t('labels.update')}
-                </LoadingButton>
-              </Box>
+              <Grid item xs={12}>
+                <Box sx={{ width: '100%', display: 'flex', justifyContent: 'end' }}>
+                  <LoadingButton
+                    color="primary"
+                    loading={loading}
+                    loadingPosition="start"
+                    variant="contained"
+                    startIcon={<SaveIcon />}
+                    type="submit"
+                  >
+                    {t('labels.update')}
+                  </LoadingButton>
+                </Box>
+              </Grid>
             </Grid>
-          </Grid>
-        </form>
+          </form>
+        </Card>
       )}
     </Container>
   );
