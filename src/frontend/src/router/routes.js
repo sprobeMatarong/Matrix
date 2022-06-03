@@ -12,7 +12,7 @@ const routes = [
   },
   {
     path: '/dashboard',
-    component: 'pages/protected/Dashboard',
+    component: 'pages/protected/dashboard/Dashboard',
     auth: true,
   },
   {

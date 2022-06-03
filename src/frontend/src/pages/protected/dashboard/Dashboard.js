@@ -1,6 +1,6 @@
 import { Container, Grid, Box, Typography } from '@mui/material';
-import NumberWidget from '../../components/NumberWidget';
-import LineChart from '../../components/dashboard/LineChart';
+import NumberWidget from '../../../components/NumberWidget';
+import LineChart from './components/LineChart';
 import { useTranslation } from 'react-i18next';
 
 function Dashboard() {
