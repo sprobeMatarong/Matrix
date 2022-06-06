@@ -1,4 +1,14 @@
-import { Alert, Container, Stack, Typography, Box, TextField, Button, Grid } from '@mui/material';
+import {
+  Alert,
+  Container,
+  Stack,
+  Typography,
+  Box,
+  TextField,
+  Button,
+  Grid,
+  Card,
+} from '@mui/material';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
@@ -60,92 +70,94 @@ function Signup() {
 
   return (
     <Container maxWidth="xs" sx={{ pt: 8 }}>
-      <Stack sx={{ mb: 5 }}>
-        <Typography variant="h4" gutterBottom>
-          {t('pages.signup.create_free_account')}
-        </Typography>
-      </Stack>
+      <Card sx={{ p: 3 }}>
+        <Stack sx={{ mb: 3 }}>
+          <Typography variant="h4" gutterBottom align="center">
+            {t('pages.signup.create_free_account')}
+          </Typography>
+        </Stack>
 
-      <Box component="form" noValidate onSubmit={handleSubmit(handleSignUp)} sx={{ mt: 3 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              {...register('first_name')}
-              error={errors && errors.first_name ? true : false}
-              helperText={errors ? errors?.first_name?.message : null}
-              name="first_name"
-              fullWidth
-              id="first_name"
-              label={t('labels.first_name')}
-              type="text"
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              {...register('last_name')}
-              error={errors && errors.last_name ? true : false}
-              helperText={errors ? errors?.last_name?.message : null}
-              fullWidth
-              id="last_name"
-              label={t('labels.last_name')}
-              name="last_name"
-              type="text"
-            />
-          </Grid>
+        <Box component="form" noValidate onSubmit={handleSubmit(handleSignUp)} sx={{ mt: 3 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                {...register('first_name')}
+                error={errors && errors.first_name ? true : false}
+                helperText={errors ? errors?.first_name?.message : null}
+                name="first_name"
+                fullWidth
+                id="first_name"
+                label={t('labels.first_name')}
+                type="text"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                {...register('last_name')}
+                error={errors && errors.last_name ? true : false}
+                helperText={errors ? errors?.last_name?.message : null}
+                fullWidth
+                id="last_name"
+                label={t('labels.last_name')}
+                name="last_name"
+                type="text"
+              />
+            </Grid>
 
-          <Grid item xs={12}>
-            <TextField
-              {...register('email')}
-              error={errors && errors.email ? true : false}
-              helperText={errors ? errors?.email?.message : null}
-              fullWidth
-              label={t('labels.email_address')}
-              name="email"
-              type="text"
-              variant="outlined"
-            />
-          </Grid>
+            <Grid item xs={12}>
+              <TextField
+                {...register('email')}
+                error={errors && errors.email ? true : false}
+                helperText={errors ? errors?.email?.message : null}
+                fullWidth
+                label={t('labels.email_address')}
+                name="email"
+                type="text"
+                variant="outlined"
+              />
+            </Grid>
 
-          <Grid item xs={12}>
-            <TextField
-              {...register('password')}
-              error={errors && errors.password ? true : false}
-              helperText={errors ? errors?.password?.message : null}
-              fullWidth
-              label={t('labels.password')}
-              name="password"
-              type="password"
-              variant="outlined"
-            />
-          </Grid>
+            <Grid item xs={12}>
+              <TextField
+                {...register('password')}
+                error={errors && errors.password ? true : false}
+                helperText={errors ? errors?.password?.message : null}
+                fullWidth
+                label={t('labels.password')}
+                name="password"
+                type="password"
+                variant="outlined"
+              />
+            </Grid>
 
-          <Grid item xs={12} sm={12}>
-            <TextField
-              {...register('password_confirmation')}
-              error={errors && errors.password_confirmation ? true : false}
-              helperText={errors ? errors?.password_confirmation?.message : null}
-              fullWidth
-              label={t('labels.confirm_password')}
-              name="password_confirmation"
-              type="password"
-              variant="outlined"
-            />
-          </Grid>
+            <Grid item xs={12} sm={12}>
+              <TextField
+                {...register('password_confirmation')}
+                error={errors && errors.password_confirmation ? true : false}
+                helperText={errors ? errors?.password_confirmation?.message : null}
+                fullWidth
+                label={t('labels.confirm_password')}
+                name="password_confirmation"
+                type="password"
+                variant="outlined"
+              />
+            </Grid>
 
-          <Grid item xs={12}>
-            <Button fullWidth size="large" type="submit" variant="contained">
-              {t('labels.signup')}
-            </Button>
+            <Grid item xs={12}>
+              <Button fullWidth size="large" type="submit" variant="contained" disableElevation>
+                {t('labels.signup')}
+              </Button>
 
-            <Typography color="text.secondary" variant="body2" sx={{ mt: 2 }}>
-              {t('pages.signup.agree_to_terms')}{' '}
-              <Link to="/terms" target="_blank">
-                {t('pages.signup.terms_conditions')}
-              </Link>
-            </Typography>
+              <Typography color="text.secondary" variant="body2" sx={{ mt: 2 }}>
+                {t('pages.signup.agree_to_terms')}{' '}
+                <Link to="/terms" target="_blank">
+                  {t('pages.signup.terms_conditions')}
+                </Link>
+              </Typography>
+            </Grid>
           </Grid>
-        </Grid>
-      </Box>
+        </Box>
+      </Card>
 
       {alert && (
         <Alert severity={alert.success ? 'success' : 'error'} sx={{ my: 4 }}>

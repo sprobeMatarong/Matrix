@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { styled, Box } from '@mui/system';
 import ModalUnstyled from '@mui/base/ModalUnstyled';
+import Grow from '@mui/material/Grow';
 
 const StyledModal = styled(ModalUnstyled)`
   position: fixed;
@@ -63,26 +64,28 @@ export default function Modal({ title, open, children, handleClose }) {
       disableRestoreFocus
       BackdropComponent={Backdrop}
     >
-      <Box sx={style}>
-        <Box
-          sx={{
-            p: 2,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            pb: 1,
-            borderBottom: 1,
-            borderColor: 'text.primary',
-          }}
-        >
-          <Typography variant="h6">{title}</Typography>
-          <IconButton onClick={handleClose} sx={{ p: 0 }} disableRipple={true}>
-            <CloseIcon />
-          </IconButton>
-        </Box>
+      <Grow in={open} style={{ transformOrigin: '0 0 0 0' }} {...(open ? { timeout: 300 } : {})}>
+        <Box sx={style}>
+          <Box
+            sx={{
+              p: 2,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              pb: 1,
+              borderBottom: 1,
+              borderColor: 'rgba(224, 224, 224, 1)',
+            }}
+          >
+            <Typography variant="h6">{title}</Typography>
+            <IconButton onClick={handleClose} sx={{ p: 0 }} disableRipple={true}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
 
-        {children}
-      </Box>
+          {children}
+        </Box>
+      </Grow>
     </StyledModal>
   );
 }

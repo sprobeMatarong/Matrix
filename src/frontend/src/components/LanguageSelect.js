@@ -25,14 +25,14 @@ function LanguageSelect() {
   }, [locale]);
 
   return (
-    <FormControl size="small" sx={{ m: 1, minWidth: 20 }}>
+    <FormControl size="small" sx={{ m: 1, minWidth: 20, height: '36px' }}>
       <Select
         value={locale}
         onChange={(e) => setLocale(e.target.value)}
         displayEmpty
         inputProps={{ 'aria-label': 'Without label' }}
         defaultValue={locale}
-        sx={{ padding: '0' }}
+        sx={{ padding: '0', height: '36px' }}
       >
         {countries.map((country, key) => {
           return (

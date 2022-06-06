@@ -41,7 +41,6 @@ export default function AddEditModal({ user, open, handleClose, handleSaveEvent 
   });
 
   useEffect(() => {
-    clearErrors();
     setLoading(false);
 
     setTitle(t('pages.users.add_user'));
@@ -57,6 +56,10 @@ export default function AddEditModal({ user, open, handleClose, handleSaveEvent 
       setValue('email', user.email);
     }
   }, [user]);
+
+  useEffect(() => {
+    if (!open) clearErrors();
+  }, [open]);
 
   const handleUpdate = (data) => {
     setLoading(true);

@@ -107,6 +107,7 @@ function DataTable(props) {
             variant="contained"
             sx={{ mr: 1, height: '40px' }}
             startIcon={<AddIcon />}
+            disableElevation
           >
             {t('labels.add_new')}
           </Button>

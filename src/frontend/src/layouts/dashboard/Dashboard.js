@@ -36,7 +36,7 @@ function Dashboard() {
             <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
               <Outlet />
 
-              <Box sx={{ py: 4 }}>
+              <Box sx={{ py: 4, textAlign: 'center' }}>
                 <Typography variant="body2" component="span">
                   &copy; 2022 {process.env.REACT_APP_SITE_TITLE}.
                 </Typography>
