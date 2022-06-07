@@ -65,6 +65,16 @@ const routes = [
     component: 'pages/protected/Integrations',
     auth: true,
   },
+  {
+    path: '/faq',
+    component: 'pages/public/Faq',
+    auth: false,
+  },
+  {
+    path: '/inquiry',
+    component: 'pages/public/Inquiry',
+    auth: false,
+  },
 ];
 
 export default routes;

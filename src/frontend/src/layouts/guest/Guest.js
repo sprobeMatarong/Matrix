@@ -1,8 +1,9 @@
 import { Outlet } from 'react-router-dom';
-import { CssBaseline, Box, Typography } from '@mui/material';
+import { CssBaseline, Box } from '@mui/material';
 import Navbar from './Navbar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
+import Footer from '../../components/Footer';
 
 function Guest() {
   return (
@@ -22,11 +23,7 @@ function Guest() {
       >
         <Outlet />
 
-        <Box sx={{ py: 4, textAlign: 'center' }}>
-          <Typography variant="body2" component="span">
-            &copy; 2022 {process.env.REACT_APP_SITE_TITLE}.
-          </Typography>
-        </Box>
+        <Footer />
       </Box>
 
       <ToastContainer

@@ -1,4 +1,4 @@
-import { Alert, Container, Stack, Typography, TextField, Button, Box, Grid } from '@mui/material';
+import { Alert, Container, Typography, TextField, Button, Box, Grid, Card } from '@mui/material';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import api from '../../utils/api';
@@ -44,44 +44,46 @@ function ForgotPassword() {
   };
 
   return (
-    <Container maxWidth="xs" sx={{ pt: 8 }}>
-      <Stack sx={{ mb: 5 }}>
-        <Typography variant="h4" gutterBottom>
-          {t('labels.forgot_password')}
-        </Typography>
-        <Typography sx={{ color: 'text.secondary' }}>
-          {t('pages.forgot_password.sub_heading')}
-        </Typography>
-      </Stack>
+    <Container maxWidth="sm" sx={{ pt: 8 }}>
+      <Typography variant="h4" component="h4" sx={{ fontWeight: 'bold', mb: 2 }} align="center">
+        {t('labels.forgot_password')}
+      </Typography>
 
-      <Box component="form" noValidate onSubmit={handleSubmit(handleForgot)} sx={{ mt: 3 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={12}>
-            <TextField
-              {...register('email')}
-              error={errors && errors.email ? true : false}
-              helperText={errors ? errors?.email?.message : null}
-              fullWidth
-              label={t('labels.email_address')}
-              name="email"
-              type="text"
-              variant="outlined"
-            />
+      <Typography align="center" color="text.secondary" component="p" sx={{ mb: 4 }}>
+        {t('pages.forgot_password.sub_heading')}
+      </Typography>
+
+      <Card sx={{ p: 4 }}>
+        <Box component="form" noValidate onSubmit={handleSubmit(handleForgot)} sx={{ mt: 3 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              <TextField
+                {...register('email')}
+                error={errors && errors.email ? true : false}
+                helperText={errors ? errors?.email?.message : null}
+                fullWidth
+                label={t('labels.email_address')}
+                name="email"
+                type="text"
+                variant="outlined"
+                size="small"
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <Button fullWidth size="large" type="submit" variant="contained">
+                {t('labels.submit')}
+              </Button>
+            </Grid>
           </Grid>
 
-          <Grid item xs={12}>
-            <Button fullWidth size="large" type="submit" variant="contained">
-              {t('labels.submit')}
-            </Button>
-          </Grid>
-        </Grid>
-
-        {alert && (
-          <Alert severity={alert.success ? 'success' : 'error'} sx={{ my: 4 }}>
-            {alert.message}
-          </Alert>
-        )}
-      </Box>
+          {alert && (
+            <Alert severity={alert.success ? 'success' : 'error'} sx={{ my: 4 }}>
+              {alert.message}
+            </Alert>
+          )}
+        </Box>
+      </Card>
     </Container>
   );
 }

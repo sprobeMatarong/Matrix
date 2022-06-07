@@ -3,9 +3,10 @@ import Sidebar from './Sidebar';
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import { Container, CssBaseline, Box, Toolbar, Typography } from '@mui/material';
+import { Container, CssBaseline, Box, Toolbar } from '@mui/material';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
+import Footer from '../../components/Footer';
 
 function Dashboard() {
   const [open, setOpen] = useState(false);
@@ -36,11 +37,7 @@ function Dashboard() {
             <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
               <Outlet />
 
-              <Box sx={{ py: 4, textAlign: 'center' }}>
-                <Typography variant="body2" component="span">
-                  &copy; 2022 {process.env.REACT_APP_SITE_TITLE}.
-                </Typography>
-              </Box>
+              <Footer />
             </Container>
           </Box>
         </Box>

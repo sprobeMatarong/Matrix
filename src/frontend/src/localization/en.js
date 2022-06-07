@@ -33,6 +33,8 @@ const en = {
       integrations: 'Integrations',
       settings: 'Settings',
       documentation: 'Documentation',
+      fullname: 'Fullname',
+      inquiry_content: 'Inquiry Content',
     },
     pages: {
       signup: {
@@ -73,11 +75,32 @@ const en = {
         total_sales: 'Total Sales',
         total_orders: 'Total Orders',
       },
+      not_found: {
+        sub_heading:
+          'The page you are looking for may have been deleted or moved to another location.',
+        back_to_top: 'Back to Top Page',
+      },
+      faq: {
+        heading: 'FAQ',
+        sub_heading: 'We have summarized the questions that customers inquire in a Q&A format.',
+      },
+      inquiry: {
+        heading: 'Inquiry',
+        sub_heading: 'If you would like to contact us, please fill out the form below.',
+        success_message: 'Your inquiry has been sent.',
+        failed_message: 'An error occurred while sending.',
+      },
+      profile: {
+        heading: 'Edit Profile',
+        sub_heading: 'Update your account information.',
+        success_message: 'Details has been updated successfully.',
+        failed_message: 'The update failed.',
+      },
     },
     menu: {
       home: 'Home',
       about: 'About',
-      contact: 'Contact',
+      inquiry: 'Inquiry',
       faq: 'FAQ',
       dashboard: 'Dashboard',
       users: 'Users',

@@ -52,14 +52,14 @@ function Profile() {
       .then(({ data }) => {
         setLoading(false);
         mutate({ ...user, ...{ user: data.data } });
-        toast(t('pages.users.user_updated'), { type: 'success' });
+        toast(t('pages.profile.success_message'), { type: 'success' });
       })
       .catch((err) => {
         const { data } = err.response;
         setLoading(false);
         if (data.error['avatar']) {
           toast(data.error.avatar[0], { type: 'error' });
-        } else toast('Unable to update user details.', { type: 'error' });
+        } else toast(t('pages.profile.failed_message'), { type: 'error' });
       });
   };
 
@@ -73,8 +73,12 @@ function Profile() {
 
   return (
     <Container maxWidth="sm" sx={{ pt: 6 }}>
-      <Typography variant="h4" component="h4" sx={{ mb: 3 }}>
-        Edit Profile
+      <Typography variant="h4" component="h4" sx={{ fontWeight: 'bold', mb: 2 }} align="center">
+        {t('pages.profile.heading')}
+      </Typography>
+
+      <Typography align="center" color="text.secondary" component="p" sx={{ mb: 4 }}>
+        {t('pages.profile.sub_heading')}
       </Typography>
 
       {user && (

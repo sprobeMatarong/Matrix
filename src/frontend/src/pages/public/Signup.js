@@ -1,14 +1,4 @@
-import {
-  Alert,
-  Container,
-  Stack,
-  Typography,
-  Box,
-  TextField,
-  Button,
-  Grid,
-  Card,
-} from '@mui/material';
+import { Alert, Container, Typography, Box, TextField, Button, Grid, Card } from '@mui/material';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
@@ -69,13 +59,11 @@ function Signup() {
   };
 
   return (
-    <Container maxWidth="xs" sx={{ pt: 8 }}>
-      <Card sx={{ p: 3 }}>
-        <Stack sx={{ mb: 3 }}>
-          <Typography variant="h4" gutterBottom align="center">
-            {t('pages.signup.create_free_account')}
-          </Typography>
-        </Stack>
+    <Container maxWidth="sm" sx={{ pt: 8 }}>
+      <Card sx={{ p: 4 }}>
+        <Typography variant="h4" component="h4" sx={{ fontWeight: 'bold', mb: 5 }} align="center">
+          {t('pages.signup.create_free_account')}
+        </Typography>
 
         <Box component="form" noValidate onSubmit={handleSubmit(handleSignUp)} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
@@ -89,6 +77,7 @@ function Signup() {
                 id="first_name"
                 label={t('labels.first_name')}
                 type="text"
+                size="small"
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -101,6 +90,7 @@ function Signup() {
                 label={t('labels.last_name')}
                 name="last_name"
                 type="text"
+                size="small"
               />
             </Grid>
 
@@ -114,6 +104,7 @@ function Signup() {
                 name="email"
                 type="text"
                 variant="outlined"
+                size="small"
               />
             </Grid>
 
@@ -127,6 +118,7 @@ function Signup() {
                 name="password"
                 type="password"
                 variant="outlined"
+                size="small"
               />
             </Grid>
 
@@ -140,6 +132,7 @@ function Signup() {
                 name="password_confirmation"
                 type="password"
                 variant="outlined"
+                size="small"
               />
             </Grid>
 

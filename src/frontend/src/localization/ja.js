@@ -33,6 +33,8 @@ const ja = {
       integrations: '統合',
       settings: '設定',
       documentation: 'ドキュメンテーション',
+      fullname: 'フルネーム',
+      inquiry_content: 'お問合わせ内容',
     },
     pages: {
       signup: {
@@ -73,12 +75,32 @@ const ja = {
         total_sales: '総売上高',
         total_orders: '総注文数',
       },
+      not_found: {
+        sub_heading: 'お探しのページは削除されたか、別の場所へ移動した可能性があります。',
+        back_to_top: 'トップページへ戻る',
+      },
+      faq: {
+        heading: 'よくあるご質問',
+        sub_heading: 'お客様からお問い合わせいただく質問をQ&A形式でまとめました。',
+      },
+      inquiry: {
+        heading: 'お問い合わせ',
+        sub_heading: 'このままお問い合わせされる方は下記のフォームにご入力ください。',
+        success_message: 'お問い合わせを送信しました。',
+        failed_message: '送信中にエラーが発生しました。',
+      },
+      profile: {
+        heading: 'お問い合わせをお送りしました。',
+        sub_heading: '送信中にエラーが発生しました。',
+        success_message: '詳細が正常に更新されました。',
+        failed_message: '更新に失敗しました。',
+      },
     },
     menu: {
       home: '家',
       about: '約',
-      contact: 'コンタクト',
-      faq: 'FAQ',
+      inquiry: 'お問い合わせ',
+      faq: 'よくあるご質問',
       dashboard: 'ダッシュボード',
       users: 'ユーザー',
       orders: '注文',

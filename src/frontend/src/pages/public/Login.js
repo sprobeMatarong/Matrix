@@ -49,13 +49,11 @@ function Login() {
   };
 
   return (
-    <Container maxWidth="xs" sx={{ pt: 8 }}>
-      <Card sx={{ p: 3 }}>
-        <Stack sx={{ mb: 3 }}>
-          <Typography variant="h4" gutterBottom align="center">
-            {t('labels.login')}
-          </Typography>
-        </Stack>
+    <Container maxWidth="sm" sx={{ pt: 8 }}>
+      <Card sx={{ p: 4 }}>
+        <Typography variant="h4" component="h4" sx={{ fontWeight: 'bold', mb: 5 }} align="center">
+          {t('labels.login')}
+        </Typography>
 
         <form onSubmit={handleSubmit(handleLogin)}>
           <Stack spacing={3}>
@@ -68,6 +66,7 @@ function Login() {
               name="username"
               type="text"
               variant="outlined"
+              size="small"
             />
 
             <TextField
@@ -79,6 +78,7 @@ function Login() {
               name="password"
               type="password"
               variant="outlined"
+              size="small"
             />
           </Stack>
 

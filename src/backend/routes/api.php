@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\HomeController;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\InquiryController;
 use App\Http\Controllers\API\ProfileController;
 use App\Http\Controllers\API\Auth\TokenController;
 use App\Http\Controllers\API\Auth\PasswordController;
@@ -46,3 +47,5 @@ Route::prefix('users')
         Route::delete('bulk-delete', [UserController::class, 'bulkDelete']);
         Route::delete('{id}', [UserController::class, 'delete']);
     });
+
+Route::post('/inquiries', [InquiryController::class, 'create']);
