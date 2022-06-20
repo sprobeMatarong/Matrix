@@ -96,6 +96,42 @@ const en = {
         success_message: 'Details has been updated successfully.',
         failed_message: 'The update failed.',
       },
+      landing: {
+        main_heading: 'Welcome to React Base Template!',
+        sub_heading: 'A lightweight boilerplate about the development of a React project.',
+        why_heading: 'Why use Base Template?',
+        docker: {
+          heading: 'Flexible Environment',
+          description:
+            'Eliminate the "it works on my machine" problem once and for all. Spend less time setting up environments, debugging environment-specific issues, and a more portable and easy-to-set-up codebase.',
+        },
+        react: {
+          heading: 'Fast & Intuitive UI',
+          description:
+            'ReactJS is extremely intuitive to work with and provides interactivity to the layout of any UI. It is composable so we can utilize these components and integrate them into one place. Hence the code becomes a lot more maintainable and flexible.',
+        },
+        laravel: {
+          heading: 'Powerful API',
+          description:
+            "Utilizing Laravel's API feature for easy backend API development. It's quick, simple with easy 3rd Party integrations and libraries.",
+        },
+        our_customers_heading: 'Our Clients',
+        reviews_heading: 'What our clients say',
+        see_all_reviews: 'See All Reviews',
+      },
+      about: {
+        main_heading: 'Our Story',
+        sub_heading:
+          'We work together to design, create and produce works that we are proud of for those we believe in.',
+        meet_the_team: 'Meet the team',
+        team_description:
+          'Thoughtfulness, originality, and attention to detail are the basis for every product we design, build, and market.',
+        our_mission: 'Our Mission',
+        mission_description:
+          'Our mission is to spread the excellence of technology with quality service and products valuing the business trend and proposition with people centric culture and behavior.',
+        our_activities: 'Our Activities',
+        activities_description: 'Never get so busy making a living that you forget to make a life.',
+      },
     },
     menu: {
       home: 'Home',
@@ -109,6 +145,11 @@ const en = {
       integrations: 'Integrations',
       profile: 'Profile',
       logout: 'Logout',
+      terms: 'Terms of Service',
+      privacy_policy: 'Privacy Policy',
+      documentation: 'Documentation',
+      api_reference: 'API Reference',
+      support: 'Documentation',
     },
   },
 };

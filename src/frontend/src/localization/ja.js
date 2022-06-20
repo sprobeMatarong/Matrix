@@ -95,6 +95,42 @@ const ja = {
         success_message: '詳細が正常に更新されました。',
         failed_message: '更新に失敗しました。',
       },
+      landing: {
+        main_heading: 'React Base Templateへようこそ！',
+        sub_heading: 'Reactプロジェクトの開発に関する軽量の定型文。',
+        why_heading: 'なぜベーステンプレートを使用するのですか？',
+        docker: {
+          heading: '柔軟な環境',
+          description:
+            '「自分のマシンで動作する」という問題を完全に解消します。 環境のセットアップ、環境固有の問題のデバッグ、およびより移植性が高くセットアップが簡単なコードベースに費やす時間を短縮します。',
+        },
+        react: {
+          heading: '高速で直感的なUI',
+          description:
+            'ReactJSは非常に直感的に操作でき、UIのレイアウトに双方向性を提供します。 これらのコンポーネントを利用して1つの場所に統合できるように、構成可能です。 したがって、コードははるかに保守可能で柔軟になります。',
+        },
+        laravel: {
+          heading: '強力なAPI',
+          description:
+            'LaravelのAPI機能を利用してバックエンドAPIを簡単に開発できます。 サードパーティの統合とライブラリが簡単で、すばやく簡単です。',
+        },
+        our_customers_heading: 'お客様',
+        reviews_heading: '私たちのクライアントが言うこと',
+        see_all_reviews: 'すべてのレビューを見る',
+      },
+      about: {
+        main_heading: '私たちの物語',
+        sub_heading:
+          '私たちは、私たちが信じる人々のために誇りに思う作品をデザイン、作成、制作するために協力しています。',
+        meet_the_team: 'チームに会う',
+        team_description:
+          '思いやり、独創性、細部へのこだわりは、私たちが設計、製造、販売するすべての製品の基盤です。',
+        our_mission: '私たちの使命',
+        mission_description:
+          '私たちの使命は、ビジネスのトレンドと人々中心の文化と行動を重視する提案を重視する高品質のサービスと製品で、卓越したテクノロジーを広めることです。',
+        our_activities: '私たちの活動',
+        activities_description: '生計を立てるのに忙しくて、生計を立てることを忘れないでください。',
+      },
     },
     menu: {
       home: '家',
@@ -108,6 +144,11 @@ const ja = {
       integrations: '統合',
       profile: 'プロフィール',
       logout: 'ログアウト',
+      terms: '利用規約',
+      privacy_policy: 'プライバシーポリシー',
+      documentation: 'ドキュメンテーション',
+      api_reference: 'APIリファレンス',
+      support: 'サポート',
     },
   },
 };

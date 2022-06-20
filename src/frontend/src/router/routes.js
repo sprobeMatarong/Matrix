@@ -7,7 +7,7 @@ const routes = [
   },
   {
     path: '/',
-    component: 'pages/public/Home',
+    component: 'pages/public/landing/Landing',
     auth: false,
   },
   {
@@ -17,7 +17,7 @@ const routes = [
   },
   {
     path: '/about',
-    component: 'pages/public/About',
+    component: 'pages/public/about/About',
     auth: false,
   },
   {
@@ -73,6 +73,11 @@ const routes = [
   {
     path: '/inquiry',
     component: 'pages/public/Inquiry',
+    auth: false,
+  },
+  {
+    path: '/privacy-policy',
+    component: 'pages/public/PrivacyPolicy',
     auth: false,
   },
 ];
