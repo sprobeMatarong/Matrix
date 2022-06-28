@@ -1,14 +1,15 @@
-import { Alert, Container, Typography, TextField, Button, Box, Grid, Card } from '@mui/material';
-import { useState } from 'react';
+import { Container, Typography, TextField, Button, Box, Grid, Card } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import api from '../../utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 function ForgotPassword() {
-  const [alert, setAlert] = useState(null);
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   // form validation
   const schema = yup.object({
@@ -24,27 +25,27 @@ function ForgotPassword() {
   } = useForm({ resolver: yupResolver(schema) });
 
   const handleForgot = async (data) => {
-    await api
+    return await api
       .post('/password/forgot', data)
       .then(() => {
-        setAlert({
-          success: true,
-          message: t('pages.forgot_password.success'),
-        });
         reset();
+        navigate('/login');
+        toast(t('pages.forgot_password.success'), { type: 'success' });
       })
       .catch((err) => {
         const { error } = err.response.data;
         if (typeof error === 'object') {
-          Object.keys(error).map((prop) => {
+          return Object.keys(error).map((prop) => {
             setError(prop, { message: error[prop][0] }, { shouldFocus: true });
           });
-        } else setAlert({ success: false, message: error });
+        }
+
+        toast(error, { type: 'error' });
       });
   };
 
   return (
-    <Container maxWidth="sm" sx={{ pt: 8 }}>
+    <Container maxWidth="xs" sx={{ pt: 8 }}>
       <Typography variant="h4" component="h4" sx={{ fontWeight: 'bold', mb: 2 }} align="center">
         {t('labels.forgot_password')}
       </Typography>
@@ -76,12 +77,6 @@ function ForgotPassword() {
               </Button>
             </Grid>
           </Grid>
-
-          {alert && (
-            <Alert severity={alert.success ? 'success' : 'error'} sx={{ my: 4 }}>
-              {alert.message}
-            </Alert>
-          )}
         </Box>
       </Card>
     </Container>

@@ -1,16 +1,6 @@
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { Link as RouterLink } from 'react-router-dom';
-import {
-  Container,
-  Stack,
-  Typography,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-  Link,
-  Button,
-  Card,
-} from '@mui/material';
+import { Container, Typography, TextField, Link, Button, Card, Grid, Box } from '@mui/material';
 import { useAuth } from '../../hooks/useAuth';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -30,7 +20,6 @@ function Login() {
   const {
     register,
     handleSubmit,
-    control,
     setError,
     formState: { errors },
   } = useForm({
@@ -49,61 +38,65 @@ function Login() {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ pt: 8 }}>
+    <Container maxWidth="xs" sx={{ pt: 8 }}>
       <Card sx={{ p: 4 }}>
-        <Typography variant="h4" component="h4" sx={{ fontWeight: 'bold', mb: 5 }} align="center">
+        <Typography variant="h5" component="h5" sx={{ fontWeight: 'bold', mb: 5 }} align="center">
           {t('labels.login')}
         </Typography>
 
-        <form onSubmit={handleSubmit(handleLogin)}>
-          <Stack spacing={3}>
-            <TextField
-              {...register('username')}
-              error={errors && errors.username ? true : false}
-              helperText={errors ? errors?.username?.message : null}
-              fullWidth
-              label={t('labels.email_address')}
-              name="username"
-              type="text"
-              variant="outlined"
-              size="small"
-            />
+        <Box component="form" noValidate onSubmit={handleSubmit(handleLogin)} sx={{ mt: 3 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                {...register('username')}
+                error={errors && errors.username ? true : false}
+                helperText={errors ? errors?.username?.message : null}
+                fullWidth
+                label={t('labels.email_address')}
+                name="username"
+                type="text"
+                variant="outlined"
+                size="small"
+              />
+            </Grid>
 
-            <TextField
-              {...register('password')}
-              error={errors && errors.password ? true : false}
-              helperText={errors ? errors?.password?.message : null}
-              fullWidth
-              label={t('labels.password')}
-              name="password"
-              type="password"
-              variant="outlined"
-              size="small"
-            />
-          </Stack>
+            <Grid item xs={12}>
+              <TextField
+                {...register('password')}
+                error={errors && errors.password ? true : false}
+                helperText={errors ? errors?.password?.message : null}
+                fullWidth
+                label={t('labels.password')}
+                name="password"
+                type="password"
+                variant="outlined"
+                size="small"
+              />
+            </Grid>
 
-          <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-            <Controller
-              name="checkbox"
-              control={control}
-              rules={{ required: false }}
-              render={({ field }) => (
-                <FormControlLabel
-                  control={<Checkbox {...field} />}
-                  label={t('labels.remember_me')}
-                />
-              )}
-            />
+            <Grid item xs={12}>
+              <Button fullWidth size="large" type="submit" variant="contained" disableElevation>
+                {t('labels.login')}
+              </Button>
+            </Grid>
 
-            <Link component={RouterLink} variant="subtitle2" to="/forgot-password">
-              {t('labels.forgot_password')}
-            </Link>
-          </Stack>
-
-          <Button fullWidth size="large" type="submit" variant="contained" disableElevation>
-            {t('labels.login')}
-          </Button>
-        </form>
+            <Grid item xs={12}>
+              <Link
+                component={RouterLink}
+                variant="subtitle2"
+                to="/forgot-password"
+                sx={{
+                  textAlign: 'center',
+                  width: '100%',
+                  display: 'block',
+                  textDecoration: 'none',
+                }}
+              >
+                {t('labels.forgot_password')}
+              </Link>
+            </Grid>
+          </Grid>
+        </Box>
       </Card>
     </Container>
   );

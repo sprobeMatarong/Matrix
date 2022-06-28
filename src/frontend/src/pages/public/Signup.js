@@ -59,9 +59,9 @@ function Signup() {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ pt: 8 }}>
+    <Container maxWidth="xs" sx={{ pt: 8 }}>
       <Card sx={{ p: 4 }}>
-        <Typography variant="h4" component="h4" sx={{ fontWeight: 'bold', mb: 5 }} align="center">
+        <Typography variant="h5" component="h5" sx={{ fontWeight: 'bold', mb: 5 }} align="center">
           {t('pages.signup.create_free_account')}
         </Typography>
 

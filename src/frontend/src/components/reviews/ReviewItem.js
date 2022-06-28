@@ -44,8 +44,8 @@ function ReviewItem({ review }) {
   };
 
   return (
-    <Card sx={{ py: 2, minHeight: 290 }}>
-      <CardContent>
+    <Card sx={{ py: 3, minHeight: 220 }}>
+      <CardContent sx={{ height: '100%' }}>
         <Box sx={{ textAlign: 'center' }}>
           <Avatar alt="Remy Sharp" src={avatar} sx={{ margin: '0 auto', mb: 1 }} />
           <Typography sx={{ fontWeight: 'bold' }} color="text.secondary">
@@ -59,7 +59,7 @@ function ReviewItem({ review }) {
           sx={{ fontSize: 14 }}
           color="text.secondary"
           variant="body2"
-          component="p"
+          component="div"
           align="center"
         >
           {comment}

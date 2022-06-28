@@ -48,10 +48,17 @@ function About() {
   return (
     <>
       <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 8, pb: 6 }}>
-        <Typography component="h2" variant="h2" align="center" color="text.primary" gutterBottom>
+        <Typography
+          component="h4"
+          variant="h4"
+          align="center"
+          color="text.primary"
+          gutterBottom
+          sx={{ fontWeight: 'bold', mb: 2 }}
+        >
           {t('pages.about.main_heading')}
         </Typography>
-        <Typography variant="h6" align="center" color="text.secondary" component="p">
+        <Typography variant="p" align="center" color="text.secondary" component="p">
           {t('pages.about.sub_heading')}
         </Typography>
       </Container>
@@ -61,10 +68,17 @@ function About() {
 
       {/** Staff */}
       <Container disableGutters maxWidth="sm" component="section" sx={{ pt: 12, pb: 6 }}>
-        <Typography component="h4" variant="h4" align="center" color="text.primary" gutterBottom>
+        <Typography
+          component="h5"
+          variant="h5"
+          align="center"
+          color="text.primary"
+          gutterBottom
+          sx={{ fontWeight: 'bold', mb: 2 }}
+        >
           {t('pages.about.meet_the_team')}
         </Typography>
-        <Typography variant="h6" align="center" color="text.secondary" component="p">
+        <Typography variant="p" align="center" color="text.secondary" component="p">
           {t('pages.about.team_description')}
         </Typography>
       </Container>
@@ -85,7 +99,12 @@ function About() {
                   height: '100%',
                 }}
               >
-                <Typography component="h4" variant="h4" color="text.primary" sx={{ mb: 4 }}>
+                <Typography
+                  component="h5"
+                  variant="h5"
+                  color="text.primary"
+                  sx={{ mb: 4, fontWeight: 'bold' }}
+                >
                   {t('pages.about.our_mission')}
                 </Typography>
                 <Typography component="p" color="text.body">
@@ -114,10 +133,17 @@ function About() {
 
       {/** Masonry */}
       <Container disableGutters maxWidth="sm" component="section" sx={{ pt: 12, pb: 6 }}>
-        <Typography component="h4" variant="h4" align="center" color="text.primary" gutterBottom>
+        <Typography
+          component="h5"
+          variant="h5"
+          align="center"
+          color="text.primary"
+          gutterBottom
+          sx={{ fontWeight: 'bold', mb: 2 }}
+        >
           {t('pages.about.our_activities')}
         </Typography>
-        <Typography variant="h6" align="center" color="text.secondary" component="p">
+        <Typography variant="p" align="center" color="text.secondary" component="p">
           {t('pages.about.activities_description')}
         </Typography>
 

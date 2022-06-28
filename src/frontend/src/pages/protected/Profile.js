@@ -27,6 +27,7 @@ function Profile() {
     register,
     handleSubmit,
     setValue,
+    setError,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -55,11 +56,22 @@ function Profile() {
         toast(t('pages.profile.success_message'), { type: 'success' });
       })
       .catch((err) => {
-        const { data } = err.response;
+        const { error } = err.response.data;
         setLoading(false);
-        if (data.error['avatar']) {
-          toast(data.error.avatar[0], { type: 'error' });
-        } else toast(t('pages.profile.failed_message'), { type: 'error' });
+
+        if (typeof error === 'object') {
+          Object.keys(error).map((prop) => {
+            setError(prop, { message: error[prop][0] }, { shouldFocus: true });
+          });
+          return;
+        }
+
+        if (error['avatar']) {
+          toast(error.avatar[0], { type: 'error' });
+          return;
+        }
+
+        toast(t('pages.profile.failed_message'), { type: 'error' });
       });
   };
 
@@ -72,7 +84,7 @@ function Profile() {
   }, []);
 
   return (
-    <Container maxWidth="sm" sx={{ pt: 6 }}>
+    <Container maxWidth="xs" sx={{ pt: 6 }}>
       <Typography variant="h4" component="h4" sx={{ fontWeight: 'bold', mb: 2 }} align="center">
         {t('pages.profile.heading')}
       </Typography>
@@ -105,6 +117,7 @@ function Profile() {
                   name="first_name"
                   type="text"
                   variant="outlined"
+                  size="small"
                 />
               </Grid>
 
@@ -118,6 +131,7 @@ function Profile() {
                   name="last_name"
                   type="text"
                   variant="outlined"
+                  size="small"
                 />
               </Grid>
 
@@ -131,6 +145,7 @@ function Profile() {
                   name="email"
                   type="text"
                   variant="outlined"
+                  size="small"
                 />
               </Grid>
 

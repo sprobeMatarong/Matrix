@@ -35,6 +35,8 @@ const ja = {
       documentation: 'ドキュメンテーション',
       fullname: 'フルネーム',
       inquiry_content: 'お問合わせ内容',
+      navigation: 'ナビゲーション',
+      resources: 'リソース',
     },
     pages: {
       signup: {

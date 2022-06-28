@@ -35,6 +35,8 @@ const en = {
       documentation: 'Documentation',
       fullname: 'Fullname',
       inquiry_content: 'Inquiry Content',
+      navigation: 'Navigation',
+      resources: 'Resources',
     },
     pages: {
       signup: {

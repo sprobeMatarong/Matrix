@@ -38,7 +38,7 @@ function Inquiry() {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ pt: 8 }}>
+    <Container maxWidth="xs" sx={{ pt: 8 }}>
       <Typography variant="h4" component="h4" sx={{ fontWeight: 'bold', mb: 2 }} align="center">
         {t('pages.inquiry.heading')}
       </Typography>

@@ -38,7 +38,7 @@ function Footer() {
               component="h5"
               sx={{ fontWeight: 600, textTransform: 'uppercase' }}
             >
-              Navigation
+              {t('labels.navigation')}
             </Typography>
 
             <List>
@@ -54,7 +54,7 @@ function Footer() {
               component="h5"
               sx={{ fontWeight: 600, textTransform: 'uppercase' }}
             >
-              Resources
+              {t('labels.resources')}
             </Typography>
 
             <List>

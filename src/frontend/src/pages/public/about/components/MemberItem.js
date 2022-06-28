@@ -19,10 +19,10 @@ function MemberItem({ name, avatar, role }) {
       <Card>
         <CardMedia component="img" height={140} image={avatar} alt={name} />
         <CardContent>
-          <Typography component="h6" variant="h6" align="center" sx={{ fontWeight: '600' }}>
+          <Typography align="center" sx={{ fontWeight: '600' }}>
             {name}
           </Typography>
-          <Typography component="p" variant="p" align="center">
+          <Typography component="p" variant="subtitle2" align="center">
             {role}
           </Typography>
         </CardContent>

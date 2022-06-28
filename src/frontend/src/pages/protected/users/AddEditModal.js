@@ -10,6 +10,7 @@ import Box from '@mui/material/Box';
 import api from '../../../utils/api';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';
+import { toast } from 'react-toastify';
 
 AddEditModal.propTypes = {
   open: PropTypes.bool,
@@ -34,7 +35,9 @@ export default function AddEditModal({ user, open, handleClose, handleSaveEvent 
     register,
     handleSubmit,
     setValue,
+    setError,
     clearErrors,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -61,7 +64,7 @@ export default function AddEditModal({ user, open, handleClose, handleSaveEvent 
     if (!open) clearErrors();
   }, [open]);
 
-  const handleUpdate = (data) => {
+  const handleFormSubmit = (data) => {
     setLoading(true);
     const req = user ? api.put(`/users/${user.id}`, data) : api.post('/users', data);
 
@@ -69,14 +72,25 @@ export default function AddEditModal({ user, open, handleClose, handleSaveEvent 
       .then((res) => {
         handleSaveEvent(res.data.data);
         setLoading(false);
+        reset();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setLoading(false);
+        const { error } = err.response.data;
+        if (typeof error === 'object') {
+          Object.keys(error).map((prop) => {
+            setError(prop, { message: error[prop][0] }, { shouldFocus: true });
+          });
+          return;
+        }
+        toast(error, { type: 'error' });
+      });
   };
 
   return (
     <Modal open={open} handleClose={handleClose} title={title}>
       <Box sx={{ pt: 2 }}>
-        <form onSubmit={handleSubmit(handleUpdate)}>
+        <form onSubmit={handleSubmit(handleFormSubmit)}>
           <Grid container spacing={2} sx={{ p: 2 }}>
             <Grid item md={6}>
               <TextField

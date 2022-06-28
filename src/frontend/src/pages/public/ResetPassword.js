@@ -7,15 +7,13 @@ import { useQuery } from '../../hooks/useQuery';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Alert, Container, Typography, TextField, Button, Box, Grid, Card } from '@mui/material';
+import { Container, Typography, TextField, Button, Box, Grid, Card } from '@mui/material';
 
 function ResetPassword() {
   const query = useQuery();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const [alert, setAlert] = useState(null);
   const [token, setToken] = useState(null);
-  const [valid, setValid] = useState(false);
 
   useEffect(() => {
     setToken(() => query.get('token'));
@@ -49,93 +47,78 @@ function ResetPassword() {
     return await api
       .post('password/reset', { password, password_confirmation, token })
       .then(() => {
+        navigate('/login');
         toast(t('pages.reset_password.success'), {
           type: 'success',
         });
-
-        setTimeout(() => navigate('/login'), 1000);
       })
       .catch((err) => {
         const { error } = err.response.data;
         if (typeof error === 'object') {
-          Object.keys(error).map((prop) => {
+          return Object.keys(error).map((prop) => {
             setError(prop, { message: error[prop][0] }, { shouldFocus: true });
           });
-        } else setAlert({ success: false, message: error });
+        }
+
+        toast(error, { type: 'error' });
       });
   };
 
   const verifyToken = async () => {
     const query = new URLSearchParams({ type: 'password_reset', token }).toString();
 
-    await api
-      .get(`/token/verify?${query}`)
-      .then(({ data }) => {
-        const { verified } = data.data;
-        setValid(verified);
-      })
-      .catch(() => navigate('/page-not-found'));
+    return await api.get(`/token/verify?${query}`).catch(() => navigate('/page-not-found'));
   };
 
   return (
-    <Container maxWidth="sm" sx={{ pt: 8 }}>
-      {valid && (
-        <>
-          <Typography variant="h4" component="h4" sx={{ fontWeight: 'bold', mb: 2 }} align="center">
-            {t('labels.reset_password')}
-          </Typography>
+    <Container maxWidth="xs" sx={{ pt: 8 }}>
+      <Typography variant="h4" component="h4" sx={{ fontWeight: 'bold', mb: 2 }} align="center">
+        {t('labels.reset_password')}
+      </Typography>
 
-          <Typography align="center" color="text.secondary" component="p" sx={{ mb: 4 }}>
-            {t('pages.reset_password.sub_heading')}
-          </Typography>
+      <Typography align="center" color="text.secondary" component="p" sx={{ mb: 4 }}>
+        {t('pages.reset_password.sub_heading')}
+      </Typography>
 
-          <Card sx={{ p: 4 }}>
-            <Box component="form" noValidate onSubmit={handleSubmit(handleReset)} sx={{ mt: 3 }}>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={12}>
-                  <TextField
-                    {...register('password')}
-                    error={errors && errors.password ? true : false}
-                    helperText={errors ? errors?.password?.message : null}
-                    fullWidth
-                    label={t('labels.new_password')}
-                    name="password"
-                    type="password"
-                    variant="outlined"
-                    size="small"
-                  />
-                </Grid>
+      <Card sx={{ p: 4 }}>
+        <Box component="form" noValidate onSubmit={handleSubmit(handleReset)} sx={{ mt: 3 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12}>
+              <TextField
+                {...register('password')}
+                error={errors && errors.password ? true : false}
+                helperText={errors ? errors?.password?.message : null}
+                fullWidth
+                label={t('labels.new_password')}
+                name="password"
+                type="password"
+                variant="outlined"
+                size="small"
+              />
+            </Grid>
 
-                <Grid item xs={12} sm={12}>
-                  <TextField
-                    {...register('password_confirmation')}
-                    error={errors && errors.password_confirmation ? true : false}
-                    helperText={errors ? errors?.password_confirmation?.message : null}
-                    fullWidth
-                    label={t('labels.confirm_new_password')}
-                    name="password_confirmation"
-                    type="password"
-                    variant="outlined"
-                    size="small"
-                  />
-                </Grid>
+            <Grid item xs={12} sm={12}>
+              <TextField
+                {...register('password_confirmation')}
+                error={errors && errors.password_confirmation ? true : false}
+                helperText={errors ? errors?.password_confirmation?.message : null}
+                fullWidth
+                label={t('labels.confirm_new_password')}
+                name="password_confirmation"
+                type="password"
+                variant="outlined"
+                size="small"
+              />
+            </Grid>
 
-                <Grid item xs={12}>
-                  <Button fullWidth size="large" type="submit" variant="contained">
-                    {t('labels.submit')}
-                  </Button>
-                </Grid>
-              </Grid>
-
-              {alert && (
-                <Alert severity={alert.success ? 'success' : 'error'} sx={{ my: 4 }}>
-                  {alert.message}
-                </Alert>
-              )}
-            </Box>
-          </Card>
-        </>
-      )}
+            <Grid item xs={12}>
+              <Button fullWidth size="large" type="submit" variant="contained">
+                {t('labels.submit')}
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
+      </Card>
     </Container>
   );
 }
