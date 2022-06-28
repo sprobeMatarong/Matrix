@@ -23,7 +23,7 @@ class UsersTableSeeder extends Seeder
         // create the system admin
         $this->_createSystemAdmin();
 
-        if (env('APP_ENV') === 'local') {
+        if (in_array(env('APP_ENV'), ['local', 'development'])) {
             User::factory()
                 ->times(50)
                 ->create([

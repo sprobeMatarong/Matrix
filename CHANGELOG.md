@@ -12,6 +12,7 @@
 - Added Localization support in Frontend for (English and Japanese).
 - Added Toast packages for notifications.
 - Added Yup schema validation for `react-hook-form` package.
+- Added `setup.sh` script to automatically setup the base template easily with ease.
 
 ### Changed
 - Moved Composer inside PHP Container.
