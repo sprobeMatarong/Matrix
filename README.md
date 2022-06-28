@@ -18,17 +18,17 @@ A base template for `ReactJS (17.0.2)` with backend API implementation using `La
 -   [Git](https://git-scm.com/downloads)
 -   [Docker Desktop](https://www.docker.com/products/docker-desktop)
 
-# Auto Setup [Recommended]
+# Auto Setup [Highly Recommended]
 Run this script to automatically setup the base template.
 ```
-./setup sh
+./setup.sh
 ```
 You will be prompted to select the Environment, set Application Name and Domain only.  
 ![Setup Screenshot](/setup-sample.png)  
 This is what it will look like when the setup is successful and complete.  
 ![Setup Screenshot](/setup-complete.png)  
 
-# Manual Setup [Optional]
+# Manual Setup [Less Recommended]
 Do this if you don't want the automatic setup above.
   
 Setup the `.env` file for Docker in the root directory
