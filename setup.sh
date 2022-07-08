@@ -1,5 +1,15 @@
 #!/bin/bash
 
+SUCCESS_COLOR='\033[1;32m'
+ORANGE_COLOR='\033[0;33m'
+NO_COLOR='\033[0m'
+BOLD_TEXT='\033[1m'
+
+if ! docker info > /dev/null 2>&1; then
+  echo -e "${ORANGE_COLOR}[WARNING]${NO_COLOR} This script requires ${BOLD_TEXT}Docker Desktop${NO_COLOR} and it isn't running. Please start ${BOLD_TEXT}Docker Desktop${NO_COLOR} and try again!"
+  exit 1
+fi
+
 # Docker Build Variables
 ENVIRONMENT=
 PROJECT_NAME=
@@ -8,9 +18,6 @@ MYSQL_DATABASE=
 MYSQL_USER=
 MYSQL_PASSWORD=
 APP_DOMAIN=
-
-SUCCESS_COLOR='\033[1;32m'
-NO_COLOR='\033[0m'
 
 echo "Environment:"
 PS3="Select your Environment [Choose a number]: "
@@ -30,9 +37,10 @@ while [[ $PROJECT_NAME = "" && $PROJECT_NAME != ^\(?![0-9._]\)\(?!.*[0-9._]$\)\(
     read -p 'Project Name: ' PROJECT_NAME
 done
 
-# remove special characters and spaces
+# remove special characters and spaces and convert string to lowercase
 PROJECT_NAME=$(echo ${PROJECT_NAME//[^a-zA-Z ]/""})
 PROJECT_NAME=$(echo ${PROJECT_NAME//[ ]/"_"})
+PROJECT_NAME=$(echo ${PROJECT_NAME,,})
 
 # Generate MySQL Credentials
 MYSQL_DATABASE="${PROJECT_NAME,,}"
