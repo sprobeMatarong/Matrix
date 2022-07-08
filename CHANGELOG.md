@@ -15,9 +15,10 @@
 - Added `setup.sh` script to automatically setup the base template easily with ease.
 
 ### Changed
+- Applied Atomic Design Structure.
 - Moved Composer inside PHP Container.
 - Updated Nginx Config for all environments.
-- New API Base URL. Before `api.DOMAIN.com/v1`. Now API Route `DOMAIN.com/api/v1/`. Removed API subdomain.
+- New API Base URL. Before `api.DOMAIN.com/v1`. Now API Route `DOMAIN.com/api/v1`. Removed API subdomain.
 - Optional SSL Support. Can enable/disable via `.env` file `GENERATE_SELF_SIGNED_SSL=0 or 1`. Set value to `0` to disable SSL or `1` to enable SSL.
 
 ### Removed

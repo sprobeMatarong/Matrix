@@ -2,82 +2,82 @@ const routes = [
   // Dont Remove. Handle 404 Pages
   {
     path: '*',
-    component: 'pages/public/NotFound',
+    component: 'pages/guest/NotFound',
     auth: false,
   },
   {
     path: '/',
-    component: 'pages/public/landing/Landing',
+    component: 'pages/guest/Landing',
     auth: false,
   },
   {
     path: '/dashboard',
-    component: 'pages/protected/dashboard/Dashboard',
+    component: 'pages/authenticated/Dashboard',
     auth: true,
   },
   {
     path: '/about',
-    component: 'pages/public/about/About',
+    component: 'pages/guest/About',
     auth: false,
   },
   {
     path: '/signup',
-    component: 'pages/public/Signup',
+    component: 'pages/guest/Signup',
     auth: false,
   },
   {
     path: '/login',
-    component: 'pages/public/Login',
+    component: 'pages/guest/Login',
     auth: false,
   },
   {
     path: '/forgot-password',
-    component: 'pages/public/ForgotPassword',
+    component: 'pages/guest/ForgotPassword',
     auth: false,
   },
   {
     path: '/password/reset',
-    component: 'pages/public/ResetPassword',
+    component: 'pages/guest/ResetPassword',
     auth: false,
   },
   {
     path: '/activate',
-    component: 'pages/public/Activate',
+    component: 'pages/guest/Activate',
     auth: false,
   },
   {
     path: '/profile',
-    component: 'pages/protected/Profile',
+    component: 'pages/authenticated/Profile',
     auth: true,
   },
   {
     path: '/terms',
-    component: 'pages/public/Terms',
+    component: 'pages/guest/Terms',
     auth: false,
   },
   {
     path: '/users',
-    component: 'pages/protected/users/Users',
+    component: 'pages/authenticated/Users',
     auth: true,
   },
   {
     path: '/integrations',
-    component: 'pages/protected/Integrations',
+    component: 'pages/authenticated/Integrations',
     auth: true,
   },
   {
     path: '/faq',
-    component: 'pages/public/Faq',
+    component: 'pages/guest/Faq',
     auth: false,
   },
   {
     path: '/inquiry',
-    component: 'pages/public/Inquiry',
+    component: 'pages/guest/Inquiry',
     auth: false,
   },
   {
     path: '/privacy-policy',
-    component: 'pages/public/PrivacyPolicy',
+    component: 'pages/guest/PrivacyPolicy',
     auth: false,
   },
 ];
