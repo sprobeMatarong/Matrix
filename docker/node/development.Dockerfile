@@ -1,11 +1,11 @@
 # base image
-FROM node:14.15.0-alpine3.12
+FROM node:current-alpine
 
 # Set working directory
 WORKDIR /var/www/frontend
 
-# Install PM2 globally
-RUN npm install --global pm2
+# Install PM2 globally. Use pnpm for faster npm install
+RUN npm install --global pm2 pnpm
 
 ENV PATH /var/www/frontend/node_modules/.bin:$PATH
 
@@ -13,7 +13,8 @@ COPY ./src/frontend/package.json /var/www/frontend
 COPY ./src/frontend/package-lock.json /var/www/frontend
 
 # Install dependencies
-RUN npm install
+RUN echo -e 'auto-install-peers=true' > .npmrc
+RUN pnpm install
 
 COPY ./src/frontend/ /var/www/frontend
 RUN chown -R node:node /var/www/frontend
