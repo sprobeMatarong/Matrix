@@ -1,10 +1,11 @@
-import api from '../../utils/api';
-import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import DataTable from '../../components/molecules/DataTable';
-import { criteria, meta as defaultMeta } from '../../config/search';
-import AddEditModal from '../../components/molecules/users/AddEditModal';
+import { toast } from 'react-toastify';
+import Box from '@mui/material/Box';
+import DataTable from 'components/molecules/DataTable';
+import AddEditModal from 'components/molecules/users/AddEditModal';
+import { criteria, meta as defaultMeta } from 'config/search';
+import api from 'utils/api';
 
 function Users() {
   const { t } = useTranslation();
@@ -29,7 +30,7 @@ function Users() {
     {
       id: 'id',
       numeric: false,
-      disablePadding: true,
+      disablePadding: false,
       label: 'ID',
     },
     {
@@ -66,9 +67,8 @@ function Users() {
     setQuery({ ...query, ...{ order, sort } });
   };
 
-  const handleChangeKeyword = (event) => {
-    if (event.key !== 'Enter' || event.keyCode !== 13) return;
-    setQuery({ ...query, ...{ keyword: event.target.value, page: 1 } });
+  const handleSearch = (keyword) => {
+    setQuery({ ...query, ...{ keyword, page: 1 } });
   };
 
   const handleEdit = async (id) => {
@@ -78,9 +78,9 @@ function Users() {
     });
   };
 
-  const handleDelete = async (ids) => {
+  const handleDelete = async (id) => {
     if (confirm(t('pages.users.delete_confirmation'))) {
-      await api.delete(`/users/bulk-delete`, { data: { ids } }).then(() => {
+      await api.delete(`/users/${id}`).then(() => {
         fetchUsers();
         toast(t('pages.users.user_deleted'), { type: 'success' });
       });
@@ -109,7 +109,7 @@ function Users() {
   };
 
   return (
-    <>
+    <Box>
       <DataTable
         header={headers}
         data={data}
@@ -119,7 +119,7 @@ function Users() {
         sort={query.sort}
         handleChangePage={handleChangePage}
         handleSort={handleSort}
-        handleChangeKeyword={handleChangeKeyword}
+        handleSearch={handleSearch}
         handleEdit={handleEdit}
         handleDelete={handleDelete}
         handleAdd={handleAdd}
@@ -131,7 +131,7 @@ function Users() {
         handleSaveEvent={handleSaveEvent}
         handleClose={() => setOpen(false)}
       />
-    </>
+    </Box>
   );
 }
 

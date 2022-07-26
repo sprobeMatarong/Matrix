@@ -1,12 +1,13 @@
-import * as yup from 'yup';
-import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Container, Box, TextField, Button, Grid, Card } from '@mui/material';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import api from '../../utils/api';
 import { toast } from 'react-toastify';
-import PageTitle from '../../components/atoms/PageTitle';
-import PageSubTitle from '../../components/atoms/PageSubTitle';
+import * as yup from 'yup';
+import { Box, Card, Container, Grid } from '@mui/material';
+import Button from 'components/atoms/Button';
+import TextField from 'components/atoms/Form/TextField';
+import PageTitle from 'components/atoms/PageTitle';
+import api from 'utils/api';
 
 function Inquiry() {
   const { t } = useTranslation();
@@ -40,9 +41,7 @@ function Inquiry() {
 
   return (
     <Container maxWidth="xs" sx={{ pt: 8 }}>
-      <PageTitle title={t('pages.inquiry.heading')} />
-
-      <PageSubTitle content={t('pages.inquiry.sub_heading')} />
+      <PageTitle title={t('pages.inquiry.heading')} subTitle={t('pages.inquiry.sub_heading')} />
 
       <Card sx={{ p: 4 }}>
         <Box component="form" noValidate onSubmit={handleSubmit(handleInquiry)} sx={{ mt: 3 }}>
@@ -57,7 +56,6 @@ function Inquiry() {
                 label={t('labels.fullname')}
                 name="fullname"
                 type="text"
-                size="small"
               />
             </Grid>
 
@@ -70,8 +68,6 @@ function Inquiry() {
                 label={t('labels.email_address')}
                 name="email"
                 type="text"
-                variant="outlined"
-                size="small"
               />
             </Grid>
 
@@ -86,13 +82,11 @@ function Inquiry() {
                 multiline
                 rows={4}
                 type="text"
-                variant="outlined"
-                size="small"
               />
             </Grid>
 
             <Grid item xs={12}>
-              <Button fullWidth size="large" type="submit" variant="contained" disableElevation>
+              <Button fullWidth type="submit">
                 {t('labels.submit')}
               </Button>
             </Grid>

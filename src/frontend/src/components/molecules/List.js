@@ -1,28 +1,11 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { ListItem, List as MUIList, Typography } from '@mui/material';
 import { blueGrey } from '@mui/material/colors';
-import { List as MUIList, ListItem, Typography } from '@mui/material';
 
-List.defaultProps = {
-  items: [],
-  inline: false,
-  variant: 'body2',
-  color: blueGrey['A100'],
-};
+function List(props) {
+  const { items, inline, variant, color, ...rest } = props;
 
-List.propTypes = {
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string,
-      url: PropTypes.string,
-    })
-  ),
-  inline: PropTypes.bool,
-  variant: PropTypes.string,
-  color: PropTypes.string,
-};
-
-function List({ items, inline, variant, color, ...rest }) {
   const styles = {
     display: 'flex',
     flexDirection: inline ? 'row' : 'column',
@@ -47,5 +30,24 @@ function List({ items, inline, variant, color, ...rest }) {
     </MUIList>
   );
 }
+
+List.defaultProps = {
+  items: [],
+  inline: false,
+  variant: 'body2',
+  color: blueGrey['A100'],
+};
+
+List.propTypes = {
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      url: PropTypes.string,
+    })
+  ),
+  inline: PropTypes.bool,
+  variant: PropTypes.string,
+  color: PropTypes.string,
+};
 
 export default List;

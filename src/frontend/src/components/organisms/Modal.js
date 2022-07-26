@@ -1,11 +1,11 @@
-import React from 'react';
-import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import { styled, Box } from '@mui/system';
+import React from 'react';
 import ModalUnstyled from '@mui/base/ModalUnstyled';
+import CloseIcon from '@mui/icons-material/Close';
 import Grow from '@mui/material/Grow';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import { Box, styled } from '@mui/system';
 
 const StyledModal = styled(ModalUnstyled)`
   position: fixed;

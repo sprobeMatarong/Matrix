@@ -1,15 +1,15 @@
-import * as yup from 'yup';
-import api from '../../utils/api';
-import { toast } from 'react-toastify';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useAuth } from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Container, Typography, Grid, TextField, Box, Card } from '@mui/material';
-import LoadingButton from '@mui/lab/LoadingButton';
-import SaveIcon from '@mui/icons-material/Save';
-import AvatarField from '../../components/atoms/AvatarField';
-import { useAuth } from '../../hooks/useAuth';
+import { toast } from 'react-toastify';
+import * as yup from 'yup';
+import { Box, Card, Container, Grid, Typography } from '@mui/material';
+import AvatarField from 'components/atoms/AvatarField';
+import Button from 'components/atoms/Button';
+import TextField from 'components/atoms/Form/TextField';
+import api from 'utils/api';
 
 function Profile() {
   const { t } = useTranslation();
@@ -83,6 +83,10 @@ function Profile() {
     }
   }, []);
 
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
+
   return (
     <Container maxWidth="xs" sx={{ pt: 6 }}>
       <Typography variant="h4" component="h4" sx={{ fontWeight: 'bold', mb: 2 }} align="center">
@@ -116,7 +120,6 @@ function Profile() {
                   label={t('labels.first_name')}
                   name="first_name"
                   type="text"
-                  variant="outlined"
                   size="small"
                 />
               </Grid>
@@ -130,7 +133,6 @@ function Profile() {
                   label={t('labels.last_name')}
                   name="last_name"
                   type="text"
-                  variant="outlined"
                   size="small"
                 />
               </Grid>
@@ -144,23 +146,15 @@ function Profile() {
                   label={t('labels.email_address')}
                   name="email"
                   type="text"
-                  variant="outlined"
                   size="small"
                 />
               </Grid>
 
               <Grid item xs={12}>
                 <Box sx={{ width: '100%', display: 'flex', justifyContent: 'end' }}>
-                  <LoadingButton
-                    color="primary"
-                    loading={loading}
-                    loadingPosition="start"
-                    variant="contained"
-                    startIcon={<SaveIcon />}
-                    type="submit"
-                  >
+                  <Button color="primary" disabled={loading} type="submit">
                     {t('labels.update')}
-                  </LoadingButton>
+                  </Button>
                 </Box>
               </Grid>
             </Grid>

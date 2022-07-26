@@ -1,18 +1,9 @@
 import PropTypes from 'prop-types';
 import Paper from '@mui/material/Paper';
 
-HeroImage.defaultProps = {
-  image: null,
-  height: '100vh',
-};
+function HeroImage(props) {
+  const { image, children, height, ...rest } = props;
 
-HeroImage.propTypes = {
-  image: PropTypes.string,
-  children: PropTypes.any,
-  height: PropTypes.string,
-};
-
-function HeroImage({ image, children, height, ...rest }) {
   const styles = {
     backgroundImage: `url(${image})`,
     backgroundPosition: 'center',
@@ -28,5 +19,16 @@ function HeroImage({ image, children, height, ...rest }) {
     </Paper>
   );
 }
+
+HeroImage.defaultProps = {
+  image: null,
+  height: '100vh',
+};
+
+HeroImage.propTypes = {
+  image: PropTypes.string,
+  children: PropTypes.any,
+  height: PropTypes.string,
+};
 
 export default HeroImage;

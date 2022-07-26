@@ -1,12 +1,12 @@
+import { useAuth } from 'hooks/useAuth';
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
-import { Container, CssBaseline, Box, Toolbar } from '@mui/material';
-import Navbar from '../components/organisms/Authenticated/Navbar';
-import Sidebar from '../components/organisms/Authenticated/Sidebar';
-import Footer from '../components/organisms/Authenticated/Footer';
+import { Box, Container, CssBaseline, Toolbar } from '@mui/material';
+import Footer from 'components/organisms/Authenticated/Footer';
+import Navbar from 'components/organisms/Authenticated/Navbar';
+import Sidebar from 'components/organisms/Authenticated/Sidebar';
 
 function Authenticated() {
   const [open, setOpen] = useState(false);

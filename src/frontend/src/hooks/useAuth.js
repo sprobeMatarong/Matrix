@@ -1,7 +1,7 @@
-import useSWR from 'swr';
-import api from '../utils/api';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useSWR from 'swr';
+import api from 'utils/api';
 
 export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
   const navigate = useNavigate();

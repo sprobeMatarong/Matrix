@@ -1,20 +1,10 @@
 import PropTypes from 'prop-types';
 import { ImageList } from '@mui/material';
-import QuiltedImageListItem from '../atoms/QuiltedImageListItem';
+import QuiltedImageListItem from 'components/atoms/QuiltedImageListItem';
 
-QuiltedImageList.defaultProps = {
-  images: [],
-  rowHeight: 121,
-  maxCols: 4,
-};
+function QuiltedImageList(props) {
+  const { images, rowHeight, maxCols } = props;
 
-QuiltedImageList.propTypes = {
-  images: PropTypes.array,
-  rowHeight: PropTypes.number,
-  maxCols: PropTypes.number,
-};
-
-function QuiltedImageList({ images, rowHeight, maxCols }) {
   return (
     <ImageList variant="quilted" cols={maxCols} rowHeight={rowHeight}>
       {images.map((item, key) => (
@@ -30,5 +20,17 @@ function QuiltedImageList({ images, rowHeight, maxCols }) {
     </ImageList>
   );
 }
+
+QuiltedImageList.defaultProps = {
+  images: [],
+  rowHeight: 121,
+  maxCols: 4,
+};
+
+QuiltedImageList.propTypes = {
+  images: PropTypes.array,
+  rowHeight: PropTypes.number,
+  maxCols: PropTypes.number,
+};
 
 export default QuiltedImageList;

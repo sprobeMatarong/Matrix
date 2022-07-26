@@ -37,6 +37,8 @@ const ja = {
       inquiry_content: 'お問合わせ内容',
       navigation: 'ナビゲーション',
       resources: 'リソース',
+      cancel: 'キャンセル',
+      action: 'アクション',
     },
     pages: {
       signup: {
@@ -151,6 +153,7 @@ const ja = {
       documentation: 'ドキュメンテーション',
       api_reference: 'APIリファレンス',
       support: 'サポート',
+      styleguide: 'スタイルガイド',
     },
   },
 };

@@ -3,5 +3,18 @@
   "tabWidth": 2,
   "printWidth": 100,
   "singleQuote": true,
-  "trailingComma": "es5"
+  "trailingComma": "es5",
+  "importOrder": [
+    "^@mui/(.*)$",
+    "^components/(.*)$",
+    "^config/(.*)$",
+    "^localization/(.*)$",
+    "^pages/(.*)$",
+    "^router/(.*)$",
+    "^theme/(.*)$",
+    "^utils/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": false,
+  "importOrderSortSpecifiers": true
 }

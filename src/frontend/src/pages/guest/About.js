@@ -1,59 +1,37 @@
 import { faker } from '@faker-js/faker';
-import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import PageTitle from '../../components/atoms/PageTitle';
-import HeroImage from '../../components/atoms/HeroImage';
-import MemberList from '../../components/molecules/MemberList';
-import { Container, Typography, Box, Grid } from '@mui/material';
-import QuiltedImageList from '../../components/molecules/QuiltedImageList';
+import { Box, Container, Grid, Typography } from '@mui/material';
+import BodyText from 'components/atoms/BodyText';
+import HeroImage from 'components/atoms/HeroImage';
+import PageTitle from 'components/atoms/PageTitle';
+import Youtube from 'components/atoms/Youtube';
+import MemberList from 'components/molecules/MemberList';
+import QuiltedImageList from 'components/molecules/QuiltedImageList';
 
 function About() {
   const { t } = useTranslation();
-  const [members, setMembers] = useState([]);
-  const [images, setImages] = useState([]);
 
-  const fetchMembers = () => {
-    const items = [];
-    [...Array(6)].map(() => {
-      return items.push({
-        name: `${faker.name.firstName()} ${faker.name.lastName()}`,
-        avatar: faker.image.people(120, 120, true),
-        role: faker.name.jobTitle(),
-      });
-    });
-    setMembers(items);
-  };
+  const members = [...Array(6)].map(() => ({
+    name: `${faker.name.firstName()} ${faker.name.lastName()}`,
+    avatar: faker.image.people(120, 120, true),
+    role: faker.name.jobTitle(),
+  }));
 
   const random = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
   };
 
-  const fetchMediaFeed = () => {
-    const items = [];
-    [...Array(24)].map(() => {
-      return items.push({
-        alt: faker.lorem.words(3),
-        image: faker.image.city(640, 480, true),
-        rows: random(1, 2),
-        cols: random(1, 2),
-      });
-    });
-    setImages(items);
-  };
-
-  useEffect(() => {
-    fetchMembers();
-    fetchMediaFeed();
-  }, []);
+  const images = [...Array(24)].map(() => ({
+    alt: faker.lorem.words(3),
+    image: faker.image.city(640, 480, true),
+    rows: random(1, 2),
+    cols: random(1, 2),
+  }));
 
   return (
     <>
-      <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 8, pb: 6 }}>
-        <PageTitle title={t('pages.about.main_heading')} />
-
-        <Typography variant="p" align="center" color="text.secondary" component="p">
-          {t('pages.about.sub_heading')}
-        </Typography>
+      <Container disableGutters component="section" sx={{ pt: 8, pb: 6 }}>
+        <PageTitle title={t('pages.about.main_heading')} subTitle={t('pages.about.sub_heading')} />
       </Container>
 
       {/** Cover */}
@@ -71,9 +49,7 @@ function About() {
         >
           {t('pages.about.meet_the_team')}
         </Typography>
-        <Typography variant="p" align="center" color="text.secondary" component="p">
-          {t('pages.about.team_description')}
-        </Typography>
+        <BodyText align="center">{t('pages.about.team_description')}</BodyText>
       </Container>
 
       <Container maxWidth="lg" sx={{ pb: 12 }}>
@@ -100,25 +76,11 @@ function About() {
                 >
                   {t('pages.about.our_mission')}
                 </Typography>
-                <Typography component="p" color="text.body">
-                  {t('pages.about.mission_description')}
-                </Typography>
+                <BodyText>{t('pages.about.mission_description')}</BodyText>
               </Box>
             </Grid>
-            <Grid item xs={6} md={6}>
-              <iframe
-                width="560"
-                height="315"
-                src="//www.youtube.com/embed/mocuGRf2UVg?controls=0"
-                title="YouTube video player"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                sx={{
-                  width: '100%',
-                  height: '56.25vw',
-                }}
-              />
+            <Grid item xs={12} md={6}>
+              <Youtube videoId="mocuGRf2UVg" />
             </Grid>
           </Grid>
         </Container>
@@ -136,9 +98,7 @@ function About() {
         >
           {t('pages.about.our_activities')}
         </Typography>
-        <Typography variant="p" align="center" color="text.secondary" component="p">
-          {t('pages.about.activities_description')}
-        </Typography>
+        <BodyText align="center">{t('pages.about.activities_description')}</BodyText>
 
         <QuiltedImageList images={images} />
       </Container>

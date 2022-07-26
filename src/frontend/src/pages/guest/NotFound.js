@@ -1,6 +1,6 @@
-import { Container, Typography, Button, Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { Box, Button, Container, Typography } from '@mui/material';
 
 function NotFound() {
   const { t } = useTranslation();

@@ -1,18 +1,19 @@
 import { useState } from 'react';
-import AppBar from '@mui/material/AppBar';
-import Button from '@mui/material/Button';
-import Toolbar from '@mui/material/Toolbar';
-import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import MenuIcon from '@mui/icons-material/Menu';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import IconButton from '@mui/material/IconButton';
+import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import MenuIcon from '@mui/icons-material/Menu';
-import { useNavigate } from 'react-router-dom';
-import LanguageSelect from '../../atoms/LanguageSelect';
+import Button from 'components/atoms/Button';
+import LanguageSelect from 'components/atoms/LanguageSelect';
+import MenuLinks from 'components/atoms/MenuLinks';
 
 function GuestNavbar() {
   const { t } = useTranslation();
@@ -23,6 +24,7 @@ function GuestNavbar() {
     { label: t('menu.about'), url: '/about' },
     { label: t('menu.inquiry'), url: '/inquiry' },
     { label: t('menu.faq'), url: '/faq' },
+    { label: t('menu.styleguide'), url: '/styleguide' },
   ];
 
   const appName = process.env.REACT_APP_SITE_TITLE;
@@ -49,27 +51,14 @@ function GuestNavbar() {
           </Box>
 
           <Box component="nav" sx={{ display: { xs: 'none', md: 'flex' } }}>
-            {menus.map((menu) => {
-              return (
-                <Button
-                  component={Link}
-                  variant="button"
-                  underline="none"
-                  color="text.primary"
-                  to={menu.url}
-                  sx={{ my: 1 }}
-                  key={menu.label}
-                >
-                  {menu.label}
-                </Button>
-              );
-            })}
+            <MenuLinks items={menus} />
           </Box>
 
           <Button
             component={Link}
             to="/signup"
             variant="outlined"
+            color="transparent"
             sx={{ my: 1, mx: 1, display: { xs: 'none', md: 'flex' } }}
           >
             {t('labels.signup')}

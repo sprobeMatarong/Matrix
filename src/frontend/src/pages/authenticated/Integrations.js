@@ -1,14 +1,15 @@
+import { useTranslation } from 'react-i18next';
 import {
-  Container,
-  Typography,
-  Grid,
+  Button,
   Card,
   CardActions,
   CardContent,
   CardMedia,
-  Button,
+  Container,
+  Grid,
+  Typography,
 } from '@mui/material';
-import { useTranslation } from 'react-i18next';
+import PageTitle from 'components/atoms/PageTitle';
 
 function Integrations() {
   const { t } = useTranslation();
@@ -33,9 +34,7 @@ function Integrations() {
 
   return (
     <Container disableGutters component="main" sx={{ pt: 4, pb: 6 }}>
-      <Typography variant="h4" component="h4" sx={{ mb: 3 }}>
-        {t('labels.integrations')}
-      </Typography>
+      <PageTitle title={t('labels.integrations')} />
 
       <Grid container spacing={4}>
         {integrations.map((app, key) => (

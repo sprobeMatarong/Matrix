@@ -1,20 +1,20 @@
-import List from '../../molecules/List';
-import { blueGrey } from '@mui/material/colors';
 import { useTranslation } from 'react-i18next';
-import { Box, Typography, Grid, Container } from '@mui/material';
+import { Box, Container, Grid, Typography } from '@mui/material';
+import { blueGrey } from '@mui/material/colors';
+import List from 'components/molecules/List';
 
 function GuestFooter() {
   const currentYear = new Date().getFullYear();
   const { t } = useTranslation();
 
   const navigation = [
-    { label: t('menu.inquiry'), url: '/inquiry' },
+    { label: t('menu.privacy_policy'), url: '/privacy-policy' },
     { label: t('menu.faq'), url: '/faq' },
     { label: t('menu.terms'), url: '/terms' },
   ];
 
   const resources = [
-    { label: t('menu.documentation'), url: '/#' },
+    { label: t('menu.styleguide'), url: '/styleguide' },
     { label: t('menu.api_reference'), url: '/#' },
     { label: t('menu.support'), url: '/#' },
   ];

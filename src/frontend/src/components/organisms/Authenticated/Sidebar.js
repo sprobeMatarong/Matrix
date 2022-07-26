@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
-import MuiDrawer from '@mui/material/Drawer';
-import { SidebarMenu } from '../../molecules/SidebarMenu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { styled, Toolbar, IconButton, Divider, List } from '@mui/material';
+import { Divider, IconButton, List, Toolbar, styled } from '@mui/material';
+import MuiDrawer from '@mui/material/Drawer';
+import { SidebarMenu } from 'components//molecules/SidebarMenu';
 
 const drawerWidth = 240;
 
@@ -32,12 +32,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   })
 );
 
-Sidebar.propTypes = {
-  open: PropTypes.bool,
-  onToggle: PropTypes.func,
-};
+function Sidebar(props) {
+  const { open, onToggle } = props;
 
-function Sidebar({ open, onToggle }) {
   return (
     <Drawer variant="permanent" open={open}>
       <Toolbar
@@ -61,5 +58,10 @@ function Sidebar({ open, onToggle }) {
     </Drawer>
   );
 }
+
+Sidebar.propTypes = {
+  open: PropTypes.bool,
+  onToggle: PropTypes.func,
+};
 
 export default Sidebar;

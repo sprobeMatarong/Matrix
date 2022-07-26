@@ -1,10 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import App from './App';
 import './i18n';
+import reportWebVitals from './reportWebVitals';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+
+// handle windows display scaling
+document
+  .querySelector('meta[name=viewport]')
+  .setAttribute('content', `width=device-width, initial-scale=${+1 / window.devicePixelRatio}`);
 
 ReactDOM.render(
   <React.StrictMode>

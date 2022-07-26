@@ -1,15 +1,17 @@
-import { Alert, Container, Typography, Box, TextField, Button, Grid, Card } from '@mui/material';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
-import api from '../../utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import PageTitle from '../../components/atoms/PageTitle';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import * as yup from 'yup';
+import { Box, Card, Container, Grid, Typography } from '@mui/material';
+import Button from 'components/atoms/Button';
+import Checkbox from 'components/atoms/Form/Checkbox';
+import TextField from 'components/atoms/Form/TextField';
+import PageTitle from 'components/atoms/PageTitle';
+import api from 'utils/api';
 
 function Signup() {
-  const [alert, setAlert] = useState(null);
   const { t } = useTranslation();
 
   // form validation
@@ -17,36 +19,30 @@ function Signup() {
     first_name: yup.string().required(t('form.required')),
     last_name: yup.string().required(t('form.required')),
     email: yup.string().required(t('form.required')).email(t('form.email')),
-    password: yup
-      .string()
-      .required(t('form.required'))
-      .min(8, t('form.password.minLength'))
-      .matches(
-        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
-        t('form.password.strong')
-      ),
-    password_confirmation: yup
-      .string()
-      .oneOf([yup.ref('password'), null], t('form.password.confirm')),
+    accept_terms: yup.bool().oneOf([true], t('form.required')),
   });
 
   const {
-    register,
-    handleSubmit,
     reset,
+    register,
     setError,
+    handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) });
+  } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      checkbox: false,
+    },
+  });
 
   const handleSignUp = async (data) => {
     return await api
       .post('/register', data)
       .then(() => {
-        setAlert({
-          success: true,
-          message:
-            'Please check your inbox for a confirmation email. Click the link to complete the registration process.',
-        });
+        toast(
+          'Please check your inbox for a confirmation email. Click the link to complete the registration process.',
+          { type: 'success' }
+        );
         reset();
       })
       .catch((err) => {
@@ -55,7 +51,8 @@ function Signup() {
           Object.keys(error).map((prop) => {
             setError(prop, { message: error[prop][0] }, { shouldFocus: true });
           });
-        } else setAlert({ success: false, message: error });
+        }
+        toast(error, { type: 'error' });
       });
   };
 
@@ -102,60 +99,34 @@ function Signup() {
                 label={t('labels.email_address')}
                 name="email"
                 type="text"
-                variant="outlined"
-                size="small"
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                {...register('password')}
-                error={errors && errors.password ? true : false}
-                helperText={errors ? errors?.password?.message : null}
-                fullWidth
-                label={t('labels.password')}
-                name="password"
-                type="password"
-                variant="outlined"
                 size="small"
               />
             </Grid>
 
             <Grid item xs={12} sm={12}>
-              <TextField
-                {...register('password_confirmation')}
-                error={errors && errors.password_confirmation ? true : false}
-                helperText={errors ? errors?.password_confirmation?.message : null}
-                fullWidth
-                label={t('labels.confirm_password')}
-                name="password_confirmation"
-                type="password"
-                variant="outlined"
-                size="small"
+              <Checkbox
+                {...register('accept_terms')}
+                label={
+                  <Typography color="text.secondary" variant="body2">
+                    {t('pages.signup.agree_to_terms')}{' '}
+                    <Link to="/terms" target="_blank">
+                      {t('pages.signup.terms_conditions')}
+                    </Link>
+                  </Typography>
+                }
+                error={errors && errors.accept_terms ? true : false}
+                helperText={errors ? errors?.accept_terms?.message : null}
               />
             </Grid>
 
             <Grid item xs={12}>
-              <Button fullWidth size="large" type="submit" variant="contained" disableElevation>
+              <Button fullWidth type="submit">
                 {t('labels.signup')}
               </Button>
-
-              <Typography color="text.secondary" variant="body2" sx={{ mt: 2 }}>
-                {t('pages.signup.agree_to_terms')}{' '}
-                <Link to="/terms" target="_blank">
-                  {t('pages.signup.terms_conditions')}
-                </Link>
-              </Typography>
             </Grid>
           </Grid>
         </Box>
       </Card>
-
-      {alert && (
-        <Alert severity={alert.success ? 'success' : 'error'} sx={{ my: 4 }}>
-          {alert.message}
-        </Alert>
-      )}
     </Container>
   );
 }

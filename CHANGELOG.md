@@ -4,17 +4,20 @@
 
 ## [2.0.0] - 2021-01-20
 ### Added
-- Added Script to automatically setup the base template.
 - Added CHANGELOG.md file
+- Added `StyleGuide` Page for development reference.
 - Added new Public Static Pages for `About, Inquiry, FAQ, Terms`
 - Added Static Pages for Dashboard `Widgets, Integration Card List`
-- Added Mailhog as SMTP server for development environment.
-- Added Localization support in Frontend for (English and Japanese).
-- Added Toast packages for notifications.
+- Added `Mailhog` as SMTP server for development environment.
+- Added `Localization` support in Frontend for (English and Japanese).
+- Added `Toast` packages for notifications.
+- Added Import Auto Sort for Prettier.
+- Added Common Components to be used sitewide like `Forms` & `DataTable`.
 - Added Yup schema validation for `react-hook-form` package.
 - Added `setup.sh` script to automatically setup the base template easily with ease.
 
 ### Changed
+- Applied Theming.
 - Applied Atomic Design Structure.
 - Moved Composer inside PHP Container.
 - Updated Nginx Config for all environments.

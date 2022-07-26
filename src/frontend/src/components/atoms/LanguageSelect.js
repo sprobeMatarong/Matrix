@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import ReactCountryFlag from 'react-country-flag';
+import { useTranslation } from 'react-i18next';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import ReactCountryFlag from 'react-country-flag';
-import { useTranslation } from 'react-i18next';
 
 function LanguageSelect() {
   const [locale, setLocale] = useState('en');
@@ -25,14 +25,14 @@ function LanguageSelect() {
   }, [locale]);
 
   return (
-    <FormControl size="small" sx={{ m: 1, minWidth: 20, height: '36.5px' }}>
+    <FormControl size="small" sx={{ m: 1, minWidth: 20 }}>
       <Select
         value={locale}
         onChange={(e) => setLocale(e.target.value)}
         displayEmpty
         inputProps={{ 'aria-label': 'Without label' }}
         defaultValue={locale}
-        sx={{ padding: '0', height: '36.5px' }}
+        sx={{ height: 40 }}
       >
         {countries.map((country, key) => {
           return (

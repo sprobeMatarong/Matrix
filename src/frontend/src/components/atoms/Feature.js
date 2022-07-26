@@ -1,24 +1,12 @@
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
-Feature.defaultProps = {
-  title: null,
-  description: null,
-  image: null,
-  left: true,
-};
+function Feature(props) {
+  const { title, description, image, left } = props;
 
-Feature.propTypes = {
-  title: PropTypes.string,
-  description: PropTypes.string,
-  image: PropTypes.string,
-  left: PropTypes.bool,
-};
-
-function Feature({ title, description, image, left }) {
   return (
     <Container sx={{ py: 8 }}>
       <Grid container spacing={12}>
@@ -35,5 +23,19 @@ function Feature({ title, description, image, left }) {
     </Container>
   );
 }
+
+Feature.defaultProps = {
+  title: null,
+  description: null,
+  image: null,
+  left: true,
+};
+
+Feature.propTypes = {
+  title: PropTypes.string,
+  description: PropTypes.string,
+  image: PropTypes.string,
+  left: PropTypes.bool,
+};
 
 export default Feature;

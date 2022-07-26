@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import Modal from '../../../components/organisms/Modal';
-import { Grid, TextField } from '@mui/material';
-import * as yup from 'yup';
-import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import Box from '@mui/material/Box';
-import api from '../../../utils/api';
-import LoadingButton from '@mui/lab/LoadingButton';
-import SaveIcon from '@mui/icons-material/Save';
 import { toast } from 'react-toastify';
+import * as yup from 'yup';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Button from 'components/atoms/Button';
+import TextField from 'components/atoms/Form/TextField';
+import Modal from 'components/organisms/Modal';
+import api from 'utils/api';
 
 AddEditModal.propTypes = {
   open: PropTypes.bool,
@@ -19,7 +19,9 @@ AddEditModal.propTypes = {
   handleClose: PropTypes.func,
 };
 
-export default function AddEditModal({ user, open, handleClose, handleSaveEvent }) {
+export default function AddEditModal(props) {
+  const { user, open, handleClose, handleSaveEvent } = props;
+
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState(null);
@@ -101,7 +103,6 @@ export default function AddEditModal({ user, open, handleClose, handleSaveEvent 
                 label={t('labels.first_name')}
                 name="first_name"
                 type="text"
-                variant="outlined"
                 size="small"
               />
             </Grid>
@@ -114,7 +115,6 @@ export default function AddEditModal({ user, open, handleClose, handleSaveEvent 
                 label={t('labels.last_name')}
                 name="last_name"
                 type="text"
-                variant="outlined"
                 size="small"
               />
             </Grid>
@@ -127,23 +127,25 @@ export default function AddEditModal({ user, open, handleClose, handleSaveEvent 
                 label={t('labels.email_address')}
                 name="email"
                 type="text"
-                variant="outlined"
                 size="small"
               />
             </Grid>
           </Grid>
 
           <Box sx={{ width: '100%', display: 'flex', justifyContent: 'end', px: 2, pb: 2 }}>
-            <LoadingButton
-              color="primary"
-              loading={loading}
-              loadingPosition="start"
-              variant="contained"
-              startIcon={<SaveIcon />}
-              type="submit"
+            <Button
+              onClick={handleClose}
+              variant="outlined"
+              color="transparent"
+              disabled={loading}
+              sx={{ mr: 1 }}
             >
+              {t('labels.cancel')}
+            </Button>
+
+            <Button color="primary" disabled={loading} type="submit">
               {user ? t('labels.update') : t('labels.save')}
-            </LoadingButton>
+            </Button>
           </Box>
         </form>
       </Box>

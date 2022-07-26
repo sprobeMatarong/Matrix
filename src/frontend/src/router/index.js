@@ -1,11 +1,11 @@
-import { lazy, Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Suspense, lazy } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import Loader from 'components/atoms/Loader';
 import routes from './routes';
-import Loader from '../components/atoms/Loader';
 
 function Router() {
-  const DashboardLayout = lazy(() => import('../templates/Authenticated'));
-  const GuestTemplate = lazy(() => import('../templates/Guest'));
+  const DashboardLayout = lazy(() => import('templates/Authenticated'));
+  const GuestTemplate = lazy(() => import('templates/Guest'));
 
   return (
     <Suspense fallback={<Loader />}>

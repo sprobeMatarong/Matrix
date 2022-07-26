@@ -1,19 +1,9 @@
 import PropTypes from 'prop-types';
-import { Grid, Card, CardContent, CardMedia, Typography } from '@mui/material';
+import { Card, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 
-MemberItem.defaultProps = {
-  name: null,
-  avatar: null,
-  role: null,
-};
+function MemberCard(props) {
+  const { name, avatar, role } = props;
 
-MemberItem.propTypes = {
-  name: PropTypes.string,
-  avatar: PropTypes.string,
-  role: PropTypes.string,
-};
-
-function MemberItem({ name, avatar, role }) {
   return (
     <Grid item xs={12} md={4}>
       <Card>
@@ -31,4 +21,16 @@ function MemberItem({ name, avatar, role }) {
   );
 }
 
-export default MemberItem;
+MemberCard.defaultProps = {
+  name: null,
+  avatar: null,
+  role: null,
+};
+
+MemberCard.propTypes = {
+  name: PropTypes.string,
+  avatar: PropTypes.string,
+  role: PropTypes.string,
+};
+
+export default MemberCard;

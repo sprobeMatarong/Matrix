@@ -1,13 +1,14 @@
-import { Container, TextField, Button, Box, Grid, Card } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import api from '../../utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import PageTitle from '../../components/atoms/PageTitle';
-import PageSubTitle from '../../components/atoms/PageSubTitle';
+import { toast } from 'react-toastify';
+import * as yup from 'yup';
+import { Box, Card, Container, Grid } from '@mui/material';
+import Button from 'components/atoms/Button';
+import TextField from 'components/atoms/Form/TextField';
+import PageTitle from 'components/atoms/PageTitle';
+import api from 'utils/api';
 
 function ForgotPassword() {
   const { t } = useTranslation();
@@ -48,9 +49,10 @@ function ForgotPassword() {
 
   return (
     <Container maxWidth="xs" sx={{ pt: 8 }}>
-      <PageTitle title={t('labels.forgot_password')} />
-
-      <PageSubTitle content={t('pages.forgot_password.sub_heading')} />
+      <PageTitle
+        title={t('labels.forgot_password')}
+        subTitle={t('pages.forgot_password.sub_heading')}
+      />
 
       <Card sx={{ p: 4 }}>
         <Box component="form" noValidate onSubmit={handleSubmit(handleForgot)} sx={{ mt: 3 }}>
@@ -64,13 +66,11 @@ function ForgotPassword() {
                 label={t('labels.email_address')}
                 name="email"
                 type="text"
-                variant="outlined"
-                size="small"
               />
             </Grid>
 
             <Grid item xs={12}>
-              <Button fullWidth size="large" type="submit" variant="contained">
+              <Button fullWidth type="submit">
                 {t('labels.submit')}
               </Button>
             </Grid>

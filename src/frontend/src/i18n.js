@@ -1,6 +1,5 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-
 // load resources from src/localization
 import en from './localization/en';
 import ja from './localization/ja';

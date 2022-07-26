@@ -1,15 +1,16 @@
-import * as yup from 'yup';
-import api from '../../utils/api';
-import { toast } from 'react-toastify';
-import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
-import { useQuery } from '../../hooks/useQuery';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { yupResolver } from '@hookform/resolvers/yup';
-import PageTitle from '../../components/atoms/PageTitle';
-import PageSubTitle from '../../components/atoms/PageSubTitle';
-import { Container, TextField, Button, Box, Grid, Card } from '@mui/material';
+import { useQuery } from 'hooks/useQuery';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import * as yup from 'yup';
+import { Box, Card, Container, Grid } from '@mui/material';
+import Button from 'components/atoms/Button';
+import TextField from 'components/atoms/Form/TextField';
+import PageTitle from 'components/atoms/PageTitle';
+import api from 'utils/api';
 
 function ResetPassword() {
   const query = useQuery();
@@ -74,9 +75,10 @@ function ResetPassword() {
 
   return (
     <Container maxWidth="xs" sx={{ pt: 8 }}>
-      <PageTitle title={t('labels.reset_password')} />
-
-      <PageSubTitle content={t('pages.reset_password.sub_heading')} />
+      <PageTitle
+        title={t('labels.reset_password')}
+        subTitle={t('pages.reset_password.sub_heading')}
+      />
 
       <Card sx={{ p: 4 }}>
         <Box component="form" noValidate onSubmit={handleSubmit(handleReset)} sx={{ mt: 3 }}>
@@ -90,8 +92,6 @@ function ResetPassword() {
                 label={t('labels.new_password')}
                 name="password"
                 type="password"
-                variant="outlined"
-                size="small"
               />
             </Grid>
 
@@ -104,13 +104,11 @@ function ResetPassword() {
                 label={t('labels.confirm_new_password')}
                 name="password_confirmation"
                 type="password"
-                variant="outlined"
-                size="small"
               />
             </Grid>
 
             <Grid item xs={12}>
-              <Button fullWidth size="large" type="submit" variant="contained">
+              <Button fullWidth type="submit">
                 {t('labels.submit')}
               </Button>
             </Grid>

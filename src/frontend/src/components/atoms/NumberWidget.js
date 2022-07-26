@@ -1,6 +1,6 @@
-import { styled } from '@mui/material/styles';
-import { Paper, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
+import { Paper, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -8,11 +8,6 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(4),
   color: theme.palette.text.secondary,
 }));
-
-NumberWidget.propTypes = {
-  label: PropTypes.string,
-  value: PropTypes.number,
-};
 
 function NumberWidget({ label, value }) {
   return (
@@ -26,5 +21,10 @@ function NumberWidget({ label, value }) {
     </Item>
   );
 }
+
+NumberWidget.propTypes = {
+  label: PropTypes.string,
+  value: PropTypes.number,
+};
 
 export default NumberWidget;

@@ -1,12 +1,14 @@
-import { useForm } from 'react-hook-form';
-import { Link as RouterLink } from 'react-router-dom';
-import { Container, TextField, Link, Button, Card, Grid, Box } from '@mui/material';
-import { useAuth } from '../../hooks/useAuth';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import { useAuth } from 'hooks/useAuth';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { Link as RouterLink } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import PageTitle from '../../components/atoms/PageTitle';
+import * as yup from 'yup';
+import { Box, Card, Container, Grid, Link } from '@mui/material';
+import Button from 'components/atoms/Button';
+import TextField from 'components/atoms/Form/TextField';
+import PageTitle from 'components/atoms/PageTitle';
 
 function Login() {
   const { login } = useAuth();
@@ -54,8 +56,6 @@ function Login() {
                 label={t('labels.email_address')}
                 name="username"
                 type="text"
-                variant="outlined"
-                size="small"
               />
             </Grid>
 
@@ -68,13 +68,11 @@ function Login() {
                 label={t('labels.password')}
                 name="password"
                 type="password"
-                variant="outlined"
-                size="small"
               />
             </Grid>
 
             <Grid item xs={12}>
-              <Button fullWidth size="large" type="submit" variant="contained" disableElevation>
+              <Button fullWidth type="submit">
                 {t('labels.login')}
               </Button>
             </Grid>

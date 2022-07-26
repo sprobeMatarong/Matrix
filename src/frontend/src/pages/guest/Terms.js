@@ -1,26 +1,28 @@
-import PageTitle from '../../components/atoms/PageTitle';
-import { Container, Typography, List, ListItem } from '@mui/material';
+import { Container, List, ListItem } from '@mui/material';
+import BodyText from 'components/atoms/BodyText';
+import Heading from 'components/atoms/Heading';
+import PageTitle from 'components/atoms/PageTitle';
 
-function Term() {
+function Terms() {
   const APP_NAME = process.env.REACT_APP_SITE_TITLE;
   const SITE_URL = window.location.host;
 
   return (
-    <Container maxWidth="md" sx={{ pt: 8 }}>
+    <Container maxWidth="lg" sx={{ pt: 8 }}>
       <PageTitle title={'Terms and Conditions'} />
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
+      <BodyText>
         These terms and conditions outline the rules and regulations for the use of {APP_NAME}&#39;s
         Website, located at {SITE_URL}.
-      </Typography>
+      </BodyText>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
+      <BodyText>
         By accessing this website we assume you accept these terms and conditions. Do not continue
         to use {APP_NAME} if you do not agree to take all of the terms and conditions stated on this
         page.
-      </Typography>
+      </BodyText>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
+      <BodyText>
         The following terminology applies to these Terms and Conditions, Privacy Statement and
         Disclaimer Notice and all Agreements: &quot;Client&quot;, &quot;You&quot; and
         &quot;Your&quot; refers to you, the person log on this website and compliant to the
@@ -34,38 +36,32 @@ function Term() {
         Netherlands. Any use of the above terminology or other words in the singular, plural,
         capitalization and/or he/she or they, are taken as interchangeable and therefore as
         referring to same.
-      </Typography>
+      </BodyText>
 
-      <Typography component="h6" variant="h6" sx={{ mb: 2 }}>
-        Cookies
-      </Typography>
+      <Heading variant="h5">Cookies</Heading>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
+      <BodyText>
         We employ the use of cookies. By accessing {APP_NAME}, you agreed to use cookies in
         agreement with the {APP_NAME}&#39;s Privacy Policy.
-      </Typography>
+      </BodyText>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
+      <BodyText>
         Most interactive websites use cookies to let us retrieve the user&#39;s details for each
         visit. Cookies are used by our website to enable the functionality of certain areas to make
         it easier for people visiting our website. Some of our affiliate/advertising partners may
         also use cookies.
-      </Typography>
+      </BodyText>
 
-      <Typography component="h6" variant="h6" sx={{ mb: 2 }}>
-        License
-      </Typography>
+      <Heading variant="h5">License</Heading>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
+      <BodyText>
         Unless otherwise stated, {APP_NAME} and/or its licensors own the intellectual property
         rights for all material on {APP_NAME}. All intellectual property rights are reserved. You
         may access this from {APP_NAME} for your own personal use subjected to restrictions set in
         these terms and conditions.
-      </Typography>
+      </BodyText>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
-        You must not:
-      </Typography>
+      <BodyText>You must not:</BodyText>
       <List sx={{ listStyle: 'disc', pl: 4 }}>
         <ListItem sx={{ fontSize: 14, m: 0, p: 0, display: 'list-item' }}>
           Republish material from {APP_NAME}
@@ -81,11 +77,9 @@ function Term() {
         </ListItem>
       </List>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
-        This Agreement shall begin on the date hereof.
-      </Typography>
+      <BodyText>This Agreement shall begin on the date hereof.</BodyText>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
+      <BodyText>
         Parts of this website offer an opportunity for users to post and exchange opinions and
         information in certain areas of the website. {APP_NAME} does not filter, edit, publish or
         review Comments prior to their presence on the website. Comments do not reflect the views
@@ -94,16 +88,14 @@ function Term() {
         applicable laws, {APP_NAME} shall not be liable for the Comments or for any liability,
         damages or expenses caused and/or suffered as a result of any use of and/or posting of
         and/or appearance of the Comments on this website.
-      </Typography>
+      </BodyText>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
+      <BodyText>
         {APP_NAME} reserves the right to monitor all Comments and to remove any Comments which can
         be considered inappropriate, offensive or causes breach of these Terms and Conditions.
-      </Typography>
+      </BodyText>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
-        You warrant and represent that:
-      </Typography>
+      <BodyText>You warrant and represent that:</BodyText>
 
       <List sx={{ listStyle: 'disc', pl: 4 }}>
         <ListItem sx={{ fontSize: 14, m: 0, p: 0, display: 'list-item' }}>
@@ -124,19 +116,17 @@ function Term() {
         </ListItem>
       </List>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
+      <BodyText>
         You hereby grant {APP_NAME} a non-exclusive license to use, reproduce, edit and authorize
         others to use, reproduce and edit any of your Comments in any and all forms, formats or
         media.
-      </Typography>
+      </BodyText>
 
-      <Typography component="h6" variant="h6" sx={{ mb: 2 }}>
-        Hyperlinking to our Content
-      </Typography>
+      <Heading variant="h5">Hyperlinking to our Content</Heading>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
+      <BodyText>
         The following organizations may link to our Website without prior written approval:
-      </Typography>
+      </BodyText>
 
       <List sx={{ listStyle: 'disc', pl: 4 }}>
         <ListItem sx={{ fontSize: 14, m: 0, p: 0, display: 'list-item' }}>
@@ -156,16 +146,16 @@ function Term() {
         </ListItem>
       </List>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
+      <BodyText>
         These organizations may link to our home page, to publications or to other Website
         information so long as the link: (a) is not in any way deceptive; (b) does not falsely imply
         sponsorship, endorsement or approval of the linking party and its products and/or services;
         and (c) fits within the context of the linking party&#39;s site.
-      </Typography>
+      </BodyText>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
+      <BodyText>
         We may consider and approve other link requests from the following types of organizations:
-      </Typography>
+      </BodyText>
 
       <List sx={{ listStyle: 'disc', pl: 4 }}>
         <ListItem sx={{ fontSize: 14, m: 0, p: 0, display: 'list-item' }}>
@@ -191,32 +181,30 @@ function Term() {
         </ListItem>
       </List>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
+      <BodyText>
         We will approve link requests from these organizations if we decide that: (a) the link would
         not make us look unfavorably to ourselves or to our accredited businesses; (b) the
         organization does not have any negative records with us; (c) the benefit to us from the
         visibility of the hyperlink compensates the absence of {APP_NAME}; and (d) the link is in
         the context of general resource information.
-      </Typography>
+      </BodyText>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
+      <BodyText>
         These organizations may link to our home page so long as the link: (a) is not in any way
         deceptive; (b) does not falsely imply sponsorship, endorsement or approval of the linking
         party and its products or services; and (c) fits within the context of the linking
         party&#39;s site.
-      </Typography>
+      </BodyText>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
+      <BodyText>
         If you are one of the organizations listed in paragraph 2 above and are interested in
         linking to our website, you must inform us by sending an e-mail to {APP_NAME}. Please
         include your name, your organization name, contact information as well as the URL of your
         site, a list of any URLs from which you intend to link to our Website, and a list of the
         URLs on our site to which you would like to link. Wait 2-3 weeks for a response.
-      </Typography>
+      </BodyText>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
-        Approved organizations may hyperlink to our Website as follows:
-      </Typography>
+      <BodyText>Approved organizations may hyperlink to our Website as follows:</BodyText>
 
       <List sx={{ listStyle: 'disc', pl: 4 }}>
         <ListItem sx={{ fontSize: 14, m: 0, p: 0, display: 'list-item' }}>
@@ -231,77 +219,63 @@ function Term() {
         </ListItem>
       </List>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
+      <BodyText>
         No use of {APP_NAME}&#39;s logo or other artwork will be allowed for linking absent a
         trademark license agreement.
-      </Typography>
+      </BodyText>
 
-      <Typography component="h6" variant="h6" sx={{ mb: 2 }}>
-        iFrames
-      </Typography>
+      <Heading variant="h5">iFrames</Heading>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
+      <BodyText>
         Without prior approval and written permission, you may not create frames around our Webpages
         that alter in any way the visual presentation or appearance of our Website.
-      </Typography>
+      </BodyText>
 
-      <Typography component="h6" variant="h6" sx={{ mb: 2 }}>
-        Content Liability
-      </Typography>
+      <Heading variant="h5">Content Liability</Heading>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
+      <BodyText>
         We shall not be hold responsible for any content that appears on your Website. You agree to
         protect and defend us against all claims that is rising on your Website. No link(s) should
         appear on any Website that may be interpreted as libelous, obscene or criminal, or which
         infringes, otherwise violates, or advocates the infringement or other violation of, any
         third party rights.
-      </Typography>
+      </BodyText>
 
-      <Typography component="h6" variant="h6" sx={{ mb: 2 }}>
-        Your Privacy
-      </Typography>
+      <Heading variant="h5">Your Privacy</Heading>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
-        Please read Privacy Policy
-      </Typography>
+      <BodyText>Please read Privacy Policy</BodyText>
 
-      <Typography component="h6" variant="h6" sx={{ mb: 2 }}>
-        Reservation of Rights
-      </Typography>
+      <Heading variant="h5">Reservation of Rights</Heading>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
+      <BodyText>
         We reserve the right to request that you remove all links or any particular link to our
         Website. You approve to immediately remove all links to our Website upon request. We also
         reserve the right to amen these terms and conditions and it&#39;s linking policy at any
         time. By continuously linking to our Website, you agree to be bound to and follow these
         linking terms and conditions.
-      </Typography>
+      </BodyText>
 
-      <Typography component="h6" variant="h6" sx={{ mb: 2 }}>
-        Removal of links from our website
-      </Typography>
+      <Heading variant="h5">Removal of links from our website</Heading>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
+      <BodyText>
         If you find any link on our Website that is offensive for any reason, you are free to
         contact and inform us any moment. We will consider requests to remove links but we are not
         obligated to or so or to respond to you directly.
-      </Typography>
+      </BodyText>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
+      <BodyText>
         We do not ensure that the information on this website is correct, we do not warrant its
         completeness or accuracy; nor do we promise to ensure that the website remains available or
         that the material on the website is kept up to date.
-      </Typography>
+      </BodyText>
 
-      <Typography component="h6" variant="h6" sx={{ mb: 2 }}>
-        Disclaimer
-      </Typography>
+      <Heading variant="h5">Disclaimer</Heading>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
+      <BodyText>
         To the maximum extent permitted by applicable law, we exclude all representations,
         warranties and conditions relating to our website and the use of this website. Nothing in
         this disclaimer will:
-      </Typography>
+      </BodyText>
 
       <List sx={{ listStyle: 'disc', pl: 4 }}>
         <ListItem sx={{ fontSize: 14, m: 0, p: 0, display: 'list-item' }}>
@@ -319,19 +293,19 @@ function Term() {
         </ListItem>
       </List>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
+      <BodyText>
         The limitations and prohibitions of liability set in this Section and elsewhere in this
         disclaimer: (a) are subject to the preceding paragraph; and (b) govern all liabilities
         arising under the disclaimer, including liabilities arising in contract, in tort and for
         breach of statutory duty.
-      </Typography>
+      </BodyText>
 
-      <Typography component="p" variant="body2" sx={{ mb: 2 }}>
+      <BodyText>
         As long as the website and the information and services on the website are provided free of
         charge, we will not be liable for any loss or damage of any nature.
-      </Typography>
+      </BodyText>
     </Container>
   );
 }
 
-export default Term;
+export default Terms;

@@ -37,6 +37,8 @@ const en = {
       inquiry_content: 'Inquiry Content',
       navigation: 'Navigation',
       resources: 'Resources',
+      cancel: 'Cancel',
+      action: 'Action',
     },
     pages: {
       signup: {
@@ -63,7 +65,7 @@ const en = {
         last_name: 'Last Name',
         email_address: 'Email Address',
         status: 'Status',
-        delete_confirmation: 'Are you sure you want to delete the selected user(s)?',
+        delete_confirmation: 'Are you sure you want to delete the selected user?',
       },
       activate: {
         heading: 'Activate Account',
@@ -152,6 +154,7 @@ const en = {
       documentation: 'Documentation',
       api_reference: 'API Reference',
       support: 'Documentation',
+      styleguide: 'Styleguide',
     },
   },
 };

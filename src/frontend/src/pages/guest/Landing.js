@@ -1,12 +1,11 @@
-import { useMemo } from 'react';
-import { Link } from 'react-router-dom';
 import { faker } from '@faker-js/faker';
 import { useTranslation } from 'react-i18next';
-import Feature from '../../components/atoms/Feature';
-import Section from '../../components/atoms/Section';
-import HeroImage from '../../components/atoms/HeroImage';
-import ReviewSlider from '../../components/molecules/ReviewSlider';
-import { Typography, Button, Box, Grid, Container } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { Box, Button, Container, Grid, Typography } from '@mui/material';
+import Feature from 'components/atoms/Feature';
+import HeroImage from 'components/atoms/HeroImage';
+import Section from 'components/atoms/Section';
+import ReviewSlider from 'components/molecules/ReviewSlider';
 
 function Landing() {
   const { t } = useTranslation();
@@ -35,38 +34,23 @@ function Landing() {
   {
     /** dummy client data */
   }
-  const clients = useMemo(() => {
-    const items = [];
-    [...Array(6)].map((item, index) => {
-      index++;
-      return items.push({
-        name: `Client ${index}`,
-        logo: `/static/images/client-logo-${index}.png`,
-      });
-    });
-
-    return items;
-  }, []);
+  const clients = [...Array(6)].map((item, index) => {
+    index++;
+    return {
+      name: `Client ${index}`,
+      logo: `/static/images/client-logo-${index}.png`,
+    };
+  });
 
   {
     /** dummy reviews data */
   }
-  const reviews = useMemo(() => {
-    let reviews = [];
-    let i = 0;
-
-    while (i < 9) {
-      reviews.push({
-        avatar: faker.image.people(120, 120, true),
-        name: `${faker.name.firstName()} ${faker.name.lastName()}`,
-        comment: faker.lorem.words(15),
-        rating: Math.random() * (5 - 1) + 1,
-      });
-      i++;
-    }
-
-    return reviews;
-  }, []);
+  const reviews = [...Array(9)].map(() => ({
+    avatar: faker.image.people(120, 120, true),
+    name: `${faker.name.firstName()} ${faker.name.lastName()}`,
+    comment: faker.lorem.words(15),
+    rating: Math.random() * (5 - 1) + 1,
+  }));
 
   return (
     <>

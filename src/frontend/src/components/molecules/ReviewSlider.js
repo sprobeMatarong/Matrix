@@ -1,20 +1,14 @@
-import ReviewCard from '../atoms/ReviewCard';
 import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
-import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import Box from '@mui/material/Box';
+import ReviewCard from 'components/atoms/ReviewCard';
 
-ReviewSlider.defaultProps = {
-  reviews: [],
-};
+function ReviewSlider(props) {
+  const { reviews, ...rest } = props;
 
-ReviewSlider.propTypes = {
-  reviews: PropTypes.array,
-};
-
-function ReviewSlider({ reviews, ...rest }) {
   return (
     <Box {...rest}>
       <Swiper
@@ -47,5 +41,13 @@ function ReviewSlider({ reviews, ...rest }) {
     </Box>
   );
 }
+
+ReviewSlider.defaultProps = {
+  reviews: [],
+};
+
+ReviewSlider.propTypes = {
+  reviews: PropTypes.array,
+};
 
 export default ReviewSlider;

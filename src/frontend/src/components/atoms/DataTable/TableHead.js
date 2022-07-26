@@ -1,25 +1,15 @@
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { TableHead as MUITableHead, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
-import TableRow from '@mui/material/TableRow';
-import { TableHead as MUITableHead } from '@mui/material';
 import TableCell from '@mui/material/TableCell';
-import Checkbox from '@mui/material/Checkbox';
+import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import { visuallyHidden } from '@mui/utils';
 
-TableHead.propTypes = {
-  selectedCount: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
-  headCells: PropTypes.array,
-};
-
 function TableHead(props) {
-  const { onSelectAllClick, order, orderBy, selectedCount, rowCount, onRequestSort, headCells } =
-    props;
+  const { order, orderBy, onRequestSort, headCells, actions } = props;
+  const { t } = useTranslation();
 
   const createSortHandler = (property) => (event) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -29,18 +19,6 @@ function TableHead(props) {
   return (
     <MUITableHead>
       <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={selectedCount > 0 && selectedCount < rowCount}
-            checked={rowCount > 0 && selectedCount === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              'aria-label': 'select all rows',
-            }}
-          />
-        </TableCell>
-
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -52,7 +30,13 @@ function TableHead(props) {
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
-              sx={{ fontWeight: 'bold' }}
+              sx={(theme) => ({
+                fontWeight: theme.typography.fontWeightBold,
+                fontSize: theme.typography.body2.fontSize,
+                textTransform: 'uppercase',
+                color: theme.palette.text.primary,
+                letterSpacing: 0.5,
+              })}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
@@ -63,9 +47,40 @@ function TableHead(props) {
             </TableSortLabel>
           </TableCell>
         ))}
+
+        {actions && (
+          <TableCell align="right">
+            <Typography
+              sx={(theme) => ({
+                fontWeight: theme.typography.fontWeightBold,
+                fontSize: theme.typography.body2.fontSize,
+                textTransform: 'uppercase',
+                color: theme.palette.text.primary,
+                letterSpacing: 0.5,
+              })}
+            >
+              {t('labels.action')}
+            </Typography>
+          </TableCell>
+        )}
       </TableRow>
     </MUITableHead>
   );
 }
+
+TableHead.defaultProps = {
+  order: 'desc',
+  orderBy: 'id',
+  actions: true,
+};
+
+TableHead.propTypes = {
+  onRequestSort: PropTypes.func.isRequired,
+  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+  orderBy: PropTypes.string.isRequired,
+  rowCount: PropTypes.number.isRequired,
+  headCells: PropTypes.array.isRequired,
+  actions: PropTypes.bool,
+};
 
 export default TableHead;

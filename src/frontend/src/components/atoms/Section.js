@@ -3,20 +3,9 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
-Section.defaultProps = {
-  fullWidth: false,
-  heading: null,
-  background: 'none',
-};
+function Section(props) {
+  const { fullWidth, heading, children, background, ...rest } = props;
 
-Section.propTypes = {
-  fullWidth: PropTypes.bool,
-  heading: PropTypes.string,
-  children: PropTypes.any,
-  background: PropTypes.string,
-};
-
-function Section({ fullWidth, heading, children, background, ...rest }) {
   return (
     <Box component="section" sx={{ py: 12, backgroundColor: background }}>
       <Container maxWidth={fullWidth ? 'lg' : false} {...rest}>
@@ -36,5 +25,18 @@ function Section({ fullWidth, heading, children, background, ...rest }) {
     </Box>
   );
 }
+
+Section.defaultProps = {
+  fullWidth: false,
+  heading: null,
+  background: 'none',
+};
+
+Section.propTypes = {
+  fullWidth: PropTypes.bool,
+  heading: PropTypes.string,
+  children: PropTypes.any,
+  background: PropTypes.string,
+};
 
 export default Section;

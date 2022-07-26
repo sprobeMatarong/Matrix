@@ -19,7 +19,6 @@ class RegisterUserRequest extends FormRequest
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => ['required', new EmailAddress(), 'unique:users,email'],
-            'password' => ['required', new Password()],
         ];
     }
 
@@ -36,10 +35,5 @@ class RegisterUserRequest extends FormRequest
     public function getEmail(): string
     {
         return $this->input('email');
-    }
-
-    public function getPassword(): string
-    {
-        return $this->input('password');
     }
 }

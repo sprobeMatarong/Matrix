@@ -1,24 +1,11 @@
 import PropTypes from 'prop-types';
-import { Box } from '@mui/material';
+import { useEffect, useRef, useState } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
-import { useEffect, useState, useRef } from 'react';
-import stringToColor from '../../utils/stringToColor';
+import { Box } from '@mui/material';
+import stringToColor from 'utils/stringToColor';
 
-AvatarField.propTypes = {
-  url: PropTypes.string,
-  label: PropTypes.string,
-  width: PropTypes.number,
-  onFileSelect: PropTypes.func,
-  editable: PropTypes.bool,
-};
-
-AvatarField.defaultProps = {
-  label: 'No Label',
-  width: 140,
-  editable: false,
-};
-
-function AvatarField({ width, url, label, onFileSelect, editable }) {
+function AvatarField(props) {
+  const { width, url, label, onFileSelect, editable } = props;
   const avatarRef = useRef(null);
   const [avatarUrl, setAvatarUrl] = useState(null);
 
@@ -106,5 +93,19 @@ function AvatarField({ width, url, label, onFileSelect, editable }) {
     </Box>
   );
 }
+
+AvatarField.propTypes = {
+  url: PropTypes.string,
+  label: PropTypes.string,
+  width: PropTypes.number,
+  onFileSelect: PropTypes.func,
+  editable: PropTypes.bool,
+};
+
+AvatarField.defaultProps = {
+  label: 'No Label',
+  width: 140,
+  editable: false,
+};
 
 export default AvatarField;

@@ -1,17 +1,15 @@
-import * as yup from 'yup';
-import api from '../../utils/api';
-import { toast } from 'react-toastify';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useQuery } from 'hooks/useQuery';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useState, useEffect } from 'react';
-import { useQuery } from '../../hooks/useQuery';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import SendIcon from '@mui/icons-material/Send';
-import LoadingButton from '@mui/lab/LoadingButton';
-import { yupResolver } from '@hookform/resolvers/yup';
-import PageTitle from '../../components/atoms/PageTitle';
-import PageSubTitle from '../../components/atoms/PageSubTitle';
-import { Container, TextField, Grid, Box, Card } from '@mui/material';
+import { toast } from 'react-toastify';
+import * as yup from 'yup';
+import { Box, Card, Container, Grid, TextField } from '@mui/material';
+import Button from 'components/atoms/Button';
+import PageTitle from 'components/atoms/PageTitle';
+import api from 'utils/api';
 
 function Activate() {
   const query = useQuery();
@@ -87,9 +85,7 @@ function Activate() {
     <>
       {valid && (
         <Container maxWidth="xs" sx={{ pt: 8 }}>
-          <PageTitle title={t('pages.activate.heading')} />
-
-          <PageSubTitle content={t('pages.activate.subtitle')} />
+          <PageTitle title={t('pages.activate.heading')} subTitle={t('pages.activate.subtitle')} />
 
           <Card sx={{ p: 4 }}>
             <Box component="form" noValidate onSubmit={handleSubmit(handleActivate)}>
@@ -121,18 +117,9 @@ function Activate() {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <LoadingButton
-                    color="primary"
-                    loading={loading}
-                    loadingPosition="start"
-                    variant="contained"
-                    type="submit"
-                    fullWidth
-                    sx={{ height: 48 }}
-                    startIcon={<SendIcon />}
-                  >
+                  <Button type="submit" fullWidth disabled={loading}>
                     {t('labels.submit')}
-                  </LoadingButton>
+                  </Button>
                 </Grid>
               </Grid>
             </Box>

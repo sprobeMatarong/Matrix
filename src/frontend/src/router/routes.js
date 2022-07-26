@@ -82,4 +82,13 @@ const routes = [
   },
 ];
 
+// Don't include styleguide in production routes
+if (process.env.ENVIRONMENT !== 'production') {
+  routes.push({
+    path: '/styleguide',
+    component: 'pages/guest/Styleguide',
+    auth: false,
+  });
+}
+
 export default routes;

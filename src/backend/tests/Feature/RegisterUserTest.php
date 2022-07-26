@@ -21,7 +21,6 @@ class RegisterUserTest extends TestCase
             'first_name' => 'John',
             'last_name' => 'Doe',
             'email' => 'johndoe@mail.com',
-            'password' => '!p4ssW0rd',
         ];
         $this->createApplication();
     }
@@ -32,7 +31,7 @@ class RegisterUserTest extends TestCase
     public function testRegisterMissingParam()
     {
         $data = $this->data;
-        unset($data['password']);
+        unset($data['email']);
 
         $response = $this->json('POST', '/' . config('app.api_version') . '/register', $data);
 
@@ -41,7 +40,7 @@ class RegisterUserTest extends TestCase
         $this->assertEquals(422, $response->getStatusCode());
 
         $this->assertTrue(
-            in_array('The password field is required.', $result->error->password)
+            in_array('The email field is required.', $result->error->email)
         );
     }
 
@@ -54,7 +53,6 @@ class RegisterUserTest extends TestCase
                         'first_name' => 'John',
                         'last_name' => 'Doe',
                         'email' => 'notAnEmail@',
-                        'password' => '!p4ssW0rd',
                     ]);
 
         $result = $response->getData();
@@ -64,18 +62,18 @@ class RegisterUserTest extends TestCase
         $this->assertTrue(in_array('Invalid email address.', $result->error->email));
     }
 
-    public function testRegisterInvalidPasswordFormat()
-    {
-        $data = $this->data;
-        $data['password'] = 'notvalidpassword';
-        $response = $this->json('POST', '/' . config('app.api_version') . '/register', $data);
-        $response->assertStatus(422);
-        $result = json_decode((string) $response->getContent());
-        $this->assertTrue(in_array(
-            'Password must contain the following: 1 uppercase, 1 special character and a minimum of 8 characters.',
-            $result->error->password
-        ));
-    }
+    // public function testRegisterInvalidPasswordFormat()
+    // {
+    //     $data = $this->data;
+    //     $data['password'] = 'notvalidpassword';
+    //     $response = $this->json('POST', '/' . config('app.api_version') . '/register', $data);
+    //     $response->assertStatus(422);
+    //     $result = json_decode((string) $response->getContent());
+    //     $this->assertTrue(in_array(
+    //         'Password must contain the following: 1 uppercase, 1 special character and a minimum of 8 characters.',
+    //         $result->error->password
+    //     ));
+    // }
 
     /**
      * A successful account creation

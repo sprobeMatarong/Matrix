@@ -1,7 +1,8 @@
-import { Container, Grid, Box, Typography } from '@mui/material';
-import NumberWidget from '../../components/atoms/NumberWidget';
-import LineChart from '../../components/atoms/LineChart';
 import { useTranslation } from 'react-i18next';
+import { Box, Container, Grid } from '@mui/material';
+import LineChart from 'components/atoms/LineChart';
+import NumberWidget from 'components/atoms/NumberWidget';
+import PageTitle from 'components/atoms/PageTitle';
 
 function Dashboard() {
   const { t } = useTranslation();
@@ -20,14 +21,10 @@ function Dashboard() {
 
   return (
     <Container disableGutters component="main" sx={{ pt: 4, pb: 6 }}>
-      <Box sx={{ flexGrow: 1, mb: 4 }}>
-        <Typography component="h3" variant="h3" align="left" color="text.primary" gutterBottom>
-          {t('pages.dashboard.main_heading')}
-        </Typography>
-        <Typography variant="h5" align="left" color="text.secondary" component="p">
-          {t('pages.dashboard.sub_heading')}
-        </Typography>
-      </Box>
+      <PageTitle
+        title={t('pages.dashboard.main_heading')}
+        subTitle={t('pages.dashboard.sub_heading')}
+      />
 
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={4}>

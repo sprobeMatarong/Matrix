@@ -4,17 +4,9 @@ import ListItem from '@mui/material/ListItem';
 import Typography from '@mui/material/Typography';
 import { blueGrey } from '@mui/material/colors';
 
-FooterLink.defaultProps = {
-  label: null,
-  url: null,
-};
+function FooterLink(props) {
+  const { label, url } = props;
 
-FooterLink.propTypes = {
-  label: PropTypes.string,
-  url: PropTypes.string,
-};
-
-function FooterLink({ label, url }) {
   return (
     <ListItem dense disableGutters>
       <Typography
@@ -28,5 +20,15 @@ function FooterLink({ label, url }) {
     </ListItem>
   );
 }
+
+FooterLink.defaultProps = {
+  label: null,
+  url: null,
+};
+
+FooterLink.propTypes = {
+  label: PropTypes.string,
+  url: PropTypes.string,
+};
 
 export default FooterLink;

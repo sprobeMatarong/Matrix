@@ -1,9 +1,9 @@
 import { Outlet } from 'react-router-dom';
-import { CssBaseline, Box } from '@mui/material';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
-import Navbar from '../components/organisms/Guest/Navbar';
-import Footer from '../components/organisms/Guest/Footer';
+import { Box, CssBaseline } from '@mui/material';
+import Footer from 'components/organisms/Guest/Footer';
+import Navbar from 'components/organisms/Guest/Navbar';
 
 function Guest() {
   return (
