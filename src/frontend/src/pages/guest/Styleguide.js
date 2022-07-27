@@ -6,6 +6,7 @@ import AccordionDemo from 'components/molecules/styleguide/AccordionDemo';
 import ButtonDemo from 'components/molecules/styleguide/ButtonDemo';
 import FormComponentsDemo from 'components/molecules/styleguide/FormComponentsDemo';
 import FormValidationDemo from 'components/molecules/styleguide/FormValidationDemo';
+import ModalDemo from 'components/molecules/styleguide/ModalDemo';
 import PaletteDemo from 'components/molecules/styleguide/PaletteDemo';
 import TableDemo from 'components/molecules/styleguide/TableDemo';
 import TypographyDemo from 'components/molecules/styleguide/TypographyDemo';
@@ -49,6 +50,10 @@ function Styleguide() {
     {
       label: 'Table',
       component: <TableDemo />,
+    },
+    {
+      label: 'Modal',
+      component: <ModalDemo />,
     },
     {
       label: 'Accordion',
