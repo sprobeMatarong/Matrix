@@ -28,9 +28,11 @@ function FormComponentsDemo(props) {
 
   return (
     <Box sx={{ mb: 8 }}>
-      <Heading variant="h4">Form Components</Heading>
+      <Heading variant="h4" align="center">
+        Form Components
+      </Heading>
 
-      <Heading variant="h5">TextField (Input Field)</Heading>
+      <Heading variant="h6">TextField (Input Field)</Heading>
       <BodyText>
         Usually, the default MUI TextField is used in forms. However, there are cases where
         developer tends to override it causing inconsistensy on other pages.
@@ -96,7 +98,7 @@ function FormComponentsDemo(props) {
       <Divider sx={{ my: 4 }} />
 
       <Box>
-        <Heading variant="h4" align="center">
+        <Heading variant="h6" align="center">
           Checkboxes
         </Heading>
 
@@ -131,7 +133,7 @@ function FormComponentsDemo(props) {
       <Divider sx={{ my: 4 }} />
 
       <Box>
-        <Heading variant="h5">Select</Heading>
+        <Heading variant="h6">Select</Heading>
 
         <BodyText>
           Usually, the default MUI Select is used in Forms. However, you will still need to format
@@ -190,7 +192,7 @@ const options = [
       <Divider sx={{ my: 4 }} />
 
       <Box>
-        <Heading variant="h5">Radio Button</Heading>
+        <Heading variant="h6">Radio Button</Heading>
 
         <BodyText>
           Usually, the default MUI Radio is used in Forms. However, you will still need to format

@@ -65,11 +65,11 @@ function Styleguide() {
     <Container sx={{ pt: 8 }}>
       <PageTitle
         title="Base Template Styleguide"
-        subTitle="This is the standard Styleguide Used Across All pages."
+        subTitle="This is the Standard Styleguide used across all pages for this Application."
       />
 
-      <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
-        <Box>
+      <Box sx={{ width: '100%', bgcolor: 'background.paper', mt: 8 }}>
+        <Box sx={(theme) => ({ borderBottom: `1px solid ${theme.palette.grey[300]}` })}>
           <Tabs
             variant="scrollable"
             scrollButtons
