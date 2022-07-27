@@ -4,6 +4,7 @@ import SyntaxHighlighter from 'react-syntax-highlighter';
 import { monokai } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import theme from 'theme';
 import { Box, Typography } from '@mui/material';
+import Divider from '@mui/material/Divider';
 import BodyText from 'components/atoms/BodyText';
 import Heading from 'components/atoms/Heading';
 
@@ -17,7 +18,7 @@ function TypographyDemo(props) {
       </Heading>
       <BodyText>
         The current global theme font-family is <strong>{theme.typography.fontFamily}</strong>. You
-        can edit the values in <strong>src/frontend/theme/typography.js</strong>
+        can edit and change the values in <strong>src/frontend/theme/typography.js</strong>
       </BodyText>
 
       <BodyText>
@@ -35,7 +36,7 @@ function TypographyDemo(props) {
       </SyntaxHighlighter>
 
       <BodyText>
-        However, we will use a custom component with initial styling derived from the{' '}
+        Therefore, we will use our custom Heading component with initial styling derived from the{' '}
         <strong>Typography</strong> component of MUI with additional styling that will match our
         system needs.
       </BodyText>
@@ -52,6 +53,8 @@ function TypographyDemo(props) {
         </Box>
       ))}
 
+      <Divider sx={{ mb: 8 }} />
+
       <Typography variant="h6">Body Text</Typography>
 
       <Typography variant="p">
@@ -63,7 +66,7 @@ function TypographyDemo(props) {
       </SyntaxHighlighter>
 
       <Typography variant="body1">
-        However, we will use a custom component with initial styling derived from the{' '}
+        Therefore, we will use our custom BodyText component with initial styling derived from the{' '}
         <strong>Typography</strong> component of MUI with additional styling that will match our
         system needs.
       </Typography>
@@ -73,8 +76,11 @@ function TypographyDemo(props) {
       </SyntaxHighlighter>
 
       <BodyText>
-        {faker.lorem.paragraphs(2)} ({theme.typography.body1.fontSize})
+        The default body font size is <strong>({theme.typography.body1.fontSize})</strong>. Below is
+        the sample body text in paragraph.
       </BodyText>
+
+      <BodyText>{faker.lorem.paragraphs(2)}</BodyText>
     </Box>
   );
 }

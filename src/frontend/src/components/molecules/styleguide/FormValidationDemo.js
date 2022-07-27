@@ -83,7 +83,8 @@ function FormValidationDemo() {
         </BodyText>
 
         <BodyText>
-          Below is a sample Form Validation demo. You can check the source code in{' '}
+          Below is a sample Form Validation demo utilizing our custom Components. You can check the
+          source code in{' '}
           <strong>frontend/src/components/molecules/styleguide/FormValidationDemo.js</strong>
         </BodyText>
       </Box>

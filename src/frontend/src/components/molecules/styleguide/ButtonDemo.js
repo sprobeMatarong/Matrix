@@ -15,7 +15,10 @@ function ButtonDemo(props) {
       <Heading variant="h4" align="center">
         Buttons
       </Heading>
-      <BodyText>Usually, the default MUI button is used in projects.</BodyText>
+      <BodyText>
+        Usually, the default MUI button is used in pages and forms. However, there are cases where
+        developer tends to override it causing inconsistensy on other pages.
+      </BodyText>
       <SyntaxHighlighter language="javascript" style={monokai}>
         {`import Button from '@mui/material/Button';\n\n<Button color="primary" variant="contained">Click Me</Button>`}
       </SyntaxHighlighter>
@@ -25,10 +28,9 @@ function ButtonDemo(props) {
       </MuiButton>
 
       <BodyText>
-        However, instead of using the default <strong>Button</strong> of MUI, you must use the
-        custom Button component with custom styling to match your project needs instead of modifying
-        the global Button properties. All the Button props from MUI are inherited by this custom
-        component.
+        Therefore, we will use our custom Button component with initial styling derived from the{' '}
+        <strong>Button</strong> component of MUI with additional styling that will match our system
+        needs. All the Button props from MUI are inherited by this custom component.
       </BodyText>
 
       <SyntaxHighlighter language="javascript" style={monokai}>

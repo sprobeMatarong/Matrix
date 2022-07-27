@@ -20,7 +20,7 @@ function AccordionDemo() {
       </Heading>
       <BodyText>
         Usually for FAQ pages, the default MUI Accordion is used to list down the questions. However
-        the default has a lot of child components.
+        the default MUI Accordion has a lot of child components.
       </BodyText>
       <SyntaxHighlighter language="javascript" style={monokai}>
         {`import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';\n
@@ -62,8 +62,10 @@ const items = [
       </Box>
 
       <BodyText>
-        Instead of using the default <strong>Accordion</strong> of MUI, you must use the custom
-        Accordion component with custom styling to match your project needs.
+        Therefore, we will use our custom Accordion component with initial styling derived from the{' '}
+        <strong>Accordion</strong> component of MUI with additional styling that will match our
+        system needs. You will just pass an array <strong>items</strong> with{' '}
+        <strong>header and content</strong> properties.
       </BodyText>
       <SyntaxHighlighter language="javascript" style={monokai}>
         {`import Accordion from 'components/molecules/Accordion';\n

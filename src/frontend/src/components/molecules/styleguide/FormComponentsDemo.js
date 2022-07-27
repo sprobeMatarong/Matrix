@@ -31,7 +31,10 @@ function FormComponentsDemo(props) {
       <Heading variant="h4">Form Components</Heading>
 
       <Heading variant="h5">TextField (Input Field)</Heading>
-      <BodyText>Usually, the default MUI TextField is used in projects.</BodyText>
+      <BodyText>
+        Usually, the default MUI TextField is used in forms. However, there are cases where
+        developer tends to override it causing inconsistensy on other pages.
+      </BodyText>
       <SyntaxHighlighter language="javascript" style={monokai}>
         {`import TextField from '@mui/material/TextField';\n\n<TextField label="Username" error={true} helperText="Field with validation error" />`}
       </SyntaxHighlighter>
@@ -48,10 +51,9 @@ function FormComponentsDemo(props) {
       </Box>
 
       <BodyText>
-        However, instead of using the default <strong>TextField</strong> of MUI, you must use the
-        custom TextField component with custom styling to match your project needs instead of
-        modifying the global TextField properties. All the TextField props from MUI are inherited by
-        this custom component.
+        Therefore, we will use our custom TextField component with initial styling derived from the{' '}
+        <strong>TextField</strong> component of MUI with additional styling that will match our
+        system needs. All the TextField props from MUI are inherited by this custom component.
       </BodyText>
 
       <SyntaxHighlighter language="javascript" style={monokai}>
@@ -99,7 +101,7 @@ function FormComponentsDemo(props) {
         </Heading>
 
         <BodyText>
-          Usually, the default MUI Checkbox is used in projects. It has no paired label.
+          Usually, the default MUI Checkbox is used in Forms. It has no paired label.
         </BodyText>
         <SyntaxHighlighter language="javascript" style={monokai}>
           {`import Checkbox from '@mui/material/Checkbox';\n\n<Checkbox defaultChecked />`}
@@ -110,10 +112,9 @@ function FormComponentsDemo(props) {
         </Box>
 
         <BodyText>
-          However, instead of using the default <strong>Checkbox</strong> of MUI, you must use the
-          custom Checkbox component with custom styling to match your project needs instead of
-          modifying the global Checkbox properties. All the Checkbox props from MUI are inherited by
-          this custom component.
+          Therefore, we will use our custom Checkbox component with initial styling derived from the{' '}
+          <strong>Checkbox</strong> component of MUI with additional styling that will match our
+          system needs. All the Checkbox props from MUI are inherited by this custom component.
         </BodyText>
 
         <SyntaxHighlighter language="javascript" style={monokai}>
@@ -133,7 +134,7 @@ function FormComponentsDemo(props) {
         <Heading variant="h5">Select</Heading>
 
         <BodyText>
-          Usually, the default MUI Select is used in projects. But you will still need to format
+          Usually, the default MUI Select is used in Forms. However, you will still need to format
           using several components.
         </BodyText>
         <SyntaxHighlighter language="javascript" style={monokai}>
@@ -158,14 +159,13 @@ function FormComponentsDemo(props) {
         </Box>
 
         <BodyText>
-          However, instead of using the default <strong>Select</strong> of MUI, you must use the
-          custom Select component with custom styling to match your project needs instead of
-          modifying the global Select properties. All the Select props from MUI are inherited by
-          this custom component.
+          Therefore, we will use our custom Select component with initial styling derived from the{' '}
+          <strong>Select</strong> component of MUI with additional styling that will match our
+          system needs. All the Select props from MUI are inherited by this custom component.
         </BodyText>
 
         <SyntaxHighlighter language="javascript" style={monokai}>
-          {`import Checkbox from 'components/atoms/Form/Select';\n
+          {`import Select from 'components/atoms/Form/Select';\n
 // set the options
 const options = [
   { label: 'Male', value: 'Male' },
@@ -193,7 +193,7 @@ const options = [
         <Heading variant="h5">Radio Button</Heading>
 
         <BodyText>
-          Usually, the default MUI Radio is used in projects. But you will still need to format
+          Usually, the default MUI Radio is used in Forms. However, you will still need to format
           using several components.
         </BodyText>
         <SyntaxHighlighter language="javascript" style={monokai}>
@@ -224,9 +224,10 @@ const options = [
         </Box>
 
         <BodyText>
-          However, instead of using the default <strong>RadioGroup</strong> of MUI, you must use the
-          custom RadioGroup component with custom styling to match your project needs instead of
-          modifying the global RadioGroup properties.
+          Therefore, we will use our custom RadioGroup component with initial styling derived from
+          the <strong>RadioGroup</strong> component of MUI with additional styling that will match
+          our system needs. All the RadioGroup props from MUI are inherited by this custom
+          component.
         </BodyText>
         <SyntaxHighlighter language="javascript" style={monokai}>
           {`import RadioGroup from 'components/atoms/Form/RadioGroup';\n

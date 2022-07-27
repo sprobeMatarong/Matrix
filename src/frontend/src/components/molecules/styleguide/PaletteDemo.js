@@ -16,7 +16,7 @@ function PaletteDemo(props) {
       </Heading>
 
       <BodyText>
-        This is the color pallete for the theme. You can edit the values in{' '}
+        These are the color pallete for our current global theme. You can edit the values in{' '}
         <strong>src/frontend/theme/palette.js</strong>
       </BodyText>
 
