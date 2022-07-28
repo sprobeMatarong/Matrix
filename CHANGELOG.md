@@ -4,7 +4,8 @@
 
 ## [2.0.0] - 2021-01-20
 ### Added
-- Added CHANGELOG.md file
+- Added `CHANGELOG.md` file
+- Added `MergeRequestGuide.md` file.
 - Added `StyleGuide` Page for development reference.
 - Added new Public Static Pages for `About, Inquiry, FAQ, Terms`
 - Added Static Pages for Dashboard `Widgets, Integration Card List`
