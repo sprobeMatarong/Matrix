@@ -1,4 +1,6 @@
 #!/bin/bash
+# Stop script when any of the commands fail
+set -e
 
 SUCCESS_COLOR='\033[1;32m'
 ORANGE_COLOR='\033[0;33m'
