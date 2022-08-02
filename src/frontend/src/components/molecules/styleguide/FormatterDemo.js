@@ -41,7 +41,10 @@ function FormatterDemo() {
         To display standard Yen values format in the app, make use of the <strong>Yen</strong>{' '}
         helper component. The formatter also automatically adds comma every 3 digits.
       </BodyText>
-      <BodyText>Do not use the decimal unless specified. The smallest unit is 1 yen.</BodyText>
+      <BodyText>
+        Do not use the decimal unless specified. The smallest unit is 1 yen. The default yen symbol
+        is used.
+      </BodyText>
       <SyntaxHighlighter language="javascript" style={monokai}>
         {`import JapanYen from 'components/atoms/Formatter/JapanYen';\n\n<JapanYen amount={5500} />`}
       </SyntaxHighlighter>
@@ -49,6 +52,19 @@ function FormatterDemo() {
       {amounts.map((amount) => (
         <Box key={amount}>
           <JapanYen amount={amount} />
+        </Box>
+      ))}
+      <BodyText>
+        If you want to use the <strong>kanji</strong> symbol for Yen, just set the props{' '}
+        <strong>isKanji={`{true}`}</strong>.
+      </BodyText>
+      <SyntaxHighlighter language="javascript" style={monokai}>
+        {`import JapanYen from 'components/atoms/Formatter/JapanYen';\n\n<JapanYen amount={5500} isKanji={true} />`}
+      </SyntaxHighlighter>
+      <BodyText>Below are the examples on how it would be displayed:</BodyText>
+      {amounts.map((amount) => (
+        <Box key={amount}>
+          <JapanYen amount={amount} isKanji={true} />
         </Box>
       ))}
 
@@ -105,7 +121,8 @@ function FormatterDemo() {
       <Heading variant="h5">Japan Date Helper</Heading>
       <BodyText>
         To display standard Japan Date format in the app, make use of the <strong>JapanDate</strong>{' '}
-        helper component. Make sure to provide the <strong>date</strong> prop.
+        helper component. Make sure to provide the <strong>date</strong> prop. It will always
+        display the 24-Hour time format.
       </BodyText>
       <SyntaxHighlighter language="javascript" style={monokai}>
         {`import JapanDate from 'components/atoms/Formatter/JapanDate';\n\n<JapanDate date="2022-07-25 18:45:02" />`}
