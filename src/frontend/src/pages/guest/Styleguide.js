@@ -6,6 +6,7 @@ import AccordionDemo from 'components/molecules/styleguide/AccordionDemo';
 import ButtonDemo from 'components/molecules/styleguide/ButtonDemo';
 import FormComponentsDemo from 'components/molecules/styleguide/FormComponentsDemo';
 import FormValidationDemo from 'components/molecules/styleguide/FormValidationDemo';
+import FormatterDemo from 'components/molecules/styleguide/FormatterDemo';
 import ModalDemo from 'components/molecules/styleguide/ModalDemo';
 import PaletteDemo from 'components/molecules/styleguide/PaletteDemo';
 import TableDemo from 'components/molecules/styleguide/TableDemo';
@@ -58,6 +59,10 @@ function Styleguide() {
     {
       label: 'Accordion',
       component: <AccordionDemo />,
+    },
+    {
+      label: 'Formatter',
+      component: <FormatterDemo />,
     },
   ];
 
