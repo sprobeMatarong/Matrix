@@ -23,7 +23,7 @@ class UserServiceTest extends TestCase
     private static $USER;
 
     /** @var string */
-    private static $KEYWORD = 'as';
+    private static $KEYWORD = 'ad';
 
     /** @var int */
     private static $TOTAL;

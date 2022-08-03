@@ -16,7 +16,7 @@ class UserSearchTest extends TestCase
     private static $ACCESS_TOKEN;
 
     /** @var string */
-    private static $KEYWORD = 'as';
+    private static $KEYWORD = 'ad';
 
     /** @var array */
     private static $USERIDS = [];
