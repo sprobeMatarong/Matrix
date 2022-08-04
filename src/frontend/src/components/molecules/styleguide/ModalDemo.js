@@ -5,10 +5,13 @@ import Box from '@mui/material/Box';
 import BodyText from 'components/atoms/BodyText';
 import Button from 'components/atoms/Button';
 import Heading from 'components/atoms/Heading';
+import Drawer from 'components/organisms/Drawer';
 import Modal from 'components/organisms/Modal';
+import Product from './Product';
 
 function ModalDemo() {
   const [open, setOpen] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState(false);
   const handleClose = () => setOpen(false);
 
   return (
@@ -50,6 +53,36 @@ const handleClose = () => setOpen(false);
   </Box>
 </Modal>`}
       </SyntaxHighlighter>
+
+      <BodyText>
+        If you want to a side-modal, you can make use of our custom <strong>Drawer</strong>{' '}
+        component. This inherits the MUI <strong>Drawer</strong>
+      </BodyText>
+
+      <Button onClick={() => setOpenDrawer(true)}>Open Drawer</Button>
+
+      <SyntaxHighlighter language="javascript" style={monokai}>
+        {`import Box from '@mui/material/Box';
+import Drawer from 'components/organisms/Drawer';
+
+function App() {
+  const [openDrawer, setOpenDrawer] = useState(false);
+
+  return (
+    <Box>
+      <Button onClick={() => setOpenDrawer(true)}>Open Drawer</Button>
+
+      <Drawer title="Product Details" open={openDrawer} onClose={() => setOpenDrawer(false)}>
+        <Product />
+      </Drawer>
+    </Box>
+  );
+}`}
+      </SyntaxHighlighter>
+
+      <Drawer title="Product Details" open={openDrawer} onClose={() => setOpenDrawer(false)}>
+        <Product />
+      </Drawer>
     </Box>
   );
 }
