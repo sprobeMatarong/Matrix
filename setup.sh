@@ -68,7 +68,7 @@ while [[ $APP_DOMAIN = "" ]]; do
    echo "(For development environment, make sure to add the Domain Name in your machine host file.)"
 done
 
-read -p "Proceed to Build? (Y/N): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
+read -p "Proceed to Build? (y/n): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || exit 1
 
 if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
     # Update Docker .env
@@ -81,7 +81,6 @@ if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
     set_env "s/MYSQL_USER=/MYSQL_USER=$MYSQL_USER/g"  .env;
     set_env "s/MYSQL_PASSWORD=/MYSQL_PASSWORD=$MYSQL_PASSWORD/g"  .env;
 
-    set_env "s/API_DOMAIN=/API_DOMAIN=api.$APP_DOMAIN/g" .env;
     set_env "s/APP_DOMAIN=/APP_DOMAIN=$APP_DOMAIN/g" .env;
 
     if [[ $ENVIRONMENT == "development" ]]; then
@@ -116,28 +115,44 @@ if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
     set_env "s/REACT_APP_API_URL=/REACT_APP_API_URL=http:\/\/$APP_DOMAIN\/api\/v1/g" src/frontend/.env;
     echo -e "${SUCCESS_COLOR}done${NO_COLOR}"
 
-    # Build Docker Containers
-    docker-compose build --no-cache
+    if [[ $ENVIRONMENT == "development" ]]; then
+      # Build Docker Containers
+      docker-compose build --no-cache
 
-    # Install PHP Laravel Packages and migrate database with seeders
-    docker-compose run --rm php bash -c "composer install && php artisan key:generate && php artisan migrate:fresh --seed"
+      # Install PHP Laravel Packages and migrate database with seeders
+      docker-compose run --rm php bash -c "composer install && php artisan key:generate && php artisan migrate:fresh --seed"
 
-    # Setup Laravel Passport
-    docker-compose run --rm php php artisan passport:install --force >> output.txt
+      # Setup Laravel Passport
+      docker-compose run --rm php php artisan passport:install --force >> output.txt
 
-    # Update Laravel & React environment variables
-    CLIENT_ID=$(grep 'Client ID\:' output.txt | tail -n 1)
-    CLIENT_SECRET=$(grep 'Client secret\:' output.txt | tail -n 1)
-    rm output.txt
-    CLIENT_ID="$(echo ${CLIENT_ID/Client ID:/""} | tr -d '[:space:]' | perl -pe 's/\x1b\[[0-9;]*[mG]//g')"
-    CLIENT_SECRET="$(echo ${CLIENT_SECRET/Client secret:/""} | tr -d '[:space:]' | perl -pe 's/\x1b\[[0-9;]*[mG]//g')"
-    set_env "s/API_CLIENT_ID=/API_CLIENT_ID=$CLIENT_ID/g" src/backend/.env;
-    set_env "s/API_CLIENT_SECRET=/API_CLIENT_SECRET=$CLIENT_SECRET/g" src/backend/.env;
-    set_env "s/REACT_APP_CLIENT_ID=/REACT_APP_CLIENT_ID=$CLIENT_ID/g" src/frontend/.env;
-    set_env "s/REACT_APP_CLIENT_SECRET=/REACT_APP_CLIENT_SECRET=$CLIENT_SECRET/g" src/frontend/.env;
+      # Update Laravel & React environment variables
+      CLIENT_ID=$(grep 'Client ID\:' output.txt | tail -n 1)
+      CLIENT_SECRET=$(grep 'Client secret\:' output.txt | tail -n 1)
+      rm output.txt
+      CLIENT_ID="$(echo ${CLIENT_ID/Client ID:/""} | tr -d '[:space:]' | perl -pe 's/\x1b\[[0-9;]*[mG]//g')"
+      CLIENT_SECRET="$(echo ${CLIENT_SECRET/Client secret:/""} | tr -d '[:space:]' | perl -pe 's/\x1b\[[0-9;]*[mG]//g')"
+      set_env "s/API_CLIENT_ID=/API_CLIENT_ID=$CLIENT_ID/g" src/backend/.env;
+      set_env "s/API_CLIENT_SECRET=/API_CLIENT_SECRET=$CLIENT_SECRET/g" src/backend/.env;
+      set_env "s/REACT_APP_CLIENT_ID=/REACT_APP_CLIENT_ID=$CLIENT_ID/g" src/frontend/.env;
+      set_env "s/REACT_APP_CLIENT_SECRET=/REACT_APP_CLIENT_SECRET=$CLIENT_SECRET/g" src/frontend/.env;
 
-    # Start the containers
-    docker-compose up -d
+      # Start the docker containers
+      docker-compose up -d
+
+    # For Staging & Environment
+    else
+      #  Build Docker Containers
+      docker-compose -f production.docker-compose.yml build
+
+      # Install PHP Laravel Packages. Manually Migrate and Seed after build since it is Production environment.
+      docker-compose run --rm php bash -c "composer install && php artisan key:generate"
+
+      # Build React for Production Environment
+      docker-compose run node npm run build
+
+      # Start the docker containers
+      docker-compose -f production.docker-compose.yml up -d
+    fi
 
     # Display the results
     echo -e "\n\n${SUCCESS_COLOR}Project Setup Completed${NO_COLOR}"

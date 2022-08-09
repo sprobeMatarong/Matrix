@@ -49,14 +49,13 @@ MYSQL_PASSWORD=ANY_STRONG_PASSWORD        # use this value in src/backend/.env
 ....
 ....
 ....
-API_DOMAIN=api.tcg.local                # for local development. change accordingly per environment
 APP_DOMAIN=tcg.local                    # for local development. change accordingly per environment
 ```
 
 For Local Development in windows, add the following lines to `C:\Windows\System32\drivers\etc\hosts` or `/etc/hosts` for ubuntu
 
 ```
-127.0.0.1    tcg.local api.tcg.local
+127.0.0.1    tcg.local
 ```
 
 Note: Replace `127.0.0.1` with your Docker Machine IP.
