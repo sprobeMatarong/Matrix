@@ -8,6 +8,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ProfileResource;
 use App\Http\Requests\API\UpdateProfileRequest;
 
+/**
+ * @group Profile Management
+ */
 class ProfileController extends Controller
 {
     /** @var App\Services\API\UserService */

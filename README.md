@@ -435,3 +435,22 @@ For succeeding/incremental deployments for the React(Frontend), just run
 ```
 docker-compose run --rm PROJECT_node npm run build
 ```
+  
+---
+  
+## Generate API Documentation
+
+The Laravel Backend source code has included the `knuckleswtf/scribe` package to auto generate the API Documentation. This will fetch all the routes found in your `routes/api.php` and generates the API Documentation automatically.
+  
+To generate the API Documentation, you will need to go inside the PHP Docker container and run the following command `php artisan scribe:generate`:
+```
+docker exec -it PROJECTNAME_php sh
+/var/www/backend # php artisan scribe:generate
+```
+If the command is successful, it will look like this:
+![Generate API Doc Screenshot](/api-doc-generate.png)    
+
+You can view the API Documentation page at [http://APP_DOMAIN/api/docs](http://APP_DOMAIN/api/docs)
+![View API Doc Screenshot](/api-doc-sample.png)
+  
+There is also a `Postman` collection file generated that can be found at [http://APP_DOMAIN/api/docs/collection.json](http://APP_DOMAIN/api/docs/collection.json) that you can import in your `Postman App`.

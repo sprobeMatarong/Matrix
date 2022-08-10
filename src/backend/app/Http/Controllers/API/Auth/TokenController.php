@@ -25,7 +25,8 @@ class TokenController extends Controller
     }
 
     /**
-     * Delete access token logged in user
+     * Logout the user by deleting the current access token
+     *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */

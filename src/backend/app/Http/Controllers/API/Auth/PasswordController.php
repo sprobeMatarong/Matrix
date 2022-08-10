@@ -9,6 +9,9 @@ use App\Services\API\PasswordService;
 use App\Http\Requests\API\Password\ResetPasswordRequest;
 use App\Http\Requests\API\Password\ForgotPasswordRequest;
 
+/**
+ * @group Password Forgot & Reset
+ */
 class PasswordController extends Controller
 {
     /** @var App\Services\API\PasswordService */

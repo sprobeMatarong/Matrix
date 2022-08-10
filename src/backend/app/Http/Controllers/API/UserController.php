@@ -15,6 +15,9 @@ use App\Http\Requests\API\Users\UpdateUserRequest;
 use App\Http\Requests\API\Users\RegisterUserRequest;
 use App\Http\Requests\API\Users\ActivateAccountRequest;
 
+/**
+ * @group User Management
+ */
 class UserController extends Controller
 {
     /** @var App\Services\API\UserService */
@@ -67,7 +70,8 @@ class UserController extends Controller
     }
 
     /**
-     * Creates a new user. Creator must be authenticated.
+     * Creates a new user.
+     * @authenticated
      *
      * @param App\Http\Requests\CreateUserRequest $request
      * @return \Illuminate\Http\Response

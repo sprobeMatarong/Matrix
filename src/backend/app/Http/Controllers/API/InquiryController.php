@@ -8,6 +8,9 @@ use App\Services\API\InquiryService;
 use App\Http\Resources\InquiryResource;
 use App\Http\Requests\API\Inquiry\CreateInquiryRequest;
 
+/**
+ * @group Inquiry Management
+ */
 class InquiryController extends Controller
 {
     /** @var \App\Services\API\nquiryService */
@@ -19,6 +22,12 @@ class InquiryController extends Controller
         $this->inquiryService = $inquiryService;
     }
 
+    /**
+     * Create New Inquiry
+     *
+     * @param \App\Http\Requests\API\Inquiry\CreateInquiryRequest $request
+     * @return Illuminate\Http\Response
+     */
     public function create(CreateInquiryRequest $request)
     {
         $request->validated();

@@ -26,7 +26,7 @@ class UpdateProfileRequest extends FormRequest
 
     public function getId(): int
     {
-        return (int) $this->user()->id;
+        return $this->user() ? (int) $this->user()->id : 0;
     }
 
     public function getFirstName(): string

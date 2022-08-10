@@ -4,4 +4,6 @@ src/backend/public/css
 src/backend/public/js
 src/backend/public/report/*
 src/backend/packages/*
+src/backend/.scribe
+src/backend/public/docs
 .env
