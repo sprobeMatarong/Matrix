@@ -1,10 +1,12 @@
 import { faker } from '@faker-js/faker';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { Box, Button, Container, Grid, Typography } from '@mui/material';
+import { Box, Container, Grid, Button as MuiButton, Typography } from '@mui/material';
+import ButtonRound from 'components/atoms/ButtonRound';
 import Feature from 'components/atoms/Feature';
 import HeroImage from 'components/atoms/HeroImage';
 import Section from 'components/atoms/Section';
+import CallToAction from 'components/molecules/CallToAction';
 import ReviewSlider from 'components/molecules/ReviewSlider';
 
 function Landing() {
@@ -80,15 +82,9 @@ function Landing() {
             </Typography>
 
             <Box textAlign="center" sx={{ mt: 2 }}>
-              <Button
-                component={Link}
-                to="/signup"
-                variant="contained"
-                size="large"
-                disableElevation
-              >
+              <ButtonRound component={Link} to="/signup" disableElevation>
                 {t('labels.get_started')}
-              </Button>
+              </ButtonRound>
             </Box>
           </Box>
         </Box>
@@ -132,9 +128,12 @@ function Landing() {
         <ReviewSlider reviews={reviews} sx={{ mt: 6, p: 4 }} />
 
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Button variant="outlined">{t('pages.landing.see_all_reviews')}</Button>
+          <MuiButton variant="outlined">{t('pages.landing.see_all_reviews')}</MuiButton>
         </Box>
       </Section>
+
+      {/** CTA */}
+      <CallToAction />
     </>
   );
 }
