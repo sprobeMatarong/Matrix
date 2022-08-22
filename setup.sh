@@ -137,7 +137,7 @@ if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
       set_env "s/REACT_APP_CLIENT_SECRET=/REACT_APP_CLIENT_SECRET=$CLIENT_SECRET/g" src/frontend/.env;
 
       # Start the docker containers
-      docker-compose up -d
+      COMPOSE_HTTP_TIMEOUT=900 docker-compose up -d
 
     # For Staging & Environment
     else
