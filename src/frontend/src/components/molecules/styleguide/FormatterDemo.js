@@ -133,14 +133,14 @@ function FormatterDemo() {
 
       <BodyText>
         If you want to display both date and time, make sure to set the{' '}
-        <strong>showTime={`{true}`}</strong>.
+        <strong>hasTime={`{true}`}</strong>.
       </BodyText>
       <SyntaxHighlighter language="javascript" style={monokai}>
-        {`import JapanDate from 'components/atoms/Formatter/JapanDate';\n\n<JapanDate date="2022-07-25 18:45:02" showTime={true} />`}
+        {`import JapanDate from 'components/atoms/Formatter/JapanDate';\n\n<JapanDate date="2022-07-25 18:45:02" hasTime={true} />`}
       </SyntaxHighlighter>
       <BodyText>Below is the example on how it would be displayed:</BodyText>
 
-      <JapanDate date="2022-07-25 18:45:02" showTime={true} />
+      <JapanDate date="2022-07-25 18:45:02" hasTime={true} />
 
       <BodyText>
         If not provided, the default value of <strong>separator</strong> prop is{' '}
@@ -148,12 +148,12 @@ function FormatterDemo() {
         <strong>(forward slash) /</strong> or <strong>(dash) - </strong>.
       </BodyText>
       <SyntaxHighlighter language="javascript" style={monokai}>
-        {`import JapanDate from 'components/atoms/Formatter/JapanDate';\n\n<JapanDate date="2022-07-25 18:45:02" showTime={true} separator="kanji" />`}
+        {`import JapanDate from 'components/atoms/Formatter/JapanDate';\n\n<JapanDate date="2022-07-25 18:45:02" hasTime={true} separator="kanji" />`}
       </SyntaxHighlighter>
       {['kanji', '/', '-'].map((separator, key) => (
         <Box key={key}>
           <BodyText>separator: {separator}</BodyText>
-          <JapanDate date="2022-07-25 18:45:02" showTime={true} separator={separator} />
+          <JapanDate date="2022-07-25 18:45:02" hasTime={true} separator={separator} />
         </Box>
       ))}
     </Box>

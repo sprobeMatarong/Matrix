@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import BodyText from 'components/atoms/BodyText';
 
-function JapanDate({ date, showTime, separator }) {
+function JapanDate({ date, hasTime, separator }) {
   const formatDate = (date) => {
     if (isNaN(date) && isNaN(Date.parse(date))) {
       return 'Invalid date provided.';
@@ -25,19 +25,19 @@ function JapanDate({ date, showTime, separator }) {
     const timeStamp =
       separator === 'kanji' ? `${hour}時${minute}分${second}秒` : `${hour}:${minute}:${second}`;
 
-    return showTime ? `${formatted} ${timeStamp}` : formatted;
+    return hasTime ? `${formatted} ${timeStamp}` : formatted;
   };
 
   return <BodyText>{formatDate(date)}</BodyText>;
 }
 
 JapanDate.defaultProps = {
-  showTime: false,
+  hasTime: false,
   separator: 'kanji',
 };
 
 JapanDate.propTypes = {
-  showTime: PropTypes.bool,
+  hasTime: PropTypes.bool,
   date: function (props, propName, componentName) {
     if (isNaN(props[propName]) && isNaN(Date.parse(props[propName]))) {
       return new Error(
