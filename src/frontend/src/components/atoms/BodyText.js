@@ -22,7 +22,7 @@ BodyText.defaultProps = {
 };
 
 BodyText.propTypes = {
-  children: PropTypes.any,
+  children: PropTypes.node,
   bold: PropTypes.bool,
   disableGutter: PropTypes.bool,
 };

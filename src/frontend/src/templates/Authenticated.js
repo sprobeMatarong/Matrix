@@ -14,7 +14,9 @@ function Authenticated() {
   const { user, logout } = useAuth({ middleware: 'auth' });
 
   return (
-    <CssBaseline>
+    <>
+      <CssBaseline />
+
       {user && (
         <Box sx={{ display: 'flex' }}>
           <Navbar open={open} onToggle={toggleDrawer} onLogout={logout} user={user} />
@@ -51,7 +53,7 @@ function Authenticated() {
         rtl={false}
         draggable
       />
-    </CssBaseline>
+    </>
   );
 }
 

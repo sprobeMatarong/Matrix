@@ -53,7 +53,7 @@ Drawer.propTypes = {
   title: PropTypes.string,
   open: PropTypes.bool,
   onClose: PropTypes.func,
-  children: PropTypes.any,
+  children: PropTypes.node,
   anchor: PropTypes.oneOf(['top', 'left', 'right', 'bottom']),
 };
 

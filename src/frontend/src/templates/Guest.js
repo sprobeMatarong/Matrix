@@ -7,7 +7,8 @@ import Navbar from 'components/organisms/Guest/Navbar';
 
 function Guest() {
   return (
-    <CssBaseline>
+    <>
+      <CssBaseline />
       <Navbar />
 
       <Box
@@ -33,7 +34,7 @@ function Guest() {
         rtl={false}
         draggable
       />
-    </CssBaseline>
+    </>
   );
 }
 

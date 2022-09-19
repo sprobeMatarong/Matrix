@@ -54,25 +54,15 @@ function GuestNavbar() {
             <MenuLinks items={menus} />
           </Box>
 
-          <Button
-            component={Link}
-            to="/signup"
-            variant="outlined"
-            color="transparent"
-            sx={{ my: 1, mx: 1, display: { xs: 'none', md: 'flex' } }}
-          >
-            {t('labels.signup')}
-          </Button>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '8px' }}>
+            <Button component={Link} to="/signup" variant="outlined">
+              {t('labels.signup')}
+            </Button>
 
-          <Button
-            component={Link}
-            to="/login"
-            variant="contained"
-            disableElevation
-            sx={{ my: 1, display: { xs: 'none', md: 'flex' } }}
-          >
-            {t('labels.login')}
-          </Button>
+            <Button component={Link} to="/login">
+              {t('labels.login')}
+            </Button>
+          </Box>
 
           {/** Mobile Menu */}
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>

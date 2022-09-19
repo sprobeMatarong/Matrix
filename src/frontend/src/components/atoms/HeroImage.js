@@ -27,7 +27,7 @@ HeroImage.defaultProps = {
 
 HeroImage.propTypes = {
   image: PropTypes.string,
-  children: PropTypes.any,
+  children: PropTypes.node,
   height: PropTypes.string,
 };
 

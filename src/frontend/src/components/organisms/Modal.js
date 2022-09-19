@@ -40,7 +40,7 @@ const style = {
 Modal.propTypes = {
   title: PropTypes.string,
   open: PropTypes.bool,
-  children: PropTypes.any,
+  children: PropTypes.node,
   handleClose: PropTypes.func,
 };
 

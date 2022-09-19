@@ -132,18 +132,12 @@ export default function AddEditModal(props) {
             </Grid>
           </Grid>
 
-          <Box sx={{ width: '100%', display: 'flex', justifyContent: 'end', px: 2, pb: 2 }}>
-            <Button
-              onClick={handleClose}
-              variant="outlined"
-              color="transparent"
-              disabled={loading}
-              sx={{ mr: 1 }}
-            >
+          <Box sx={{ width: '100%', display: 'flex', justifyContent: 'end', px: 2, pb: 2, gap: 1 }}>
+            <Button onClick={handleClose} variant="outlined" disabled={loading}>
               {t('labels.cancel')}
             </Button>
 
-            <Button color="primary" disabled={loading} type="submit">
+            <Button disabled={loading} type="submit">
               {user ? t('labels.update') : t('labels.save')}
             </Button>
           </Box>

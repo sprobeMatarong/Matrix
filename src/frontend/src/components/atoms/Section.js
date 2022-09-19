@@ -35,7 +35,7 @@ Section.defaultProps = {
 Section.propTypes = {
   fullWidth: PropTypes.bool,
   heading: PropTypes.string,
-  children: PropTypes.any,
+  children: PropTypes.node,
   background: PropTypes.string,
 };
 
