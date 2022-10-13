@@ -44,14 +44,16 @@ function TableToolbar(props) {
         })}
       >
         <InputBase inputRef={searchEl} placeholder={t('labels.enter_keyword')} sx={{ pl: 1 }} />
-        {submitted && (
-          <IconButton onClick={() => handleClear()}>
-            <ClearIcon color="error" />
+        <Box>
+          {submitted && (
+            <IconButton onClick={() => handleClear()}>
+              <ClearIcon color="error" />
+            </IconButton>
+          )}
+          <IconButton onClick={() => handleClick()}>
+            <SearchIcon />
           </IconButton>
-        )}
-        <IconButton onClick={() => handleClick()}>
-          <SearchIcon />
-        </IconButton>
+        </Box>
       </Box>
 
       <Button onClick={() => handleAdd()} startIcon={<AddIcon />}>
