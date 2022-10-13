@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { TableBody as MuiTableBody } from '@mui/material';
@@ -8,6 +9,7 @@ import TableRow from '@mui/material/TableRow';
 
 function TableBody(props) {
   const { header, rows, handleDelete, handleEdit, actions } = props;
+  const { t } = useTranslation();
 
   return (
     <MuiTableBody>
@@ -48,7 +50,7 @@ function TableBody(props) {
       {rows.length < 1 && (
         <TableRow>
           <TableCell align="center" colSpan={6}>
-            No data available.
+            {t('table.no_data')}
           </TableCell>
         </TableRow>
       )}

@@ -39,10 +39,7 @@ function Signup() {
     return await api
       .post('/register', data)
       .then(() => {
-        toast(
-          'Please check your inbox for a confirmation email. Click the link to complete the registration process.',
-          { type: 'success' }
-        );
+        toast(t('pages.signup.signup_complete'), { type: 'success' });
         reset();
       })
       .catch((err) => {

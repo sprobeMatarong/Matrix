@@ -43,6 +43,8 @@ const en = {
     pages: {
       signup: {
         agree_to_terms: 'By clicking Register, you agree that you have read and agree to the',
+        signup_complete:
+          'A confirmation email has been sent to your inbox. Click the link to complete the registration process.',
         terms_conditions: 'Terms & Conditions',
         create_free_account: 'Create your Free Account',
       },
@@ -80,6 +82,7 @@ const en = {
         total_orders: 'Total Orders',
       },
       not_found: {
+        title: 'Page Not Found',
         sub_heading:
           'The page you are looking for may have been deleted or moved to another location.',
         back_to_top: 'Back to Top Page',
@@ -122,6 +125,7 @@ const en = {
         our_customers_heading: 'Our Clients',
         reviews_heading: 'What our clients say',
         see_all_reviews: 'See All Reviews',
+        call_to_action: 'Accelerate your application development today!',
       },
       about: {
         main_heading: 'Our Story',
@@ -148,6 +152,7 @@ const en = {
       reports: 'Reports',
       integrations: 'Integrations',
       profile: 'Profile',
+      login: 'Login',
       logout: 'Logout',
       terms: 'Terms of Service',
       privacy_policy: 'Privacy Policy',
@@ -155,6 +160,9 @@ const en = {
       api_reference: 'API Reference',
       support: 'Documentation',
       styleguide: 'Styleguide',
+    },
+    table: {
+      no_data: 'No data.',
     },
   },
 };

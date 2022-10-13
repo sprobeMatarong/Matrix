@@ -43,6 +43,8 @@ const ja = {
     pages: {
       signup: {
         agree_to_terms: '[サインアップ]をクリックすると、読んだことに同意したことになります',
+        signup_complete:
+          '確認メールが受信トレイに送信されました。 リンクをクリックして、登録プロセスを完了します。',
         terms_conditions: '規約と条件',
         create_free_account: '無料アカウントを作成する',
       },
@@ -80,6 +82,7 @@ const ja = {
         total_orders: '総注文数',
       },
       not_found: {
+        title: 'ページが見つかりません',
         sub_heading: 'お探しのページは削除されたか、別の場所へ移動した可能性があります。',
         back_to_top: 'トップページへ戻る',
       },
@@ -94,8 +97,8 @@ const ja = {
         failed_message: '送信中にエラーが発生しました。',
       },
       profile: {
-        heading: 'お問い合わせをお送りしました。',
-        sub_heading: '送信中にエラーが発生しました。',
+        heading: 'プロファイル編集',
+        sub_heading: 'アカウント情報を更新します。',
         success_message: '詳細が正常に更新されました。',
         failed_message: '更新に失敗しました。',
       },
@@ -121,6 +124,7 @@ const ja = {
         our_customers_heading: 'お客様',
         reviews_heading: '私たちのクライアントが言うこと',
         see_all_reviews: 'すべてのレビューを見る',
+        call_to_action: '今すぐアプリケーション開発を加速しましょう!',
       },
       about: {
         main_heading: '私たちの物語',
@@ -147,6 +151,7 @@ const ja = {
       reports: 'レポート',
       integrations: '統合',
       profile: 'プロフィール',
+      login: 'ログイン',
       logout: 'ログアウト',
       terms: '利用規約',
       privacy_policy: 'プライバシーポリシー',
@@ -154,6 +159,9 @@ const ja = {
       api_reference: 'APIリファレンス',
       support: 'サポート',
       styleguide: 'スタイルガイド',
+    },
+    table: {
+      no_data: 'データなし。',
     },
   },
 };
