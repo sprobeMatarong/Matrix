@@ -3,12 +3,13 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { forgotPassword } from 'services/password.service';
 import * as yup from 'yup';
 import { Box, Card, Container, Grid } from '@mui/material';
 import Button from 'components/atoms/Button';
 import TextField from 'components/atoms/Form/TextField';
 import PageTitle from 'components/atoms/PageTitle';
-import api from 'utils/api';
+import errorHandler from 'utils/errorHandler';
 
 function ForgotPassword() {
   const { t } = useTranslation();
@@ -28,23 +29,15 @@ function ForgotPassword() {
   } = useForm({ resolver: yupResolver(schema) });
 
   const handleForgot = async (data) => {
-    return await api
-      .post('/password/forgot', data)
-      .then(() => {
-        reset();
-        navigate('/login');
-        toast(t('pages.forgot_password.success'), { type: 'success' });
-      })
-      .catch((err) => {
-        const { error } = err.response.data;
-        if (typeof error === 'object') {
-          return Object.keys(error).map((prop) => {
-            setError(prop, { message: error[prop][0] }, { shouldFocus: true });
-          });
-        }
-
-        toast(error, { type: 'error' });
-      });
+    try {
+      const { email } = data;
+      await forgotPassword(email);
+      reset();
+      navigate('/login');
+      toast(t('pages.forgot_password.success'), { type: 'success' });
+    } catch (err) {
+      errorHandler(err, setError, toast);
+    }
   };
 
   return (

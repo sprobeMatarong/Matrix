@@ -4,13 +4,14 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import { createUser, updateUser } from 'services/user.service';
 import * as yup from 'yup';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Button from 'components/atoms/Button';
 import TextField from 'components/atoms/Form/TextField';
 import Modal from 'components/organisms/Modal';
-import api from 'utils/api';
+import errorHandler from 'utils/errorHandler';
 
 AddEditModal.propTypes = {
   open: PropTypes.bool,
@@ -66,27 +67,17 @@ export default function AddEditModal(props) {
     if (!open) clearErrors();
   }, [open]);
 
-  const handleFormSubmit = (data) => {
+  const handleFormSubmit = async (data) => {
     setLoading(true);
-    const req = user ? api.put(`/users/${user.id}`, data) : api.post('/users', data);
 
-    req
-      .then((res) => {
-        handleSaveEvent(res.data.data);
-        setLoading(false);
-        reset();
-      })
-      .catch((err) => {
-        setLoading(false);
-        const { error } = err.response.data;
-        if (typeof error === 'object') {
-          Object.keys(error).map((prop) => {
-            setError(prop, { message: error[prop][0] }, { shouldFocus: true });
-          });
-          return;
-        }
-        toast(error, { type: 'error' });
-      });
+    try {
+      const response = user ? await updateUser(user.id, data) : await createUser(data);
+      reset();
+      setLoading(false);
+      handleSaveEvent(response);
+    } catch (err) {
+      errorHandler(err, setError, toast);
+    }
   };
 
   return (

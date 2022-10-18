@@ -12,7 +12,7 @@ const handleResponse = (response) => response;
 const handleError = (error) => {
   const code = error.response && parseInt(error.response.status);
   const originalRequest = error.config;
-  const { data } = originalRequest;
+  const data = originalRequest && originalRequest.data ? originalRequest.data : null;
   let params = data && data instanceof FormData ? data : JSON.parse(data);
 
   // handle failed attempt on refreshing the token

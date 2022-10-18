@@ -3,13 +3,14 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { createProfile } from 'services/profile.service';
 import * as yup from 'yup';
 import { Box, Card, Container, Grid, Typography } from '@mui/material';
 import Button from 'components/atoms/Button';
 import Checkbox from 'components/atoms/Form/Checkbox';
 import TextField from 'components/atoms/Form/TextField';
 import PageTitle from 'components/atoms/PageTitle';
-import api from 'utils/api';
+import errorHandler from 'utils/errorHandler';
 
 function Signup() {
   const { t } = useTranslation();
@@ -36,21 +37,12 @@ function Signup() {
   });
 
   const handleSignUp = async (data) => {
-    return await api
-      .post('/register', data)
-      .then(() => {
-        toast(t('pages.signup.signup_complete'), { type: 'success' });
-        reset();
-      })
-      .catch((err) => {
-        const { error } = err.response.data;
-        if (typeof error === 'object') {
-          Object.keys(error).map((prop) => {
-            setError(prop, { message: error[prop][0] }, { shouldFocus: true });
-          });
-        }
-        toast(error, { type: 'error' });
-      });
+    try {
+      await createProfile(data);
+      reset();
+    } catch (err) {
+      errorHandler(err, setError, toast);
+    }
   };
 
   return (

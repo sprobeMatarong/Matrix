@@ -4,12 +4,13 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import { updateProfile } from 'services/profile.service';
 import * as yup from 'yup';
 import { Box, Card, Container, Grid, Typography } from '@mui/material';
 import AvatarField from 'components/atoms/AvatarField';
 import Button from 'components/atoms/Button';
 import TextField from 'components/atoms/Form/TextField';
-import api from 'utils/api';
+import errorHandler from 'utils/errorHandler';
 
 function Profile() {
   const { t } = useTranslation();
@@ -36,43 +37,15 @@ function Profile() {
   const handleUpdate = async (data) => {
     setLoading(true);
 
-    let formData = new FormData();
-    formData.append('_method', 'PUT');
-
-    // set fields
-    for (const [key, value] of Object.entries(data)) {
-      formData.append(key, value);
+    try {
+      const updatedUser = await updateProfile(data);
+      setLoading(false);
+      mutate({ ...user, ...{ user: updatedUser } });
+      toast(t('pages.profile.success_message'), { type: 'success' });
+    } catch (err) {
+      setLoading(false);
+      errorHandler(err, setError, toast);
     }
-
-    return await api
-      .post('/profile', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then(({ data }) => {
-        setLoading(false);
-        mutate({ ...user, ...{ user: data.data } });
-        toast(t('pages.profile.success_message'), { type: 'success' });
-      })
-      .catch((err) => {
-        const { error } = err.response.data;
-        setLoading(false);
-
-        if (typeof error === 'object') {
-          Object.keys(error).map((prop) => {
-            setError(prop, { message: error[prop][0] }, { shouldFocus: true });
-          });
-          return;
-        }
-
-        if (error['avatar']) {
-          toast(error.avatar[0], { type: 'error' });
-          return;
-        }
-
-        toast(t('pages.profile.failed_message'), { type: 'error' });
-      });
   };
 
   useEffect(() => {
@@ -82,10 +55,6 @@ function Profile() {
       setValue('email', user.email);
     }
   }, []);
-
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
 
   return (
     <Container maxWidth="xs" sx={{ pt: 6 }}>

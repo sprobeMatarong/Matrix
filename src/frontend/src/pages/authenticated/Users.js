@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import { deleteUser, retrieveUser, searchUsers } from 'services/user.service';
 import Box from '@mui/material/Box';
 import DataTable from 'components/molecules/DataTable';
 import AddEditModal from 'components/molecules/users/AddEditModal';
 import { criteria, meta as defaultMeta } from 'config/search';
-import api from 'utils/api';
 
 function Users() {
   const { t } = useTranslation();
@@ -16,10 +16,9 @@ function Users() {
   const [open, setOpen] = useState(false);
 
   const fetchUsers = async () => {
-    return await api.get(`/users?${new URLSearchParams(query).toString()}`).then((response) => {
-      setMeta({ ...meta, ...response.data.meta });
-      setData(response.data.data);
-    });
+    const { meta, data } = await searchUsers(query);
+    setMeta({ ...meta, meta });
+    setData(data);
   };
 
   useEffect(() => {
@@ -72,18 +71,16 @@ function Users() {
   };
 
   const handleEdit = async (id) => {
-    await api.get(`/users/${id}`).then(({ data }) => {
-      setOpen(true);
-      setUser(data.data);
-    });
+    const user = await retrieveUser(id);
+    setOpen(true);
+    setUser(user);
   };
 
   const handleDelete = async (id) => {
     if (confirm(t('pages.users.delete_confirmation'))) {
-      await api.delete(`/users/${id}`).then(() => {
-        fetchUsers();
-        toast(t('pages.users.user_deleted'), { type: 'success' });
-      });
+      await deleteUser(id);
+      fetchUsers();
+      toast(t('pages.users.user_deleted'), { type: 'success' });
     }
   };
 
