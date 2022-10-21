@@ -8,6 +8,7 @@ import Grid from '@mui/material/Grid';
 import BodyText from 'components/atoms/BodyText';
 import Button from 'components/atoms/Button';
 import Checkbox from 'components/atoms/Form/Checkbox';
+import DatePicker from 'components/atoms/Form/DatePicker';
 import RadioGroup from 'components/atoms/Form/RadioGroup';
 import Select from 'components/atoms/Form/Select';
 import TextField from 'components/atoms/Form/TextField';
@@ -50,15 +51,21 @@ function FormValidationDemo() {
           value && value[0] && ['image/jpeg', 'image/png', 'image/gif'].includes(value[0].type)
         );
       }),
+    birthday: yup
+      .date()
+      .required(t('form.required'))
+      .typeError('Please select a valid date')
+      .nullable(),
   });
 
   const {
+    control,
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: { accept_terms: false },
+    defaultValues: { accept_terms: false, birthday: null },
   });
 
   const handleSignUp = (data) => alert(JSON.stringify(data, null, 4));
@@ -122,6 +129,16 @@ function FormValidationDemo() {
               {...register('gender')}
               error={errors && errors.gender ? true : false}
               helperText={errors ? errors?.gender?.message : null}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <DatePicker
+              name="birthday"
+              control={control}
+              label="Birthday"
+              format="YYYY/MM/DD"
+              error={errors && errors.birthday ? true : false}
+              helperText={errors ? errors?.birthday?.message : null}
             />
           </Grid>
           <Grid item xs={12}>
