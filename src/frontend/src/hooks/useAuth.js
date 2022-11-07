@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import useSWR from 'swr';
 import api from 'utils/api';
 
-export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
+export const useAuth = ({ middleware, location, redirectIfAuthenticated } = {}) => {
   const navigate = useNavigate();
 
   const {
@@ -45,12 +45,14 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
   const logout = async () => {
     if (!error) {
-      await api.delete('/oauth/token').then(() => {
+      return await api.delete('/oauth/token').then(() => {
         localStorage.clear();
-        window.location = '/login';
+        window.location = '/login?ref=logout';
       });
     }
-    window.location = '/login';
+
+    // if not authenticated, set redirect url to the url accessed by user
+    window.location = `/login?redirect_to=${location.pathname}`;
   };
 
   useEffect(() => {

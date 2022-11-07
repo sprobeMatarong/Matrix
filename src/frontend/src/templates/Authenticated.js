@@ -1,6 +1,6 @@
 import { useAuth } from 'hooks/useAuth';
 import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { Box, Container, CssBaseline, Toolbar } from '@mui/material';
@@ -11,7 +11,8 @@ import Sidebar from 'components/organisms/Authenticated/Sidebar';
 function Authenticated() {
   const [open, setOpen] = useState(false);
   const toggleDrawer = () => setOpen(!open);
-  const { user, logout } = useAuth({ middleware: 'auth' });
+  const location = useLocation();
+  const { user, logout } = useAuth({ middleware: 'auth', location });
 
   return (
     <>

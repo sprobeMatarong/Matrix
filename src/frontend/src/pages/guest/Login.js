@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuth } from 'hooks/useAuth';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { Box, Card, Container, Grid, Link } from '@mui/material';
@@ -13,6 +13,7 @@ import PageTitle from 'components/atoms/PageTitle';
 function Login() {
   const { login } = useAuth();
   const { t } = useTranslation();
+  const location = useLocation();
 
   // form validation
   const schema = yup.object({
@@ -33,7 +34,10 @@ function Login() {
   const handleLogin = async (data) => {
     const { username, password } = data;
     await login({ username, password, setError })
-      .then(() => (window.location = '/dashboard'))
+      .then(() => {
+        const query = new URLSearchParams(location.search);
+        window.location = query.get('redirect_to') ?? '/dashboard';
+      })
       .catch((err) => {
         const { message } = err.response.data;
         toast(message, { type: 'error' });
