@@ -115,44 +115,44 @@ if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
     set_env "s/REACT_APP_API_URL=/REACT_APP_API_URL=http:\/\/$APP_DOMAIN\/api\/v1/g" src/frontend/.env;
     echo -e "${SUCCESS_COLOR}done${NO_COLOR}"
 
+    COMPOSE_COMMAND="composer install && php artisan key:generate && php artisan migrate:fresh --seed"
+    COMPOSE_FILE="production.docker-compose.yml"
+
     if [[ $ENVIRONMENT == "development" ]]; then
-      # Build Docker Containers
-      docker-compose build --no-cache
-
-      # Install PHP Laravel Packages and migrate database with seeders
-      docker-compose run --rm php bash -c "composer install && php artisan key:generate && php artisan migrate:fresh --seed"
-
-      # Setup Laravel Passport
-      docker-compose run --rm php php artisan passport:install --force >> output.txt
-
-      # Update Laravel & React environment variables
-      CLIENT_ID=$(grep 'Client ID\:' output.txt | tail -n 1)
-      CLIENT_SECRET=$(grep 'Client secret\:' output.txt | tail -n 1)
-      rm output.txt
-      CLIENT_ID="$(echo ${CLIENT_ID/Client ID:/""} | tr -d '[:space:]' | perl -pe 's/\x1b\[[0-9;]*[mG]//g')"
-      CLIENT_SECRET="$(echo ${CLIENT_SECRET/Client secret:/""} | tr -d '[:space:]' | perl -pe 's/\x1b\[[0-9;]*[mG]//g')"
-      set_env "s/API_CLIENT_ID=/API_CLIENT_ID=$CLIENT_ID/g" src/backend/.env;
-      set_env "s/API_CLIENT_SECRET=/API_CLIENT_SECRET=$CLIENT_SECRET/g" src/backend/.env;
-      set_env "s/REACT_APP_CLIENT_ID=/REACT_APP_CLIENT_ID=$CLIENT_ID/g" src/frontend/.env;
-      set_env "s/REACT_APP_CLIENT_SECRET=/REACT_APP_CLIENT_SECRET=$CLIENT_SECRET/g" src/frontend/.env;
-
-      # Start the docker containers
-      COMPOSE_HTTP_TIMEOUT=900 docker-compose up -d
-
-    # For Staging & Environment
+      DOCKER_COMPOSE_COMMAND="composer install && php artisan key:generate && php artisan migrate:fresh --seed"
+      DOCKER_COMPOSE_FILE="docker-compose.yml"
     else
-      #  Build Docker Containers
-      docker-compose -f production.docker-compose.yml build
-
-      # Install PHP Laravel Packages. Manually Migrate and Seed after build since it is Production environment.
-      docker-compose run --rm php bash -c "composer install && php artisan key:generate"
-
-      # Build React for Production Environment
-      docker-compose run node npm run build
-
-      # Start the docker containers
-      docker-compose -f production.docker-compose.yml up -d
+      DOCKER_COMPOSE_COMMAND="composer install --optimize-autoloader --no-dev && php artisan key:generate && php artisan migrate:fresh --seed"
+      DOCKER_COMPOSE_FILE="production.docker-compose.yml"
     fi
+
+    # Build Docker Containers
+    docker-compose -f $DOCKER_COMPOSE_FILE build --no-cache
+
+    # Install PHP Laravel Packages and migrate database with seeders
+    docker-compose run --rm php bash -c "$DOCKER_COMPOSE_COMMAND"
+
+    # Setup Laravel Passport
+    docker-compose run --rm php php artisan passport:install --force >> output.txt
+
+    # Update Laravel & React environment variables
+    CLIENT_ID=$(grep 'Client ID\:' output.txt | tail -n 1)
+    CLIENT_SECRET=$(grep 'Client secret\:' output.txt | tail -n 1)
+    rm output.txt
+    CLIENT_ID="$(echo ${CLIENT_ID/Client ID:/""} | tr -d '[:space:]' | perl -pe 's/\x1b\[[0-9;]*[mG]//g')"
+    CLIENT_SECRET="$(echo ${CLIENT_SECRET/Client secret:/""} | tr -d '[:space:]' | perl -pe 's/\x1b\[[0-9;]*[mG]//g')"
+    set_env "s/API_CLIENT_ID=/API_CLIENT_ID=$CLIENT_ID/g" src/backend/.env;
+    set_env "s/API_CLIENT_SECRET=/API_CLIENT_SECRET=$CLIENT_SECRET/g" src/backend/.env;
+    set_env "s/REACT_APP_CLIENT_ID=/REACT_APP_CLIENT_ID=$CLIENT_ID/g" src/frontend/.env;
+    set_env "s/REACT_APP_CLIENT_SECRET=/REACT_APP_CLIENT_SECRET=$CLIENT_SECRET/g" src/frontend/.env;
+
+    if [[ $ENVIRONMENT != "development" ]]; then
+      # Build React for Production Environment
+      docker-compose run --rm node npm run build
+    fi
+
+    # Start the docker containers
+    COMPOSE_HTTP_TIMEOUT=900 docker-compose -f $DOCKER_COMPOSE_FILE up -d
 
     # Display the results
     echo -e "\n\n${SUCCESS_COLOR}Project Setup Completed${NO_COLOR}"

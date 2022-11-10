@@ -1,11 +1,8 @@
 # base image
-FROM node:current-alpine
+FROM sprobeph/node:latest
 
 # Set working directory
 WORKDIR /var/www/frontend
-
-# Install PM2 globally.
-RUN npm install --global pm2
 
 ENV PATH /var/www/frontend/node_modules/.bin:$PATH
 
