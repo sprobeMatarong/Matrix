@@ -9,10 +9,6 @@ const breakpoints = {
     md: 900,
     lg: 1200,
     xl: 1536,
-    mobile: 480,
-    tablet: 768,
-    laptop: 1024,
-    desktop: 1200,
   },
 };
 

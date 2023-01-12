@@ -62,7 +62,7 @@ export default function Modal({ title, open, children, handleClose }) {
       disableAutoFocus
       disableEnforceFocus
       disableRestoreFocus
-      BackdropComponent={Backdrop}
+      slots={{ backdrop: Backdrop }}
     >
       <Grow in={open} style={{ transformOrigin: '0 0 0 0' }} {...(open ? { timeout: 300 } : {})}>
         <Box sx={style}>

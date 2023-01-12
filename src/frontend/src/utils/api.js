@@ -2,11 +2,9 @@ import axios from 'axios';
 
 const api = axios.create({ baseURL: process.env.REACT_APP_API_URL });
 
-api.interceptors.request.use((request) => {
-  const access_token = localStorage.getItem('access_token');
-  if (access_token) request.headers.common.Authorization = `Bearer ${access_token}`;
-  return request;
-});
+// set access token
+const access_token = localStorage.getItem('access_token');
+if (access_token) api.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
 
 const handleResponse = (response) => response;
 const handleError = (error) => {

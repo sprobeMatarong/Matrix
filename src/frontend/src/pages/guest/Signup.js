@@ -39,6 +39,7 @@ function Signup() {
   const handleSignUp = async (data) => {
     try {
       await createProfile(data);
+      toast(t('pages.signup.signup_complete'), { type: 'success' });
       reset();
     } catch (err) {
       errorHandler(err, setError, toast);
