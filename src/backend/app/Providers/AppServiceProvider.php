@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Repositories\UserRepository as CustomUserRepository;
+use App\Passport\UserRepository as CustomUserRepository;
 use Laravel\Passport\Bridge\UserRepository as PassportUserRepository;
 
 class AppServiceProvider extends ServiceProvider
