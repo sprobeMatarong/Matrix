@@ -116,6 +116,8 @@ services:
     container_name: ${PROJECT_NAME}_fixer
     volumes:
       - *services-volume
+    environment:
+      - PHP_CS_FIXER_IGNORE_ENV=1
     working_dir: /var/www/backend
 
   redis:
