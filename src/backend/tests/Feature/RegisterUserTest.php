@@ -34,14 +34,12 @@ class RegisterUserTest extends TestCase
         unset($data['email']);
 
         $response = $this->json('POST', '/' . config('app.api_version') . '/register', $data);
-
-        $result = $response->getData();
-
-        $this->assertEquals(422, $response->getStatusCode());
-
-        $this->assertTrue(
-            in_array('The email field is required.', $result->error->email)
-        );
+        $response->assertStatus(422)
+            ->assertJson([
+                'error' => [
+                    'email' => ['The email field is required.'],
+                ]
+            ]);
     }
 
     /**
@@ -55,25 +53,13 @@ class RegisterUserTest extends TestCase
                         'email' => 'notAnEmail@',
                     ]);
 
-        $result = $response->getData();
-
-        $this->assertEquals(422, $response->getStatusCode());
-
-        $this->assertTrue(in_array('Invalid email address.', $result->error->email));
+        $response->assertStatus(422)
+            ->assertJson([
+                'error' => [
+                    'email' => ['Invalid email address.'],
+                ]
+            ]);
     }
-
-    // public function testRegisterInvalidPasswordFormat()
-    // {
-    //     $data = $this->data;
-    //     $data['password'] = 'notvalidpassword';
-    //     $response = $this->json('POST', '/' . config('app.api_version') . '/register', $data);
-    //     $response->assertStatus(422);
-    //     $result = json_decode((string) $response->getContent());
-    //     $this->assertTrue(in_array(
-    //         'Password must contain the following: 1 uppercase, 1 special character and a minimum of 8 characters.',
-    //         $result->error->password
-    //     ));
-    // }
 
     /**
      * A successful account creation
@@ -81,17 +67,14 @@ class RegisterUserTest extends TestCase
     public function testRegister()
     {
         $response = $this->json('POST', '/' . config('app.api_version') . '/register', $this->data);
-        $result = $response->getData();
-
-        $user = $result->data;
-
-        foreach ($this->data as $key => $value) {
-            if ('password' === $key) {
-                continue;
-            }
-
-            $this->assertEquals($value, $user->{$key});
-        }
+        $response->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'first_name' => $this->data['first_name'],
+                    'last_name' => $this->data['last_name'],
+                    'email' => $this->data['email'],
+                ]
+            ]);
     }
 
     /**
@@ -100,9 +83,13 @@ class RegisterUserTest extends TestCase
     public function testRegisterExistingUser()
     {
         $response = $this->json('POST', '/' . config('app.api_version') . '/register', $this->data);
-        $result = $response->getData();
-        $this->assertEquals(422, $response->getStatusCode());
-        $this->assertTrue(in_array('The email has already been taken.', $result->error->email));
+
+        $response->assertStatus(422)
+            ->assertJson([
+                'error' => [
+                    'email' => ['The email has already been taken.'],
+                ]
+            ]);
     }
 
     /**

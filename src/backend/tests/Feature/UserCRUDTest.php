@@ -26,34 +26,12 @@ class UserCRUDTest extends TestCase
     /** @var stdClass */
     private static $USER;
 
-    public function setUp(): void
+    public static function setUpBeforeClass(): void
     {
-        parent::setUp();
+        parent::setUpBeforeClass();
 
         // set admin details
-        self::$ADMIN = [
-            'email' => 'admin@tcg.sprobe.ph',
-            'password' => 'Password2022!',
-        ];
-
-        // Login as Admin once only
-        if (!self::$ACCESS_TOKEN) {
-            $response = $this->json(
-                'POST',
-                '/' . config('app.api_version') . '/oauth/token',
-                [
-                    'client_id' => (int) config('app.client_id'),
-                    'client_secret' => config('app.client_secret'),
-                    'grant_type' => 'password',
-                    'username' => self::$ADMIN['email'],
-                    'password' => self::$ADMIN['password'],
-                ]
-            );
-            $result = json_decode((string) $response->getContent());
-
-            // store access token to be used in testing
-            self::$ACCESS_TOKEN = $result->access_token;
-        }
+        self::$ADMIN = User::find(1);
     }
 
     /**
@@ -78,181 +56,182 @@ class UserCRUDTest extends TestCase
     {
         $params = $this->data;
         unset($params['first_name']);
-        $response = $this->withHeaders([
-                            'Authorization' => 'Bearer ' . self::$ACCESS_TOKEN,
-                        ])
+        $response = $this->actingAs(self::$ADMIN, 'api')
                         ->json('POST', '/' . config('app.api_version') . '/users', $params);
-        $response->assertStatus(422);
-        $result = json_decode((string) $response->getContent());
-        $this->assertTrue(in_array('The first name field is required.', $result->error->first_name));
+        $response->assertStatus(422)
+            ->assertJson([
+                'error' => [
+                    'first_name' => ['The first name field is required.']
+                ]
+            ]);
     }
 
     public function testCreateWithInvalidEmail()
     {
         $params = $this->data;
         $params['email'] = 'notAValidEmail@';
-        $response = $this->withHeaders([
-                            'Authorization' => 'Bearer ' . self::$ACCESS_TOKEN,
-                        ])
+        $response = $this->actingAs(self::$ADMIN, 'api')
                         ->json('POST', '/' . config('app.api_version') . '/users', $params);
-        $response->assertStatus(422);
-        $result = json_decode((string) $response->getContent());
-        $this->assertTrue(in_array('Invalid email address.', $result->error->email));
+        $response->assertStatus(422)
+            ->assertJson([
+                'error' => [
+                    'email' => ['Invalid email address.']
+                ]
+            ]);
     }
 
     public function testCreateWithExistingEmail()
     {
         $params = $this->data;
         $params['email'] = self::$ADMIN['email'];
-        $response = $this->withHeaders([
-                            'Authorization' => 'Bearer ' . self::$ACCESS_TOKEN,
-                        ])
+        $response = $this->actingAs(self::$ADMIN, 'api')
                         ->json('POST', '/' . config('app.api_version') . '/users', $params);
-        $response->assertStatus(422);
-        $result = json_decode((string) $response->getContent());
-        $this->assertTrue(in_array('The email has already been taken.', $result->error->email));
+        $response->assertStatus(422)
+            ->assertJson([
+                'error' => [
+                    'email' => ['The email has already been taken.']
+                ]
+            ]);
     }
 
     public function testCreate()
     {
-        $response = $this->withHeaders([
-                            'Authorization' => 'Bearer ' . self::$ACCESS_TOKEN,
-                        ])
+        $response = $this->actingAs(self::$ADMIN, 'api')
                         ->json('POST', '/' . config('app.api_version') . '/users', $this->data);
-        $response->assertStatus(200);
-        $result = json_decode((string) $response->getContent());
+        $result = $response->getData();
         self::$USER = $result->data;
 
-        foreach ($this->data as $key => $value) {
-            // password is not returned in response
-            if ('password' === $key) {
-                continue;
-            }
-            // validate if user data matches the params of the request
-            $this->assertEquals(self::$USER->$key, $value);
-        }
+        $response->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'full_name' => $this->data['first_name'] . ' ' . $this->data['last_name'],
+                    'first_name' => $this->data['first_name'],
+                    'last_name' => $this->data['last_name'],
+                    'email' => $this->data['email'],
+                    'avatar' => null,
+                    'status' => [
+                        'id' => 5,
+                        'name' => 'Pending',
+                    ],
+                ],
+            ]);
     }
 
     public function testReadUserNotFound()
     {
-        $response = $this->withHeaders([
-                        'Authorization' => 'Bearer ' . self::$ACCESS_TOKEN,
-                    ])
+        $response = $this->actingAs(self::$ADMIN, 'api')
                     ->json('GET', '/' . config('app.api_version') . '/users/999999999999');
-        $response->assertStatus(500);
-        $result = json_decode((string) $response->getContent());
-        $this->assertEquals((new UserNotFoundException())->getMessage(), $result->error);
+        $response->assertStatus(500)
+            ->assertJson([
+                'error' => (new UserNotFoundException())->getMessage(),
+            ]);
     }
 
     public function testRead()
     {
-        $response = $this->withHeaders([
-                            'Authorization' => 'Bearer ' . self::$ACCESS_TOKEN,
-                        ])
+        $response = $this->actingAs(self::$ADMIN, 'api')
                         ->json('GET', '/' . config('app.api_version') . '/users/' . self::$USER->id);
-        $response->assertStatus(200);
-        $result = json_decode((string) $response->getContent());
-        $user = $result->data;
-
-        foreach ($this->data as $key => $value) {
-            // password is not returned in response
-            if ('password' === $key) {
-                continue;
-            }
-            // validate if user data matches the created user
-            $this->assertEquals(self::$USER->$key, $value);
-        }
+        $response->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'full_name' => $this->data['first_name'] . ' ' . $this->data['last_name'],
+                    'first_name' => $this->data['first_name'],
+                    'last_name' => $this->data['last_name'],
+                    'email' => $this->data['email'],
+                    'avatar' => null,
+                    'status' => [
+                        'id' => 5,
+                        'name' => 'Pending',
+                    ],
+                ],
+            ]);
     }
 
     public function testUpdateMissingParams()
     {
         $params = $this->data;
         unset($params['first_name']);
-        $response = $this->withHeaders([
-                            'Authorization' => 'Bearer ' . self::$ACCESS_TOKEN,
-                        ])
+        $response = $this->actingAs(self::$ADMIN, 'api')
                         ->json('PUT', '/' . config('app.api_version') . '/users/' . self::$USER->id, $params);
-        $response->assertStatus(422);
-        $result = json_decode((string) $response->getContent());
-        $this->assertTrue(in_array('The first name field is required.', $result->error->first_name));
+        $response->assertStatus(422)
+            ->assertJson([
+                'error' => [
+                    'first_name' => ['The first name field is required.'],
+                ],
+            ]);
     }
 
     public function testUpdateInvalidEmail()
     {
         $params = $this->data;
         $params['email'] = 'notAValidEmail@';
-        $response = $this->withHeaders([
-                            'Authorization' => 'Bearer ' . self::$ACCESS_TOKEN,
-                        ])
+        $response = $this->actingAs(self::$ADMIN, 'api')
                         ->json('PUT', '/' . config('app.api_version') . '/users/' . self::$USER->id, $params);
-        $response->assertStatus(422);
-        $result = json_decode((string) $response->getContent());
-        $this->assertTrue(in_array('Invalid email address.', $result->error->email));
+        $response->assertStatus(422)
+            ->assertJson([
+                'error' => [
+                    'email' => ['Invalid email address.'],
+                ],
+            ]);
     }
 
     public function testUpdateExistingUserEmail()
     {
         $params = $this->data;
         $params['email'] = self::$ADMIN['email'];
-        $response = $this->withHeaders([
-                            'Authorization' => 'Bearer ' . self::$ACCESS_TOKEN,
-                        ])
+        $response = $this->actingAs(self::$ADMIN, 'api')
                         ->json('PUT', '/' . config('app.api_version') . '/users/' . self::$USER->id, $params);
-        $response->assertStatus(422);
-        $result = json_decode((string) $response->getContent());
-        $this->assertTrue(in_array('The email has already been taken.', $result->error->email));
+        $response->assertStatus(422)
+            ->assertJson([
+                'error' => [
+                    'email' => ['The email has already been taken.'],
+                ],
+            ]);
     }
 
     public function testUpdateInvalidPasswordFormat()
     {
         $params = $this->data;
         $params['password'] = 'notvalidpassword!';
-        $response = $this->withHeaders([
-                            'Authorization' => 'Bearer ' . self::$ACCESS_TOKEN,
-                        ])
+        $response = $this->actingAs(self::$ADMIN, 'api')
                         ->json('PUT', '/' . config('app.api_version') . '/users/' . self::$USER->id, $params);
-        $response->assertStatus(422);
-        $result = json_decode((string) $response->getContent());
-        $this->assertTrue(in_array(
-            'Password must contain the following: 1 uppercase, 1 special character and a minimum of 8 characters.',
-            $result->error->password
-        ));
+        $response->assertStatus(422)
+            ->assertJson([
+                'error' => [
+                    'password' => ['Password must contain the following: 1 uppercase, 1 special character and a minimum of 8 characters.'],
+                ],
+            ]);
     }
 
     public function testUpdateInvalidAvatarType()
     {
         $params = $this->data;
         $params['avatar'] = UploadedFile::fake()->create('test.pdf');
-        $response = $this->withHeaders([
-                    'Authorization' => 'Bearer ' . self::$ACCESS_TOKEN,
-                ])
+        $response = $this->actingAs(self::$ADMIN, 'api')
                 ->json('PUT', '/' . config('app.api_version') . '/users/' . self::$USER->id, $params);
-        $response->assertStatus(422);
-        $result = json_decode((string) $response->getContent());
-        $this->assertTrue(in_array(
-            'The avatar must be an image.',
-            $result->error->avatar
-        ));
-        $this->assertTrue(in_array(
-            'The avatar must be a file of type: jpeg, png, jpg, gif.',
-            $result->error->avatar
-        ));
+        $response->assertStatus(422)
+            ->assertJson([
+                'error' => [
+                    'avatar' => [
+                        'The avatar must be an image.',
+                        'The avatar must be a file of type: jpeg, png, jpg, gif.'
+                    ],
+                ],
+            ]);
     }
 
     public function testUpdateInvalidAvatarFileSize()
     {
         $params = $this->data;
         $params['avatar'] = UploadedFile::fake()->create('avatar.jpg')->size(2100); // current limit 2MB testing 2.1 MB
-        $response = $this->withHeaders([
-                    'Authorization' => 'Bearer ' . self::$ACCESS_TOKEN,
-                ])
+        $response = $this->actingAs(self::$ADMIN, 'api')
                 ->json('PUT', '/' . config('app.api_version') . '/users/' . self::$USER->id, $params);
-        $response->assertStatus(422);
-        $result = json_decode((string) $response->getContent());
-        $this->assertTrue(in_array(
-            'The avatar must not be greater than 2048 kilobytes.',
-            $result->error->avatar
-        ));
+        $response->assertStatus(422)
+            ->assertJson([
+                'error' => [
+                    'avatar' => ['The avatar must not be greater than 2048 kilobytes.'],
+                ],
+            ]);
     }
 
     public function testUpdate()
@@ -265,34 +244,23 @@ class UserCRUDTest extends TestCase
             'avatar' => UploadedFile::fake()->create('avatar.jpg'),
         ];
 
-        $response = $this->withHeaders([
-                            'Authorization' => 'Bearer ' . self::$ACCESS_TOKEN,
-                        ])
+        $response = $this->actingAs(self::$ADMIN, 'api')
                         ->json('PUT', '/' . config('app.api_version') . '/users/' . self::$USER->id, $params);
-        $response->assertStatus(200);
-        $result = json_decode((string) $response->getContent());
+        $result = $response->getData();
         $updatedUser = $result->data;
 
-        foreach ($params as $key => $value) {
-            // password is not returned in response
-            if ('password' === $key) {
-                continue;
-            }
+        // check updated fields only
+        $response->assertStatus(200)
+            ->assertJsonPath('data.first_name', $params['first_name'])
+            ->assertJsonPath('data.last_name', $params['last_name'])
+            ->assertJsonPath('data.email', $params['email']);
 
-            if ('avatar' === $key) {
-                // remove root url
-                $file = str_replace(config('app.storage_disk_url'), '', $result->data->avatar);
-                $this->assertNotNull($result->data->avatar);
+        // check if file is uploaded
+        $file = str_replace(config('app.storage_disk_url'), '', $result->data->avatar);
+        $this->assertNotNull($result->data->avatar);
 
-                // Assert the file was stored...
-                Storage::disk('public')->assertExists($file);
-
-                continue;
-            }
-
-            // validate if user data matches the created user
-            $this->assertEquals($updatedUser->$key, $value);
-        }
+        // Assert the file was stored...
+        Storage::disk('public')->assertExists($file);
 
         self::$USER = $updatedUser;
     }
@@ -307,30 +275,16 @@ class UserCRUDTest extends TestCase
             'avatar' => null,
         ];
 
-        $response = $this->withHeaders([
-                            'Authorization' => 'Bearer ' . self::$ACCESS_TOKEN,
-                        ])
+        $response = $this->actingAs(self::$ADMIN, 'api')
                         ->json('PUT', '/' . config('app.api_version') . '/users/' . self::$USER->id, $params);
-        $response->assertStatus(200);
-        $result = json_decode((string) $response->getContent());
-        $updatedUser = $result->data;
+        $response->assertStatus(200)
+            ->assertJsonPath('data.first_name', $params['first_name'])
+            ->assertJsonPath('data.last_name', $params['last_name'])
+            ->assertJsonPath('data.email', $params['email']);
 
-        foreach ($params as $key => $value) {
-            // password is not returned in response
-            if ('password' === $key) {
-                continue;
-            }
-
-            if ('avatar' === $key) {
-                // verify avatar is retained if user didnt uploaded new image
-                $this->assertEquals($result->data->avatar, self::$USER->avatar);
-
-                continue;
-            }
-
-            // validate if user data matches the created user
-            $this->assertEquals($updatedUser->$key, $value);
-        }
+        // verify password hash has been updated
+        $user = User::find(self::$USER->id);
+        $this->assertTrue(Hash::check('!n3wp4ssW0rd', $user->password));
     }
 
     public function testUpdateExcludePassword()
@@ -343,49 +297,36 @@ class UserCRUDTest extends TestCase
             'avatar' => UploadedFile::fake()->create('avatar.jpg'),
         ];
 
-        $response = $this->withHeaders([
-                            'Authorization' => 'Bearer ' . self::$ACCESS_TOKEN,
-                        ])
+        $response = $this->actingAs(self::$ADMIN, 'api')
                         ->json('PUT', '/' . config('app.api_version') . '/users/' . self::$USER->id, $params);
-        $response->assertStatus(200);
-        $result = json_decode((string) $response->getContent());
-        $updatedUser = $result->data;
-
-        foreach ($params as $key => $value) {
-            // password is not returned in response
-            if ('password' === $key || 'avatar' === $key) {
-                continue;
-            }
-
-            // validate if user data matches the created user
-            $this->assertEquals($updatedUser->$key, $value);
-        }
-
-        $user = User::find($result->data->id);
+        // check updated fields only
+        $response->assertStatus(200)
+            ->assertJsonPath('data.first_name', $params['first_name'])
+            ->assertJsonPath('data.last_name', $params['last_name'])
+            ->assertJsonPath('data.email', $params['email']);
 
         // verify password was not updated
-        Hash::check('!n3wp4ssW0rd', $user->password);
+        $user = User::find(self::$USER->id);
+        $this->assertTrue(Hash::check('!n3wp4ssW0rd', $user->password));
     }
 
     public function testDeleteUserNotFound()
     {
-        $response = $this->withHeaders([
-                                'Authorization' => 'Bearer ' . self::$ACCESS_TOKEN,
-                            ])
-                            ->json('DELETE', '/' . config('app.api_version') . '/users/999999999');
-        $response->assertStatus(500);
-        $result = json_decode((string) $response->getContent());
-        $this->assertEquals((new UserNotFoundException())->getMessage(), $result->error);
+        $response = $this->actingAs(self::$ADMIN, 'api')
+                        ->json('DELETE', '/' . config('app.api_version') . '/users/999999999');
+        $response->assertStatus(500)
+            ->assertJson([
+                'error' => (new UserNotFoundException())->getMessage(),
+            ]);
     }
 
     public function testDelete()
     {
-        $response = $this->withHeaders([
-                            'Authorization' => 'Bearer ' . self::$ACCESS_TOKEN,
-                        ])
+        $response = $this->actingAs(self::$ADMIN, 'api')
                         ->json('DELETE', '/' . config('app.api_version') . '/users/' . self::$USER->id);
-        $response->assertStatus(200);
-        $result = json_decode((string) $response->getContent());
-        $this->assertTrue($result->deleted);
+        $response->assertStatus(200)
+            ->assertJson([
+                'deleted' => true,
+            ]);
     }
 }

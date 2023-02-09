@@ -52,14 +52,17 @@ class ProfileTest extends TestCase
         $response = $this->actingAs(self::$USER, 'api')
                         ->json('GET', '/v1/profile');
 
-        $response->assertStatus(200);
-        $result = json_decode((string) $response->getContent());
-        $user = $result->data;
-
-        foreach ($this->fields as $field) {
-            // verify the profile matches the user token data values
-            $this->assertEquals(self::$USER->{$field}, $user->{$field});
-        }
+        $response->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'id' => self::$USER['id'],
+                    'full_name' => self::$USER['full_name'],
+                    'first_name' => self::$USER['first_name'],
+                    'last_name' => self::$USER['last_name'],
+                    'email' => self::$USER['email'],
+                    'avatar' => self::$USER['avatar'],
+                ]
+            ]);
     }
 
     public function testUpdateProfile()
@@ -74,12 +77,10 @@ class ProfileTest extends TestCase
         $response = $this->actingAs(self::$USER, 'api')
                         ->json('PUT', '/v1/profile', $params);
 
-        $response->assertStatus(200);
-        $result = json_decode((string) $response->getContent());
-        $user = $result->data;
-
-        // verify updated fields
-        $this->assertEquals($params['first_name'], $user->first_name);
-        $this->assertEquals($params['last_name'], $user->last_name);
+        $response->assertStatus(200)
+            ->assertJsonFragment([
+                'first_name' => $params['first_name'], // check only field that is updated
+                'last_name' => $params['last_name'], // check only field that is updated
+            ]);
     }
 }

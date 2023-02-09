@@ -12,7 +12,7 @@ class LogoutUserTest extends TestCase
     public $accessToken = null;
 
     /** @var array */
-    public static $user = [
+    public static $USER = [
         'first_name' => 'John',
         'last_name' => 'Doe',
         'email' => 'johndoe@mail.com',
@@ -21,7 +21,7 @@ class LogoutUserTest extends TestCase
     ];
 
     /** @var string */
-    private static $password = 'password';
+    private static $PASSWORD = 'password';
 
     /**
      * Execute before each test
@@ -31,10 +31,10 @@ class LogoutUserTest extends TestCase
     {
         parent::setUp();
 
-        self::$user['password'] = Hash::make(self::$password);
+        self::$USER['password'] = Hash::make(self::$PASSWORD);
         User::updateOrCreate(
-            ['email' => self::$user['email']],
-            self::$user
+            ['email' => self::$USER['email']],
+            self::$USER
         );
     }
 
@@ -45,7 +45,7 @@ class LogoutUserTest extends TestCase
     public function tearDown(): void
     {
         // delete user
-        $user = User::where('email', self::$user['email'])->first();
+        $user = User::where('email', self::$USER['email'])->first();
 
         if ($user) {
             $user->delete();
@@ -63,6 +63,15 @@ class LogoutUserTest extends TestCase
         parent::__construct();
     }
 
+    public function testLogoutWithoutToken()
+    {
+        $response = $this->json('DELETE', '/' . config('app.api_version') . '/oauth/token');
+        $response->assertStatus(401)
+            ->assertJson([
+                'error' => 'Unauthenticated.',
+            ]);
+    }
+
     /**
      * Logout User
      * @return void
@@ -76,20 +85,20 @@ class LogoutUserTest extends TestCase
                 'client_id' => (int) config('app.client_id'),
                 'client_secret' => config('app.client_secret'),
                 'grant_type' => 'password',
-                'username' => self::$user['email'],
-                'password' => self::$password,
+                'username' => self::$USER['email'],
+                'password' => self::$PASSWORD,
             ]
         );
-        $response->assertStatus(200);
         $result = json_decode((string) $response->getContent());
         $this->accessToken = $result->access_token;
 
         $response = $this->withHeaders([
-                        'Authorization' => 'Bearer ' . $this->accessToken,
-                    ])
-                    ->json('DELETE', '/' . config('app.api_version') . '/oauth/token');
-        $response->assertStatus(200);
-        $result = json_decode((string) $response->getContent());
-        $this->assertFalse($result->authenticated);
+                            'Authorization' => 'Bearer ' . $this->accessToken,
+                        ])
+                        ->json('DELETE', '/' . config('app.api_version') . '/oauth/token');
+        $response->assertStatus(200)
+            ->assertJson([
+                'authenticated' => false,
+            ]);
     }
 }

@@ -49,28 +49,34 @@ class TokenVerifyTest extends TestCase
     public function testVerifyMissingTypeField()
     {
         $response = $this->json('GET', '/' . config('app.api_version') . '/token/verify', ['token' => self::$TOKEN]);
-        $response->assertStatus(422);
-        $result = $response->getData();
-
-        $this->assertEquals('The type field is required.', $result->error->type[0]);
+        $response->assertStatus(422)
+            ->assertJson([
+                'error' => [
+                    'type' => ['The type field is required.'],
+                ]
+            ]);
     }
 
     public function testVerifyMissingTokenField()
     {
         $response = $this->json('GET', '/' . config('app.api_version') . '/token/verify', ['type' => 'activation']);
-        $response->assertStatus(422);
-        $result = $response->getData();
-
-        $this->assertEquals('The token field is required.', $result->error->token[0]);
+        $response->assertStatus(422)
+            ->assertJson([
+                'error' => [
+                    'token' => ['The token field is required.'],
+                ]
+            ]);
     }
 
     public function testVerifyInvalidType()
     {
         $response = $this->json('GET', '/' . config('app.api_version') . '/token/verify', ['type' => 'random', 'token' => self::$TOKEN]);
-        $response->assertStatus(422);
-        $result = $response->getData();
-
-        $this->assertEquals('The selected type is invalid.', $result->error->type[0]);
+        $response->assertStatus(422)
+            ->assertJson([
+                'error' => [
+                    'type' => ['The selected type is invalid.'],
+                ]
+            ]);
     }
 
     public function testVerifyNonExistingToken()
@@ -82,18 +88,22 @@ class TokenVerifyTest extends TestCase
     public function testVerifyActivationToken()
     {
         $response = $this->json('GET', '/' . config('app.api_version') . '/token/verify', ['type' => 'activation', 'token' => self::$TOKEN]);
-        $response->assertStatus(200);
-        $result = $response->getData();
-
-        $this->assertEquals(true, $result->data->verified);
+        $response->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'verified' => true,
+                ]
+            ]);
     }
 
     public function testVerifyPasswordResetToken()
     {
         $response = $this->json('GET', '/' . config('app.api_version') . '/token/verify', ['type' => 'password_reset', 'token' => self::$TOKEN]);
-        $response->assertStatus(200);
-        $result = $response->getData();
-
-        $this->assertEquals(true, $result->data->verified);
+        $response->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'verified' => true,
+                ]
+            ]);
     }
 }

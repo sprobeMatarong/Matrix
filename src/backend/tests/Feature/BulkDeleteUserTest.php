@@ -49,25 +49,33 @@ class BulkDeleteUserTest extends TestCase
     {
         $response = $this->actingAs(self::$USER, 'api')
                         ->json('DELETE', '/v1/users/bulk-delete', ['ids' => []]);
-        $response->assertStatus(422);
-        $result = json_decode((string) $response->getContent());
-        $this->assertEquals('The ids field is required.', $result->error->ids[0]);
+        $response->assertStatus(422)
+            ->assertJson([
+                'error' => [
+                    'ids' => ['The ids field is required.']
+                ]
+            ]);
     }
 
     public function testBulkDelete()
     {
         $response = $this->actingAs(self::$USER, 'api')
                         ->json('DELETE', '/v1/users/bulk-delete', ['ids' => self::$IDS]);
-        $response->assertStatus(200);
-        $result = json_decode((string) $response->getContent());
-        $this->assertTrue($result->deleted);
+        $response->assertStatus(200)
+            ->assertJson([
+                'deleted' => true,
+            ]);
     }
 
     public function testBulkDeleteNonExistingIds()
     {
         $response = $this->actingAs(self::$USER, 'api')
-                        ->json('DELETE', '/v1/users/bulk-delete', ['ids' => [999999999998, 999999999999]]);
-        $result = json_decode((string) $response->getContent());
-        $this->assertFalse($result->deleted);
+                        ->json('DELETE', '/v1/users/bulk-delete', [
+                            'ids' => [999999999998, 999999999999]
+                        ]);
+        $response->assertStatus(200)
+            ->assertJson([
+                'deleted' => false,
+            ]);
     }
 }

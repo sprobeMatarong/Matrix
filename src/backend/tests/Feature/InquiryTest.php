@@ -47,10 +47,14 @@ class InquiryTest extends TestCase
             // remove key for testing missing params
             unset($data[$key]);
             $response = $this->json('POST', '/v1/inquiries', $data);
-            $response->assertStatus(422);
-            $result = json_decode((string) $response->getContent());
+
             // verify expected response
-            $this->assertEquals("The $key field is required.", $result->error->$key[0]);
+            $response->assertStatus(422)
+                ->assertJson([
+                    'error' => [
+                        $key => ["The $key field is required."],
+                    ]
+                ]);
         }
     }
 
@@ -59,20 +63,20 @@ class InquiryTest extends TestCase
         $data = $this->data;
         $data['email'] = 'invalid@email';
         $response = $this->json('POST', '/v1/inquiries', $data);
-        $response->assertStatus(422);
-        $result = json_decode((string) $response->getContent());
-        $this->assertEquals('Invalid email address.', $result->error->email[0]);
+        $response->assertStatus(422)
+            ->assertJson([
+                'error' => [
+                    'email' => ['Invalid email address.'],
+                ]
+            ]);
     }
 
     public function testCreate()
     {
         $response = $this->json('POST', '/v1/inquiries', $this->data);
-        $response->assertStatus(200);
-        $result = json_decode((string) $response->getContent());
+        $response->assertStatus(200)
+            ->assertJson([ 'data' => $this->data ]);
+        $result = $response->getData();
         self::$ID = $result->data->id;
-
-        foreach ($this->data as $key => $value) {
-            $this->assertEquals($this->data[$key], $result->data->$key);
-        }
     }
 }

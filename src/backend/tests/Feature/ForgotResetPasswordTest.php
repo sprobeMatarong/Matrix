@@ -58,25 +58,32 @@ class ForgotResetPasswordTest extends TestCase
     public function testForgotPasswordMissingParams()
     {
         $response = $this->json('POST', '/' . config('app.api_version') . '/password/forgot', []);
-        $result = $response->getData();
-        $this->assertEquals(422, $response->getStatusCode());
-        $this->assertTrue(in_array('The email field is required.', $result->error->email));
+        $response->assertStatus(422)
+            ->assertJson([
+                'error' => [
+                    'email' => ['The email field is required.']
+                ]
+            ]);
     }
 
     public function testForgotPasswordInvalidEmail()
     {
         $response = $this->json('POST', '/' . config('app.api_version') . '/password/forgot', ['email' => 'notAnEmail@']);
-        $result = $response->getData();
-        $this->assertEquals(422, $response->getStatusCode());
-        $this->assertTrue(in_array('Invalid email address.', $result->error->email));
+        $response->assertStatus(422)
+            ->assertJson([
+                'error' => [
+                    'email' => ['Invalid email address.']
+                ]
+            ]);
     }
 
     public function testForgotPasswordUserNotFound()
     {
         $response = $this->json('POST', '/' . config('app.api_version') . '/password/forgot', ['email' => 'test@mail.com']);
-        $result = $response->getData();
-        $this->assertEquals(500, $response->getStatusCode());
-        $this->assertEquals((new UserNotFoundException())->getMessage(), $result->error);
+        $response->assertStatus(500)
+            ->assertJson([
+                'error' => (new UserNotFoundException())->getMessage()
+            ]);
     }
 
     public function testForgotPassword()
@@ -84,16 +91,24 @@ class ForgotResetPasswordTest extends TestCase
         $response = $this->json('POST', '/' . config('app.api_version') . '/password/forgot', ['email' => self::$USER['email']]);
         $result = $response->getData();
         self::$TOKEN = $result->token;
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertGreaterThan(0, strlen(self::$TOKEN));
+        $response->assertStatus(200)
+            ->assertJson([
+                'token' => self::$TOKEN,
+            ]);
+
+        // $this->assertEquals(200, $response->getStatusCode());
+        // $this->assertGreaterThan(0, strlen(self::$TOKEN));
     }
 
     public function testResetPasswordMissingParams()
     {
         $response = $this->json('POST', '/' . config('app.api_version') . '/password/reset', []);
-        $result = $response->getData();
-        $this->assertEquals(422, $response->getStatusCode());
-        $this->assertTrue(in_array('The token field is required.', $result->error->token));
+        $response->assertStatus(422)
+            ->assertJson([
+                'error' => [
+                    'token' => ['The token field is required.']
+                ]
+            ]);
     }
 
     public function testResetPasswordInvalidExpiredToken()
@@ -102,14 +117,16 @@ class ForgotResetPasswordTest extends TestCase
             'POST',
             '/' . config('app.api_version') . '/password/reset',
             [
-                            'token' => 'RandomString',
-                            'password' => 'Password2022!',
-                            'password_confirmation' => 'Password2022!',
-                        ]
+                'token' => 'RandomString',
+                'password' => 'Password2022!',
+                'password_confirmation' => 'Password2022!',
+            ]
         );
-        $result = $response->getData();
-        $this->assertEquals(500, $response->getStatusCode());
-        $this->assertEquals((new InvalidPasswordResetTokenException())->getMessage(), $result->error);
+
+        $response->assertStatus(500)
+            ->assertJson([
+                'error' => (new InvalidPasswordResetTokenException())->getMessage()
+            ]);
     }
 
     public function testResetPasswordInvalidPasswordFormat()
@@ -118,18 +135,18 @@ class ForgotResetPasswordTest extends TestCase
             'POST',
             '/' . config('app.api_version') . '/password/reset',
             [
-                        'token' => self::$TOKEN,
-                        'password' => 'notvalidpassword!',
-                        'password_confirmation' => 'notvalidpassword!',
-                    ]
+                'token' => self::$TOKEN,
+                'password' => 'notvalidpassword!',
+                'password_confirmation' => 'notvalidpassword!',
+            ]
         );
-        $result = $response->getData();
-        $this->assertEquals(422, $response->getStatusCode());
-        $result = json_decode((string) $response->getContent());
-        $this->assertTrue(in_array(
-            'Password must contain the following: 1 uppercase, 1 special character and a minimum of 8 characters.',
-            $result->error->password
-        ));
+
+        $response->assertStatus(422)
+            ->assertJson([
+                'error' => [
+                    'password' => ['Password must contain the following: 1 uppercase, 1 special character and a minimum of 8 characters.'],
+                ]
+            ]);
     }
 
     public function testResetPassword()
@@ -138,13 +155,14 @@ class ForgotResetPasswordTest extends TestCase
             'POST',
             '/' . config('app.api_version') . '/password/reset',
             [
-                            'token' => self::$TOKEN,
-                            'password' => self::$PASSWORD,
-                            'password_confirmation' => self::$PASSWORD,
-                        ]
+                'token' => self::$TOKEN,
+                'password' => self::$PASSWORD,
+                'password_confirmation' => self::$PASSWORD,
+            ]
         );
-        $result = $response->getData();
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertTrue($result->reset);
+        $response->assertStatus(200)
+            ->assertJson([
+                'reset' => true,
+            ]);
     }
 }

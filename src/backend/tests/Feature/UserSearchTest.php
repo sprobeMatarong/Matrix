@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use App\Models\User;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 class UserSearchTest extends TestCase
@@ -11,9 +12,6 @@ class UserSearchTest extends TestCase
 
     /** @var array */
     private static $ADMIN;
-
-    /** @var string */
-    private static $ACCESS_TOKEN;
 
     /** @var string */
     private static $KEYWORD = 'ad';
@@ -27,33 +25,12 @@ class UserSearchTest extends TestCase
     /** @var int */
     private static $LASTPAGE;
 
-    public function setUp(): void
+    public static function setUpBeforeClass(): void
     {
-        parent::setUp();
+        parent::setUpBeforeClass();
 
         // set admin details
-        self::$ADMIN = [
-            'email' => 'admin@tcg.sprobe.ph',
-            'password' => 'Password2022!',
-        ];
-
-        // Login as Admin once only
-        if (!self::$ACCESS_TOKEN) {
-            $response = $this->json(
-                'POST',
-                '/' . config('app.api_version') . '/oauth/token',
-                [
-                    'client_id' => (int) config('app.client_id'),
-                    'client_secret' => config('app.client_secret'),
-                    'grant_type' => 'password',
-                    'username' => self::$ADMIN['email'],
-                    'password' => self::$ADMIN['password'],
-                ]
-            );
-            $result = json_decode((string) $response->getContent());
-            // store access token to be used in testing
-            self::$ACCESS_TOKEN = $result->access_token;
-        }
+        self::$ADMIN = User::find(1);
     }
 
     /**
@@ -67,24 +44,24 @@ class UserSearchTest extends TestCase
 
     public function testSearchNoResults()
     {
-        $response = $this->withHeaders([
-                            'Authorization' => 'Bearer ' . self::$ACCESS_TOKEN,
-                        ])
+        $response = $this->actingAs(self::$ADMIN, 'api')
                         ->json('GET', '/' . config('app.api_version') . '/users?keyword=randomString');
-        $response->assertStatus(200);
-        $result = json_decode((string) $response->getContent());
-        $this->assertEquals(0, count($result->data));
-        $this->assertEquals(0, $result->meta->total);
-        $this->assertEquals(1, $result->meta->lastPage);
-        $this->assertEquals(null, $result->meta->previousPageUrl);
-        $this->assertEquals(null, $result->meta->nextPageUrl);
+        $result = $response->getData();
+        $response->assertStatus(200)
+            ->assertJson([
+                'data' => [],
+                'meta' => [
+                    'total' => $result->meta->total,
+                    'lastPage' => $result->meta->lastPage,
+                    'previousPageUrl' => $result->meta->previousPageUrl,
+                    'nextPageUrl' => $result->meta->nextPageUrl,
+                ]
+            ]);
     }
 
     public function testSearchByKeyword()
     {
-        $response = $this->withHeaders([
-                        'Authorization' => 'Bearer ' . self::$ACCESS_TOKEN,
-                    ])
+        $response = $this->actingAs(self::$ADMIN, 'api')
                     ->json('GET', '/' . config('app.api_version') . '/users?keyword=' . self::$KEYWORD);
         $response->assertStatus(200);
         $result = json_decode((string) $response->getContent());
@@ -128,16 +105,12 @@ class UserSearchTest extends TestCase
             'keyword' => self::$KEYWORD,
         ];
 
-        $response = $this->withHeaders([
-                        'Authorization' => 'Bearer ' . self::$ACCESS_TOKEN,
-                    ])
+        $response = $this->actingAs(self::$ADMIN, 'api')
                     ->json('GET', '/' . config('app.api_version') . '/users?' . http_build_query($query));
-        $response->assertStatus(200);
-        $result = json_decode((string) $response->getContent());
-
-        // verify limit matches the data per page
-        $this->assertEquals($limit, $result->meta->perPage);
-        $this->assertEquals($limit, count($result->data));
+        $result = $response->getData();
+        $response->assertStatus(200)
+            ->assertJsonPath('meta.perPage', intval($limit)) // check specific key only
+            ->assertJsonCount($limit, 'data'); // verify limit matches the data per page
 
         // store last page for next test
         self::$LASTPAGE = $result->meta->lastPage;
@@ -155,17 +128,11 @@ class UserSearchTest extends TestCase
             'page' => $page,
         ];
 
-        $response = $this->withHeaders([
-                    'Authorization' => 'Bearer ' . self::$ACCESS_TOKEN,
-                ])
+        $response = $this->actingAs(self::$ADMIN, 'api')
                 ->json('GET', '/' . config('app.api_version') . '/users?' . http_build_query($query));
-        $response->assertStatus(200);
-        $result = json_decode((string) $response->getContent());
-
-        // verify page matches
-        $this->assertEquals($page, $result->meta->currentPage);
-
-        // verify page has results
-        $this->assertTrue(count($result->data) > 0);
+        $result = $response->getData();
+        $response->assertStatus(200)
+            ->assertJsonPath('meta.currentPage', $page) // check specific key only
+            ->assertJsonCount(count($result->data), 'data');
     }
 }

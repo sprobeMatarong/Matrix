@@ -70,9 +70,16 @@ class AccountActivationTest extends TestCase
             'password' => 'Pass1234!',
             'password_confirmation' => 'Pass1234!',
         ]);
-        $response->assertStatus(200);
-        $result = $response->getData();
-        $this->assertEquals('Active', $result->data->status);
+        $response->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'full_name' => self::$data['first_name'] . " " . self::$data['last_name'],
+                    'first_name' => self::$data['first_name'],
+                    'last_name' => self::$data['last_name'],
+                    'email' => self::$data['email'],
+                    'status' => 'Active'
+                ]
+            ]);
     }
 
     /**
@@ -85,8 +92,9 @@ class AccountActivationTest extends TestCase
             'password' => 'Pass1234!',
             'password_confirmation' => 'Pass1234!',
         ]);
-        $response->assertStatus(500);
-        $result = $response->getData();
-        $this->assertEquals((new ActivationTokenNotFoundException())->getMessage(), $result->error);
+        $response->assertStatus(500)
+            ->assertJson([
+                'error' => (new ActivationTokenNotFoundException())->getMessage()
+            ]);
     }
 }
