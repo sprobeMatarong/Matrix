@@ -13,8 +13,9 @@ class UserPendingException extends Exception
      * UserPendingException constructor.
      * @param string $message
      */
-    public function __construct($message = 'Email has not been verified.')
+    public function __construct()
     {
+        $message = __('exception.user_pending');
         parent::__construct($message);
     }
 }

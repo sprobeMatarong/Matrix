@@ -13,8 +13,9 @@ class UserLockedException extends Exception
      * UserLockedException constructor.
      * @param string $message
      */
-    public function __construct($message = 'Your account has been locked out, please reset your password.')
+    public function __construct()
     {
+        $message = __('exception.user_locked');
         parent::__construct($message);
     }
 }

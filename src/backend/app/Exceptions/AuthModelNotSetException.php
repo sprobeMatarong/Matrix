@@ -13,8 +13,9 @@ class AuthModelNotSetException extends Exception
      * AuthModelNotSetException constructor.
      * @param string $message
      */
-    public function __construct($message = 'Auth Model not set.')
+    public function __construct()
     {
+        $message = __('exception.auth_model_not_set');
         parent::__construct($message);
     }
 }

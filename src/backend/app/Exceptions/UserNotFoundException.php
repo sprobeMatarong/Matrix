@@ -13,8 +13,9 @@ class UserNotFoundException extends Exception
      * UserNotFoundException constructor.
      * @param string $message
      */
-    public function __construct($message = 'Unable to retrieve user.')
+    public function __construct()
     {
+        $message = __('exception.user_not_found');
         parent::__construct($message);
     }
 }

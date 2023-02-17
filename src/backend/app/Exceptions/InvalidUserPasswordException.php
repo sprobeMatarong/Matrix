@@ -13,8 +13,9 @@ class InvalidUserPasswordException extends Exception
      * InvalidUserPasswordException constructor.
      * @param string $message
      */
-    public function __construct($message = 'Invalid User password.')
+    public function __construct()
     {
+        $message = __('exception.invalid_user_password');
         parent::__construct($message);
     }
 }

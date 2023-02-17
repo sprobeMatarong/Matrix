@@ -13,8 +13,9 @@ class InvalidUserCredentialsException extends Exception
      * InvalidUserCredentialsException constructor.
      * @param string $message
      */
-    public function __construct($message = 'Invalid User Credentials.')
+    public function __construct()
     {
+        $message = __('exception.invalid_user_credentials');
         parent::__construct($message);
     }
 }
