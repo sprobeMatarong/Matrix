@@ -27,9 +27,9 @@ class InquiryTest extends TestCase
     /**
      * InquiryTest constructor.
      */
-    public function __construct()
+    public function __construct($name = 'InquiryTest')
     {
-        parent::__construct();
+        parent::__construct($name);
         $this->createApplication();
 
         // test data

@@ -28,9 +28,9 @@ class LocalizationTest extends TestCase
     /**
      * LocalizationTest constructor.
      */
-    public function __construct()
+    public function __construct($name = 'LocalizationTest')
     {
-        parent::__construct();
+        parent::__construct($name);
         $this->createApplication();
     }
 

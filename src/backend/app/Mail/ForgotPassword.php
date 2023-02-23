@@ -2,9 +2,9 @@
 
 namespace App\Mail;
 
-use App\Models\PasswordReset;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use App\Models\PasswordResetToken;
 use Illuminate\Queue\SerializesModels;
 
 class ForgotPassword extends Mailable
@@ -12,8 +12,8 @@ class ForgotPassword extends Mailable
     use Queueable;
     use SerializesModels;
 
-    /** @var App\Models\PasswordReset */
-    protected $passwordReset;
+    /** @var App\Models\PasswordResetToken */
+    protected $passwordResetToken;
 
     /** @var string*/
     public $view;
@@ -32,12 +32,12 @@ class ForgotPassword extends Mailable
      *
      * @return void
      */
-    public function __construct(PasswordReset $passwordReset)
+    public function __construct(PasswordResetToken $passwordResetToken)
     {
         $this->view = 'mail.password.forgot';
         $this->subject = 'Reset your Password';
-        $this->user = $passwordReset->user;
-        $this->url = env('APP_URL') . '/password/reset?token=' . $passwordReset->token;
+        $this->user = $passwordResetToken->user;
+        $this->url = env('APP_URL') . '/password/reset?token=' . $passwordResetToken->token;
     }
 
     /**

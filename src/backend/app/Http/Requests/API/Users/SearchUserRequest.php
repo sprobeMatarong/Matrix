@@ -8,8 +8,6 @@ class SearchUserRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -35,12 +33,12 @@ class SearchUserRequest extends FormRequest
         return (int) $this->input('limit', config('search.results_per_page')); // set via config
     }
 
-    public function getOrder()
+    public function getOrder(): string
     {
         return $this->input('order', 'desc');
     }
 
-    public function getSort()
+    public function getSort(): string
     {
         return $this->input('sort', 'id');
     }

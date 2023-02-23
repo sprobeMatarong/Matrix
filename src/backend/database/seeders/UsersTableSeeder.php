@@ -12,10 +12,8 @@ class UsersTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
         // retrieve user status
         $status = UserStatus::where('name', config('user.statuses.active'))->first();
@@ -32,7 +30,7 @@ class UsersTableSeeder extends Seeder
         }
     }
 
-    private function _createSystemAdmin()
+    private function _createSystemAdmin(): void
     {
         // retrieve user status
         $status = UserStatus::where('name', config('user.statuses.active'))->first();

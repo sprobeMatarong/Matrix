@@ -58,9 +58,9 @@ class LogoutUserTest extends TestCase
      * LogoutUserTest constructor.
      * @return void
      */
-    public function __construct()
+    public function __construct($name = 'LogoutUserTest')
     {
-        parent::__construct();
+        parent::__construct($name);
     }
 
     public function testLogoutWithoutToken()

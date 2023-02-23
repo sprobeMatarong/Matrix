@@ -9,10 +9,8 @@ class VerifyTokenRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'type' => [
@@ -23,12 +21,12 @@ class VerifyTokenRequest extends FormRequest
         ];
     }
 
-    public function getType()
+    public function getType(): ?string
     {
         return $this->input('type', null);
     }
 
-    public function getToken()
+    public function getToken(): ?string
     {
         return $this->input('token', null);
     }

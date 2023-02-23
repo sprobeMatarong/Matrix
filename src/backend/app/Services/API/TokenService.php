@@ -3,28 +3,28 @@
 namespace App\Services\API;
 
 use Hash;
-use App\Models\PasswordReset;
 use InvalidArgumentException;
 use App\Models\ActivationToken;
+use App\Models\PasswordResetToken;
 
 class TokenService
 {
     /** @var App\Models\ActivationToken */
     protected $activationToken;
 
-    /** @var App\Models\PasswordReset */
-    protected $passwordReset;
+    /** @var App\Models\PasswordResetToken */
+    protected $passwordResetToken;
 
     /**
      * TokenService constructor.
      *
      * @param App\Models\ActivationToken $activationToken
-     * @param App\Models\PasswordReset $passwordReset
+     * @param App\Models\PasswordResetToken $passwordResetToken
      */
-    public function __construct(ActivationToken $activationToken, PasswordReset $passwordReset)
+    public function __construct(ActivationToken $activationToken, PasswordResetToken $passwordResetToken)
     {
         $this->activationToken = $activationToken;
-        $this->passwordReset = $passwordReset;
+        $this->passwordResetToken = $passwordResetToken;
     }
 
     /**
@@ -49,7 +49,7 @@ class TokenService
 
         $models = [
             'activation' => $this->activationToken,
-            'password_reset' => $this->passwordReset,
+            'password_reset' => $this->passwordResetToken,
         ];
 
         return $models[$data['type']]->where('token', $data['token'])

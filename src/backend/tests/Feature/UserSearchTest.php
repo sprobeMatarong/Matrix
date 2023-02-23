@@ -36,9 +36,9 @@ class UserSearchTest extends TestCase
     /**
      * UserSearchTest constructor.
      */
-    public function __construct()
+    public function __construct($name = 'UserSearchTest')
     {
-        parent::__construct();
+        parent::__construct($name);
         $this->createApplication();
     }
 

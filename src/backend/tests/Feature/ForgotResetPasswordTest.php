@@ -31,9 +31,9 @@ class ForgotResetPasswordTest extends TestCase
     /**
      * ForgotResetPasswordTest constructor.
      */
-    public function __construct()
+    public function __construct($name = 'ForgotResetPasswordTest')
     {
-        parent::__construct();
+        parent::__construct($name);
         $this->createApplication();
     }
 
