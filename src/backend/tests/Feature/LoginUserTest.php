@@ -47,9 +47,9 @@ class LoginUserTest extends TestCase
     /**
      * LoginUserTest constructor.
      */
-    public function __construct()
+    public function __construct($name = 'LoginUserTest')
     {
-        parent::__construct();
+        parent::__construct($name);
         $this->createApplication();
 
         // test variables

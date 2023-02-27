@@ -44,9 +44,9 @@ class UserServiceTest extends TestCase
      * UserServiceTest constructor.
      * @return void
      */
-    public function __construct()
+    public function __construct($name = 'UserServiceTest')
     {
-        parent::__construct();
+        parent::__construct($name);
         $this->data = [
             'first_name' => 'John',
             'last_name' => 'Doe',

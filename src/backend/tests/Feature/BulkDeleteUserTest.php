@@ -39,9 +39,9 @@ class BulkDeleteUserTest extends TestCase
         self::$USER = User::find(1);
     }
 
-    public function __construct()
+    public function __construct($name = 'BulkDeleteUserTest')
     {
-        parent::__construct();
+        parent::__construct($name);
         $this->createApplication();
     }
 

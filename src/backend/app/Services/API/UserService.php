@@ -41,11 +41,8 @@ class UserService
 
     /**
      * List users by conditions
-     *
-     * @param array $conditions
-     * @return array $results
      */
-    public function search(array $conditions)
+    public function search(array $conditions): array
     {
         // default to 1 if page not provided
         $page = 1;
@@ -87,9 +84,8 @@ class UserService
      * type = invite  User Added via Dashboard
      *
      * @param array $params
-     * @return App\Models\User $user
      */
-    public function create(array $params)
+    public function create(array $params): User
     {
         DB::beginTransaction();
 
@@ -128,11 +124,8 @@ class UserService
 
     /**
      * Updates user in the database
-     *
-     * @param array $params
-     * @return App\Models\User $user
      */
-    public function update(array $params)
+    public function update(array $params): User
     {
         // retrieve user information
         $user = $this->findById($params['id']);
@@ -159,9 +152,6 @@ class UserService
 
     /**
      * Deletes the user in the database
-     *
-     * @param int $id
-     * @return bool
      */
     public function delete(int $id): bool
     {
@@ -175,10 +165,7 @@ class UserService
     }
 
     /**
-     * Deletes the user in the database
-     *
-     * @param int $id
-     * @return bool
+     * Delete multiple users in the database
      */
     public function bulkDelete(array $ids): bool
     {
@@ -187,9 +174,6 @@ class UserService
 
     /**
      * Service function that activates the user account.
-     *
-     * @param array $data
-     * @return User $user
      */
     public function activate(array $data): User
     {
@@ -226,11 +210,8 @@ class UserService
 
     /**
      * Retrieves a user by email
-     *
-     * @param string $email
-     * @return User $user
      */
-    public function findByEmail(string $email)
+    public function findByEmail(string $email): User
     {
         // retrieve the user
         $user = $this->user
@@ -246,11 +227,8 @@ class UserService
 
     /**
      * Retrieves a user by id
-     *
-     * @param int $id
-     * @return User $user
      */
-    public function findById(int $id)
+    public function findById(int $id): User
     {
         // retrieve the user
         $user = $this->user->find($id);

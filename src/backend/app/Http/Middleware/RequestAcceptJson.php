@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Symfony\Component\HttpFoundation\Response;
 
 class RequestAcceptJson
 {
@@ -13,7 +14,7 @@ class RequestAcceptJson
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next): Response
     {
         $request->headers->set('Accept', 'application/json');
 

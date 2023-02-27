@@ -3,8 +3,8 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use App\Models\PasswordReset;
 use App\Models\ActivationToken;
+use App\Models\PasswordResetToken;
 
 class TokenVerifyTest extends TestCase
 {
@@ -14,7 +14,7 @@ class TokenVerifyTest extends TestCase
     /** @var App\Models\ActivationToken */
     private static $ACTIVATION_TOKEN;
 
-    /** @var App\Models\PasswordReset */
+    /** @var App\Models\PasswordResetToken */
     private static $RESET_TOKEN;
 
     public static function setUpBeforeClass(): void
@@ -25,7 +25,7 @@ class TokenVerifyTest extends TestCase
 
         // store test token data
         self::$ACTIVATION_TOKEN = ActivationToken::create(['token' => self::$TOKEN, 'user_id' => 1]);
-        self::$RESET_TOKEN = PasswordReset::create(['token' => self::$TOKEN, 'email' => 'test@mail.com']);
+        self::$RESET_TOKEN = PasswordResetToken::create(['token' => self::$TOKEN, 'email' => 'test@mail.com']);
     }
 
     public static function tearDownAfterClass(): void
@@ -40,9 +40,9 @@ class TokenVerifyTest extends TestCase
     /**
      * TokenVerifyTest constructor.
      */
-    public function __construct()
+    public function __construct($name = 'TokenVerifyTest')
     {
-        parent::__construct();
+        parent::__construct($name);
         $this->createApplication();
     }
 

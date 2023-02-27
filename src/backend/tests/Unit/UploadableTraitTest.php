@@ -13,7 +13,7 @@ class UploadableTraitTest extends TestCase
 
     public function __constructor()
     {
-        parent::__constructor();
+        parent::__constructor('UploadableTraitTest');
 
         Storage::fake('public');
     }

@@ -11,9 +11,8 @@ class EmailAddress implements Rule
      *
      * @param  string  $attribute
      * @param  mixed  $value
-     * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         return filter_var($value, FILTER_VALIDATE_EMAIL);
     }
@@ -23,7 +22,7 @@ class EmailAddress implements Rule
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return 'Invalid email address.';
     }

@@ -13,9 +13,9 @@ class RegisterUserTest extends TestCase
     /**
      * RegisterUserTest constructor.
      */
-    public function __construct()
+    public function __construct($name = 'RegisterUserTest')
     {
-        parent::__construct();
+        parent::__construct($name);
         // test variables
         $this->data = [
             'first_name' => 'John',

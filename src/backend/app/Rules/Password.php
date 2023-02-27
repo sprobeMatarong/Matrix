@@ -21,19 +21,16 @@ class Password implements Rule
      *
      * @param  string  $attribute
      * @param  mixed  $value
-     * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         return (bool) preg_match(self::$RULES, $value);
     }
 
     /**
      * Get the validation error message.
-     *
-     * @return string
      */
-    public function message()
+    public function message(): string
     {
         return 'Password must contain the following: 1 uppercase, 1 special character and a minimum of 8 characters.';
     }

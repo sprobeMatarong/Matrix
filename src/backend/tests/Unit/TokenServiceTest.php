@@ -3,8 +3,8 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use App\Models\PasswordReset;
 use App\Models\ActivationToken;
+use App\Models\PasswordResetToken;
 use App\Services\API\TokenService;
 
 class TokenServiceTest extends TestCase
@@ -15,7 +15,7 @@ class TokenServiceTest extends TestCase
     /** @var App\Models\ActivationToken */
     private static $ACTIVATION_TOKEN;
 
-    /** @var App\Models\PasswordReset */
+    /** @var App\Models\PasswordResetToken */
     private static $RESET_TOKEN;
 
     /** @var App\Services\API\TokenService */
@@ -29,7 +29,7 @@ class TokenServiceTest extends TestCase
 
         // store test token data
         self::$ACTIVATION_TOKEN = ActivationToken::create(['token' => self::$TOKEN, 'user_id' => 1]);
-        self::$RESET_TOKEN = PasswordReset::create(['token' => self::$TOKEN, 'email' => 'test@mail.com']);
+        self::$RESET_TOKEN = PasswordResetToken::create(['token' => self::$TOKEN, 'email' => 'test@mail.com']);
     }
 
     public static function tearDownAfterClass(): void
@@ -46,12 +46,12 @@ class TokenServiceTest extends TestCase
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($name = 'TokenServiceTest')
     {
-        parent::__construct();
+        parent::__construct($name);
         $this->createApplication();
 
-        $this->tokenService = new TokenService(new ActivationToken(), new PasswordReset());
+        $this->tokenService = new TokenService(new ActivationToken(), new PasswordResetToken());
     }
 
     public function testVerifyMissingTypeField()
@@ -97,7 +97,7 @@ class TokenServiceTest extends TestCase
     {
         $token = $this->tokenService->verify(['type' => 'password_reset', 'token' => self::$TOKEN]);
 
-        $this->assertTrue($token instanceof PasswordReset);
+        $this->assertTrue($token instanceof PasswordResetToken);
         $this->assertEquals($token->token, self::$TOKEN);
     }
 }

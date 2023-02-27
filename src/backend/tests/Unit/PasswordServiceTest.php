@@ -5,8 +5,8 @@ namespace Tests\Unit;
 use Hash;
 use Tests\TestCase;
 use App\Models\User;
-use App\Models\PasswordReset;
 use App\Services\API\UserService;
+use App\Models\PasswordResetToken;
 use App\Services\API\PasswordService;
 
 class PasswordServiceTest extends TestCase
@@ -42,13 +42,13 @@ class PasswordServiceTest extends TestCase
      * PasswordServiceTest constructor.
      * @return void
      */
-    public function __construct()
+    public function __construct($name = 'PasswordServiceTest')
     {
-        parent::__construct();
+        parent::__construct($name);
         $this->createApplication();
 
         $this->passwordService = new PasswordService(
-            new PasswordReset(),
+            new PasswordResetToken(),
             new UserService(new User())
         );
     }
@@ -71,10 +71,10 @@ class PasswordServiceTest extends TestCase
 
     public function testForgotPassword()
     {
-        $passwordReset = $this->passwordService->forgot(self::$DATA['email']);
-        $this->assertTrue(($passwordReset instanceof PasswordReset));
+        $passwordResetToken = $this->passwordService->forgot(self::$DATA['email']);
+        $this->assertTrue(($passwordResetToken instanceof PasswordResetToken));
         // get the reset token
-        self::$TOKEN = $passwordReset->token;
+        self::$TOKEN = $passwordResetToken->token;
     }
 
     public function testResetInvalidDataPassed()

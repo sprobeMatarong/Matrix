@@ -9,10 +9,8 @@ class CreateInquiryRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'fullname' => 'required',
@@ -21,17 +19,17 @@ class CreateInquiryRequest extends FormRequest
         ];
     }
 
-    public function getFullname()
+    public function getFullname(): ?string
     {
         return $this->input('fullname', null);
     }
 
-    public function getEmail()
+    public function getEmail(): ?string
     {
         return $this->input('email', null);
     }
 
-    public function getInquiryContent()
+    public function getInquiryContent(): ?string
     {
         return $this->input('content', null);
     }

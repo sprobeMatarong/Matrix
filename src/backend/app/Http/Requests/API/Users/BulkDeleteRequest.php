@@ -8,10 +8,8 @@ class BulkDeleteRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'ids' =>  'array|required',
@@ -19,7 +17,7 @@ class BulkDeleteRequest extends FormRequest
         ];
     }
 
-    public function getIds()
+    public function getIds(): array
     {
         return $this->input('ids', []);
     }

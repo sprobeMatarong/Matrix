@@ -1,6 +1,6 @@
 # Sprobe Laravel ReactJS Boilerplate
 
-A base template for `ReactJS (17.0.2)` with backend API implementation using `Laravel (^9.2)` preconfigured `laravel/passport(^10.3)` authentication.
+A base template for `ReactJS (^18.2)` with backend API implementation using `Laravel (^10.0)` preconfigured `laravel/passport(^11.8)` authentication.
 
 ## Specifications / Infrastructure Information
 

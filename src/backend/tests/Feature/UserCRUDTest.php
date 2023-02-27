@@ -37,9 +37,9 @@ class UserCRUDTest extends TestCase
     /**
      * UserCRUDTest constructor.
      */
-    public function __construct()
+    public function __construct($name = 'UserCRUDTest')
     {
-        parent::__construct();
+        parent::__construct($name);
         $this->createApplication();
 
         Storage::fake('public');
