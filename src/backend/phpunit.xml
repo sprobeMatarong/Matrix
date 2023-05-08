@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd" bootstrap="vendor/autoload.php" colors="true" cacheDirectory=".phpunit.cache">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.1/phpunit.xsd" bootstrap="vendor/autoload.php" colors="true" cacheDirectory=".phpunit.cache">
   <coverage>
-    <include>
-      <directory suffix=".php">./app</directory>
-    </include>
-    <exclude>
-      <file>./app/Listeners/EventListener.php</file>
-      <file>./app/Http/Controllers/Controller.php</file>
-      <directory suffix=".php">./app/Events</directory>
-      <directory suffix=".php">./app/Exceptions</directory>
-      <directory suffix=".php">./app/Console</directory>
-      <directory suffix=".php">./app/Providers</directory>
-      <directory suffix=".php">./app/Http/Middleware</directory>
-    </exclude>
     <report>
       <html outputDirectory="./public/report" lowUpperBound="50" highLowerBound="80"/>
     </report>
@@ -39,4 +27,18 @@
   <logging>
     <junit outputFile="./public/report/logfile.xml"/>
   </logging>
+  <source>
+    <include>
+      <directory suffix=".php">./app</directory>
+    </include>
+    <exclude>
+      <file>./app/Listeners/EventListener.php</file>
+      <file>./app/Http/Controllers/Controller.php</file>
+      <directory suffix=".php">./app/Events</directory>
+      <directory suffix=".php">./app/Exceptions</directory>
+      <directory suffix=".php">./app/Console</directory>
+      <directory suffix=".php">./app/Providers</directory>
+      <directory suffix=".php">./app/Http/Middleware</directory>
+    </exclude>
+  </source>
 </phpunit>
