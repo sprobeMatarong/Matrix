@@ -23,7 +23,7 @@ $finder = PhpCsFixer\Finder::create()
 
 return (new PhpCsFixer\Config())->setRules([
         '@PSR12' => true,
-        'new_with_braces' => [
+        'new_with_parentheses' => [
             'anonymous_class' => false,
             'named_class' => true
         ],
@@ -39,13 +39,7 @@ return (new PhpCsFixer\Config())->setRules([
         'ordered_imports' =>  [
             'sort_algorithm' => 'length',
         ],
-        'braces' => [
-            'allow_single_line_anonymous_class_with_empty_body' => false,
-            'allow_single_line_closure'                         => true,
-            'position_after_functions_and_oop_constructs'       => 'next',
-            'position_after_control_structures'                 => 'same',
-        ],
-        'curly_braces_position' => [
+        'braces_position' => [
             'classes_opening_brace'             => 'next_line_unless_newline_at_signature_end',
             'anonymous_classes_opening_brace'   => 'next_line_unless_newline_at_signature_end',
             'anonymous_functions_opening_brace' => 'same_line',
