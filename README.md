@@ -7,7 +7,6 @@ A base template for `ReactJS (^18.2)` with backend API implementation using `Lar
 -   Nginx
 -   PHP-FPM
 -   MySQL
--   CS-Fixer
 -   Cron
 -   Node/NPM
 -   Redis
@@ -82,7 +81,6 @@ Starting {PROJECT_NAME}_redis    ... done
 Starting {PROJECT_NAME}_mysql    ... done
 Starting {PROJECT_NAME}_data     ... done
 Starting {PROJECT_NAME}_node     ... done
-Starting {PROJECT_NAME}_fixer    ... done
 Starting {PROJECT_NAME}_cron     ... done
 Starting {PROJECT_NAME}_php      ... done
 Starting {PROJECT_NAME}_nginx    ... done
@@ -158,18 +156,21 @@ Running the Coding Standards Fixer Container
 To check the PHP Files if it follows the PHP Coding Standards without applying any fixes, run the following command:
 
 ```
+docker exec -it {PROJECT_NAME}_php sh
 ./fixer . --dry-run
 ```
 
 To fix all your PHP code to adhere the PHP Coding Standards, run:
 
 ```
+docker exec -it {PROJECT_NAME}_php sh
 ./fixer .
 ```
 
 To Apply fix only to a specific file
 
 ```
+docker exec -it {PROJECT_NAME}_php sh
 ./fixer <<file_name>>
 ```
 

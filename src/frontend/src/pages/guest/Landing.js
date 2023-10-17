@@ -8,6 +8,7 @@ import HeroImage from 'components/atoms/HeroImage';
 import Section from 'components/atoms/Section';
 import CallToAction from 'components/molecules/CallToAction';
 import ReviewSlider from 'components/molecules/ReviewSlider';
+import Seo from 'components/organisms/Seo';
 
 function Landing() {
   const { t } = useTranslation();
@@ -56,6 +57,12 @@ function Landing() {
 
   return (
     <>
+      <Seo
+        title="Sprobe Base Template"
+        description="This is a boilerplate for React + Laravel Applications."
+        image="http://test.com/"
+      />
+
       <HeroImage image="/static/images/landing-cover.jpg" height="calc(100vh - 100px)">
         <Box
           sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}

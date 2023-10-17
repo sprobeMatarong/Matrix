@@ -127,13 +127,13 @@ if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
     fi
 
     # Build Docker Containers
-    docker-compose -f $DOCKER_COMPOSE_FILE build --no-cache
+    docker compose -f $DOCKER_COMPOSE_FILE build --no-cache
 
     # Install PHP Laravel Packages and migrate database with seeders
-    docker-compose run --rm php bash -c "$DOCKER_COMPOSE_COMMAND"
+    docker compose run --rm php bash -c "$DOCKER_COMPOSE_COMMAND"
 
     # Setup Laravel Passport
-    docker-compose run --rm php php artisan passport:install --force >> output.txt
+    docker compose run --rm php php artisan passport:install --force >> output.txt
 
     # Update Laravel & React environment variables
     CLIENT_ID=$(grep 'Client ID\:' output.txt | tail -n 1)
@@ -148,11 +148,11 @@ if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
 
     if [[ $ENVIRONMENT != "development" ]]; then
       # Build React for Production Environment
-      docker-compose run --rm node npm run build
+      docker compose run --rm node npm run build
     fi
 
     # Start the docker containers
-    COMPOSE_HTTP_TIMEOUT=900 docker-compose -f $DOCKER_COMPOSE_FILE up -d
+    COMPOSE_HTTP_TIMEOUT=900 docker compose -f $DOCKER_COMPOSE_FILE up -d
 
     # Display the results
     echo -e "\n\n${SUCCESS_COLOR}Project Setup Completed${NO_COLOR}"

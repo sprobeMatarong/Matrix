@@ -9,6 +9,7 @@ const TextField = React.forwardRef(function TextField(props, ref) {
     error = false,
     fullWidth = true,
     noLabel = false,
+    disabled = false,
     ...rest
   } = props;
   let { variant } = props;
@@ -55,7 +56,17 @@ const TextField = React.forwardRef(function TextField(props, ref) {
       error={error}
       color={color}
       fullWidth={fullWidth}
+      disabled={disabled}
       {...rest}
+      sx={(theme) => ({
+        '& .MuiInputBase-input.Mui-disabled': {
+          background: theme.palette.grey[200],
+          minHeight: 0,
+        },
+        '& .MuiInputBase-root': {
+          background: disabled ? theme.palette.grey[200] : 'none',
+        },
+      })}
     />
   );
 });
@@ -67,6 +78,7 @@ TextField.propTypes = {
   InputProps: PropTypes.any,
   fullWidth: PropTypes.bool,
   noLabel: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 export default TextField;
