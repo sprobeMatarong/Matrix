@@ -67,6 +67,7 @@ return [
                 'passport.personal.tokens.*',
                 'passport.tokens.*',
                 'passport.token.refresh',
+                'passport.auth',
                 // '/health', 'admin.*'
             ],
 
@@ -273,8 +274,10 @@ INTRO
      *
      */
     'example_languages' => [
-        // 'bash',
+        'bash',
         'javascript',
+        'php',
+        'python'
     ],
 
     /*

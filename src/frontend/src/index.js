@@ -7,9 +7,11 @@ import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 // handle windows display scaling
+const computed = +1 / window.devicePixelRatio;
+const scale = computed < 1 && window.innerWidth > 1024 ? computed : 1;
 document
   .querySelector('meta[name=viewport]')
-  .setAttribute('content', `width=device-width, initial-scale=${+1 / window.devicePixelRatio}`);
+  .setAttribute('content', `width=device-width, initial-scale=${scale}`);
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);

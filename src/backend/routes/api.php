@@ -20,7 +20,7 @@ use Laravel\Passport\Http\Controllers\AccessTokenController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::post('/oauth/token', [AccessTokenController::class, 'issueToken'])->middleware('throttle');
+Route::post('/oauth/token', [AccessTokenController::class, 'issueToken'])->middleware('throttle')->name('passport.auth');
 
 // Default API Homepage
 Route::get('/', [HomeController::class, '__invoke']);

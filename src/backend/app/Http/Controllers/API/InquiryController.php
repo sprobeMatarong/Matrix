@@ -25,6 +25,8 @@ class InquiryController extends Controller
     /**
      * Create New Inquiry
      *
+     * Stores the Inquiry in database and notifies admin via email.
+     *
      * @param \App\Http\Requests\API\Inquiry\CreateInquiryRequest $request
      * @return Illuminate\Http\Response
      */

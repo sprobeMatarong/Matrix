@@ -6,8 +6,9 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
-import { Box, Card, Container, Grid, TextField } from '@mui/material';
+import { Box, Card, Container, Grid } from '@mui/material';
 import Button from 'components/atoms/Button';
+import PasswordField from 'components/atoms/Form/PasswordField';
 import PageTitle from 'components/atoms/PageTitle';
 import api from 'utils/api';
 
@@ -91,28 +92,24 @@ function Activate() {
             <Box component="form" noValidate onSubmit={handleSubmit(handleActivate)}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <TextField
+                  <PasswordField
                     {...register('password')}
                     error={errors && errors.password ? true : false}
                     helperText={errors ? errors?.password?.message : null}
                     fullWidth
                     label={t('labels.new_password')}
                     name="password"
-                    type="password"
-                    variant="outlined"
                   />
                 </Grid>
 
                 <Grid item xs={12}>
-                  <TextField
+                  <PasswordField
                     {...register('password_confirmation')}
                     error={errors && errors.password_confirmation ? true : false}
                     helperText={errors ? errors?.password_confirmation?.message : null}
                     fullWidth
                     label={t('labels.confirm_new_password')}
                     name="password_confirmation"
-                    type="password"
-                    variant="outlined"
                   />
                 </Grid>
 

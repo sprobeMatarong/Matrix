@@ -15,20 +15,22 @@ function LanguageSelect() {
 
   useEffect(() => {
     // @TODO Update this implementation if prefered locale is from backend
-    const lang = localStorage.getItem('locale') ?? 'en';
+    const lang = localStorage.getItem('locale') || 'en';
     setLocale(lang);
+    i18n.changeLanguage(lang);
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem('locale', locale);
-    i18n.changeLanguage(locale);
-  }, [locale]);
+  const selectLocale = (value) => {
+    setLocale(value);
+    localStorage.setItem('locale', value);
+    i18n.changeLanguage(value);
+  };
 
   return (
     <FormControl size="small" sx={{ m: 1, minWidth: 20 }}>
       <Select
         value={locale}
-        onChange={(e) => setLocale(e.target.value)}
+        onChange={(e) => selectLocale(e.target.value)}
         displayEmpty
         inputProps={{ 'aria-label': 'Without label' }}
         defaultValue={locale}

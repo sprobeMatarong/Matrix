@@ -8,6 +8,9 @@ use App\Services\API\TokenService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\Token\VerifyTokenRequest;
 
+/**
+ * @group Token Management
+ */
 class TokenController extends Controller
 {
     /** @var App\Services\API\TokenService */
@@ -25,8 +28,11 @@ class TokenController extends Controller
     }
 
     /**
-     * Logout the user by deleting the current access token
+     * Logout User
      *
+     * Revokes the current access token of the user.
+     *
+     * @authenticated
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
@@ -46,7 +52,9 @@ class TokenController extends Controller
     }
 
     /**
-     * Verify if token is valid
+     * Token Verification
+     *
+     * Verify if token is valid used in Account Activation and Password Reset.
      *
      * @param App\Http\Requests\API\Token\VerifyTokenRequest $request
      * @return \Illuminate\Http\Response

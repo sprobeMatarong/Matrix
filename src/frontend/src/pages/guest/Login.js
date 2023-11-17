@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { Box, Card, Container, Grid, Link } from '@mui/material';
 import Button from 'components/atoms/Button';
+import PasswordField from 'components/atoms/Form/PasswordField';
 import TextField from 'components/atoms/Form/TextField';
 import PageTitle from 'components/atoms/PageTitle';
 
@@ -64,14 +65,13 @@ function Login() {
             </Grid>
 
             <Grid item xs={12}>
-              <TextField
+              <PasswordField
                 {...register('password')}
                 error={errors && errors.password ? true : false}
                 helperText={errors ? errors?.password?.message : null}
                 fullWidth
                 label={t('labels.password')}
                 name="password"
-                type="password"
               />
             </Grid>
 

@@ -21,7 +21,7 @@ class InquiryService
         $inquiry = $this->inquiry->create($data);
 
         // notify admin via email notification
-        $send = Mail::to(env('MAIL_FROM_ADDRESS'))->send(new NewInquiry($inquiry));
+        Mail::to(env('MAIL_FROM_ADDRESS'))->send(new NewInquiry($inquiry));
         return $inquiry;
     }
 }
