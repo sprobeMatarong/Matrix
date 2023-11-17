@@ -39,8 +39,11 @@ class UserController extends Controller
     }
 
     /**
-     * Retrieves the List of Users
+     * User Search
      *
+     * Retrieves the List of Users from Database
+     *
+     * @authenticated
      * @param App\Http\Requests\SearchUserRequest $request
      * @return \Illuminate\Http\Response
      */
@@ -70,9 +73,11 @@ class UserController extends Controller
     }
 
     /**
-     * Creates a new user.
-     * @authenticated
+     * Create User
      *
+     * Stores a new user in the database.
+     *
+     * @authenticated
      * @param App\Http\Requests\CreateUserRequest $request
      * @return \Illuminate\Http\Response
      */
@@ -100,8 +105,11 @@ class UserController extends Controller
     }
 
     /**
-     * Retrieves user information
+     * Get User
      *
+     * Retrieves user information using user id.
+     *
+     * @authenticated
      * @param string $id
      * @return \Illuminate\Http\Response
      */
@@ -121,8 +129,11 @@ class UserController extends Controller
     }
 
     /**
-     * Updates user information
+     * Update User
      *
+     * Updates the user information in database.
+     *
+     * @authenticated
      * @param App\Http\Requests\CreateUserRequest $request
      * @return \Illuminate\Http\Response
      */
@@ -153,8 +164,11 @@ class UserController extends Controller
     }
 
     /**
-     * Delete user.
+     * Delete User
      *
+     * Deletes the user information in the database.
+     *
+     * @authenticated
      * @param string $id
      * @return \Illuminate\Http\Response
      */
@@ -174,8 +188,11 @@ class UserController extends Controller
     }
 
     /**
-     * Bulk Delete users.
+     * Bulk Delete
      *
+     * Deletes multiple users using array of user ids
+     *
+     * @authenticated
      * @param App\Http\Requests\API\Users\BulkDeleteRequest $request
      * @return \Illuminate\Http\Response
      */
@@ -196,7 +213,9 @@ class UserController extends Controller
     }
 
     /**
-     * Creates user from Signup/Register Form.
+     * User Signup
+     *
+     * Creates a new user via signup page.
      *
      * @param App\Http\Requests\API\Users\RegisterUserRequest $request
      * @return \Illuminate\Http\Response
@@ -226,10 +245,12 @@ class UserController extends Controller
     }
 
     /**
-     *  Activate user account.
+     * Account Activation
      *
-     *  @param Illuminate\Http\Request $request
-     *  @return \Illuminate\Http\Response
+     * Activates the user account and stores the desired user password.
+     *
+     * @param Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
      */
     public function activate(ActivateAccountRequest $request)
     {

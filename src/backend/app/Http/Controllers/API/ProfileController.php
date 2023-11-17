@@ -32,8 +32,11 @@ class ProfileController extends Controller
     }
 
     /**
-     * Retrieves the User Profile
+     * User Profile
      *
+     * Retrieves the information of the current user.
+     *
+     * @authenticated
      * @param Illuminate\Http\Request $request
      * @return Illuminate\Http\Response
      */
@@ -53,8 +56,11 @@ class ProfileController extends Controller
     }
 
     /**
-     * Updates the User Profile
+     * Profile Update
      *
+     * Updates the current user information in the database.
+     *
+     * @authenticated
      * @param App\Http\Requests\API\UpdateProfileRequest $request
      * @return Illuminate\Http\Response
      */

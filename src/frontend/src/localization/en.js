@@ -39,6 +39,8 @@ const en = {
       resources: 'Resources',
       cancel: 'Cancel',
       action: 'Action',
+      showPassword: 'Show Password',
+      hidePassword: 'Hide Password',
     },
     pages: {
       signup: {

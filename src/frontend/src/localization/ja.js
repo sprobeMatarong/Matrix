@@ -39,6 +39,8 @@ const ja = {
       resources: 'リソース',
       cancel: 'キャンセル',
       action: 'アクション',
+      showPassword: 'パスワードを表示',
+      hidePassword: 'パスワードを隠す',
     },
     pages: {
       signup: {

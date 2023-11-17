@@ -9,7 +9,7 @@ import { resetPassword } from 'services/password.service';
 import * as yup from 'yup';
 import { Box, Card, Container, Grid } from '@mui/material';
 import Button from 'components/atoms/Button';
-import TextField from 'components/atoms/Form/TextField';
+import PasswordField from 'components/atoms/Form/PasswordField';
 import PageTitle from 'components/atoms/PageTitle';
 import api from 'utils/api';
 import errorHandler from 'utils/errorHandler';
@@ -78,26 +78,24 @@ function ResetPassword() {
         <Box component="form" noValidate onSubmit={handleSubmit(handleReset)} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
-              <TextField
+              <PasswordField
                 {...register('password')}
                 error={errors && errors.password ? true : false}
                 helperText={errors ? errors?.password?.message : null}
                 fullWidth
                 label={t('labels.new_password')}
                 name="password"
-                type="password"
               />
             </Grid>
 
             <Grid item xs={12} sm={12}>
-              <TextField
+              <PasswordField
                 {...register('password_confirmation')}
                 error={errors && errors.password_confirmation ? true : false}
                 helperText={errors ? errors?.password_confirmation?.message : null}
                 fullWidth
                 label={t('labels.confirm_new_password')}
                 name="password_confirmation"
-                type="password"
               />
             </Grid>
 

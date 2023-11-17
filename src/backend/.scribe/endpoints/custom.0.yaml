@@ -1,0 +1,116 @@
+- httpMethods:
+    - POST
+  uri: v1/oauth/token
+  metadata:
+    groupName: Authentication
+    groupDescription: ''
+    title: User Login
+    description: 'This will attempt to authenticate if user credentials is valid or not.'
+    authenticated: false
+  headers:
+    Content-Type: application/json
+    Accept: application/json
+  urlParameters: []
+  queryParameters: []
+  bodyParameters:
+    grant_type:
+      name: grant_type
+      description: Value should be always password
+      required: true
+      example: password
+      type: 'string'
+    client_id:
+      name: client_id
+      description: The Client ID generated from Passport Install command.
+      required: true
+      example: 2
+      type: 'integer'
+    client_secret:
+      name: client_secret
+      description: The Client Secret generated from Passport Install command.
+      required: true
+      example: uhgSaVmJisIFb4kIBe12345rwafd
+      type: 'string'
+    username:
+      name: username
+      description: The email address of the user.
+      required: true
+      example: john@doe.com
+      type: 'string'
+    password:
+      name: password
+      description: The plain text password of the user.
+      required: true
+      example: MyStrongPassword
+      type: 'string'
+    scope:
+      name: scope
+      description: The scopes allowed for this token.
+      required: true
+      example: ''
+      type: 'string'
+  responses:
+    - status: 200
+      description:  
+      content: # Your response content can be an object, an array, a string or empty.
+         {
+           "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSU",
+           "refresh_token": "def50200a3f65f24a1213c788233553ce3",
+           "expires_in": 1700116256
+         }
+  responseFields: []
+- httpMethods:
+  - POST
+  uri: v1/oauth/token
+  metadata:
+    groupName: Authentication
+    groupDescription: ''
+    title: Refresh Token
+    description: This will generate a new access_token using a provided refresh token.
+    authenticated: false
+  headers:
+    Content-Type: application/json
+    Accept: application/json
+  urlParameters: []
+  queryParameters: []
+  bodyParameters:
+    grant_type:
+      name: grant_type
+      description: Value should be always refresh_token
+      required: true
+      example: refresh_token
+      type: 'string'
+    refresh_token:
+      name: refresh_token
+      description: The refresh token to be used.
+      required: true
+      example: def50200a3f65f24a1213c788233553ce3
+      type: 'string'
+    client_id:
+      name: client_id
+      description: The Client ID generated from Passport Install command.
+      required: true
+      example: 2
+      type: 'integer'
+    client_secret:
+      name: client_secret
+      description: The Client Secret generated from Passport Install command.
+      required: true
+      example: uhgSaVmJisIFb4kIBe12345rwafd
+      type: 'string'
+    scope:
+      name: scope
+      description: The scopes allowed for this token.
+      required: true
+      example: ''
+      type: 'string'
+  responses:
+    - status: 200
+      description:  
+      content: # Your response content can be an object, an array, a string or empty.
+         {
+           "access_token": "eyJQiLCJhbGciOiJSU0eXAiOiJKV1",
+           "refresh_token": "def50200a3f3c788233553ce365f24a121",
+           "expires_in": 1700226256
+         }
+  responseFields: []

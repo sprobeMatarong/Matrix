@@ -10,7 +10,7 @@ use App\Http\Requests\API\Password\ResetPasswordRequest;
 use App\Http\Requests\API\Password\ForgotPasswordRequest;
 
 /**
- * @group Password Forgot & Reset
+ * @group Password Management
  */
 class PasswordController extends Controller
 {
@@ -29,7 +29,9 @@ class PasswordController extends Controller
     }
 
     /**
-     * Handles the forgot password request
+     * Forgot Password
+     *
+     * Sends email to user with a password reset link.
      *
      * @param Request $request
      * @return Response
@@ -52,7 +54,9 @@ class PasswordController extends Controller
     }
 
     /**
-     * Handles the reset password request
+     * Reset Password
+     *
+     * Updates the new user password in the database.
      *
      * @param Request $request
      * @return Response
