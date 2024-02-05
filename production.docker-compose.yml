@@ -108,15 +108,6 @@ services:
     ports:
       - "3000:3000"
 
-  fixer:
-    build:
-      context: .
-      dockerfile: "./docker/fixer/Dockerfile"
-    container_name: ${PROJECT_NAME}_fixer
-    volumes:
-      - *services-volume
-    working_dir: /var/www/backend
-
   redis:
     build:
       context: .
