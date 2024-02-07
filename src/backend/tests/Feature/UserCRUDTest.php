@@ -8,12 +8,9 @@ use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use App\Exceptions\UserNotFoundException;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 class UserCRUDTest extends TestCase
 {
-    use WithoutMiddleware;
-
     /** @var array */
     private $data;
 

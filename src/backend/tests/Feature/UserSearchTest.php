@@ -4,12 +4,9 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\User;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 class UserSearchTest extends TestCase
 {
-    use WithoutMiddleware;
-
     /** @var array */
     private static $ADMIN;
 
