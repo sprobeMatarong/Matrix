@@ -35,7 +35,7 @@ class UserController extends Controller
         $this->userService = $userService;
 
         // enable api middleware
-        $this->middleware(['auth:api'], ['except' => ['register', 'activate']]);
+        $this->middleware(['auth:api', 'role:System Admin'], ['except' => ['register', 'activate']]);
     }
 
     /**

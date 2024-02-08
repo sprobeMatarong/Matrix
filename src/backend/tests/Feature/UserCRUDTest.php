@@ -23,12 +23,16 @@ class UserCRUDTest extends TestCase
     /** @var stdClass */
     private static $USER;
 
+    /** @var App\Models\User */
+    private static $NOT_ADMIN;
+
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
         // set admin details
         self::$ADMIN = User::find(1);
+        self::$NOT_ADMIN = User::find(2);
     }
 
     /**
@@ -114,6 +118,16 @@ class UserCRUDTest extends TestCase
             ]);
     }
 
+    public function testCreateUserNotAdmin()
+    {
+        $response = $this->actingAs(self::$NOT_ADMIN, 'api')
+                        ->json('POST', '/' . config('app.api_version') . '/users', $this->data);
+        $response->assertStatus(403)
+            ->assertJSON([
+                'error' => 'User does not have the right roles.',
+            ]);
+    }
+
     public function testReadUserNotFound()
     {
         $response = $this->actingAs(self::$ADMIN, 'api')
@@ -141,6 +155,16 @@ class UserCRUDTest extends TestCase
                         'name' => 'Pending',
                     ],
                 ],
+            ]);
+    }
+
+    public function testReadUserNotAdmin()
+    {
+        $response = $this->actingAs(self::$NOT_ADMIN, 'api')
+                        ->json('GET', '/' . config('app.api_version') . '/users/' . self::$USER->id);
+        $response->assertStatus(403)
+            ->assertJSON([
+                'error' => 'User does not have the right roles.',
             ]);
     }
 
@@ -262,6 +286,24 @@ class UserCRUDTest extends TestCase
         self::$USER = $updatedUser;
     }
 
+    public function testUpdateUserNotAdmin()
+    {
+        $params = [
+            'first_name' => 'Johnny',
+            'last_name' => 'Doey',
+            'email' => 'johnnyDoey@tcg.sprobe.ph',
+            'password' => '!n3wp4ssW0rd',
+            'avatar' => UploadedFile::fake()->create('avatar.jpg'),
+        ];
+
+        $response = $this->actingAs(self::$NOT_ADMIN, 'api')
+                        ->json('PUT', '/' . config('app.api_version') . '/users/' . self::$USER->id, $params);
+        $response->assertStatus(403)
+            ->assertJSON([
+                'error' => 'User does not have the right roles.',
+            ]);
+    }
+
     public function testUpdateWithExistingAvatarbutNoFileUploaded()
     {
         $params = [
@@ -324,6 +366,16 @@ class UserCRUDTest extends TestCase
         $response->assertStatus(200)
             ->assertJson([
                 'deleted' => true,
+            ]);
+    }
+
+    public function testDeleteUserNotAdmin()
+    {
+        $response = $this->actingAs(self::$NOT_ADMIN, 'api')
+                        ->json('DELETE', '/' . config('app.api_version') . '/users/' . self::$USER->id);
+        $response->assertStatus(403)
+            ->assertJSON([
+                'error' => 'User does not have the right roles.',
             ]);
     }
 }
