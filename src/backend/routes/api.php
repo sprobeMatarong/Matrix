@@ -3,10 +3,12 @@
 use Laravel\Passport\Passport;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\HomeController;
+use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\InquiryController;
 use App\Http\Controllers\API\ProfileController;
 use App\Http\Controllers\API\Auth\TokenController;
+use App\Http\Controllers\API\PermissionController;
 use App\Http\Controllers\API\Auth\PasswordController;
 use Laravel\Passport\Http\Controllers\AccessTokenController;
 
@@ -53,3 +55,15 @@ Route::prefix('users')
     });
 
 Route::post('/inquiries', [InquiryController::class, 'create']);
+
+// roles route
+Route::prefix('roles')
+    ->group(function () {
+        Route::get('/', [RoleController::class, 'index']);
+        Route::post('/', [RoleController::class, 'create']);
+        Route::get('{id}', [RoleController::class, 'read']);
+        Route::put('{id}', [RoleController::class, 'update']);
+        Route::delete('{id}', [RoleController::class, 'delete']);
+    });
+
+Route::get('permissions', [PermissionController::class, 'index']);
