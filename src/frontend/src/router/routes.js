@@ -61,6 +61,11 @@ const routes = [
     auth: true,
   },
   {
+    path: '/roles',
+    component: 'pages/authenticated/Roles',
+    auth: true,
+  },
+  {
     path: '/integrations',
     component: 'pages/authenticated/Integrations',
     auth: true,

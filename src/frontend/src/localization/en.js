@@ -142,6 +142,17 @@ const en = {
         our_activities: 'Our Activities',
         activities_description: 'Never get so busy making a living that you forget to make a life.',
       },
+      roles: {
+        role_created: 'The role has been created.',
+        role_updated: 'Role details have been updated.',
+        role_deleted: 'Role has been deleted.',
+        add_role: 'Add Role',
+        edit_role: 'Edit Role',
+        delete_role: 'Delete Role',
+        name: 'Name',
+        permissions: 'Permissions',
+        delete_confirmation: 'Are you sure you want to delete the selected role?',
+      },
     },
     menu: {
       home: 'Home',
@@ -162,6 +173,7 @@ const en = {
       api_reference: 'API Reference',
       support: 'Documentation',
       styleguide: 'Styleguide',
+      roles: 'Roles',
     },
     table: {
       no_data: 'No data.',

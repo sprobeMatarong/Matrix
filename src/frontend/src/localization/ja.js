@@ -141,6 +141,17 @@ const ja = {
         our_activities: '私たちの活動',
         activities_description: '生計を立てるのに忙しくて、生計を立てることを忘れないでください。',
       },
+      roles: {
+        role_created: 'ロールが作成されました。',
+        role_updated: '役割の詳細が更新されました。',
+        role_deleted: '役割が削除されました。',
+        add_role: '役割の追加',
+        edit_role: '役割の編集',
+        delete_role: '役割の削除',
+        name: '名前',
+        permissions: '許可',
+        delete_confirmation: '選択した役割を削除してもよろしいですか?',
+      },
     },
     menu: {
       home: '家',
@@ -161,6 +172,7 @@ const ja = {
       api_reference: 'APIリファレンス',
       support: 'サポート',
       styleguide: 'スタイルガイド',
+      roles: '役割',
     },
     table: {
       no_data: 'データなし。',
