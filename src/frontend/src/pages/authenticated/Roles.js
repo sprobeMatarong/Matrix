@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { searchPermissions } from 'services/permissions.service';
 import { deleteRole, retrieveRole, searchRoles } from 'services/role.service';
 import Box from '@mui/material/Box';
 import DataTable from 'components/molecules/DataTable';
@@ -15,17 +14,11 @@ function Roles() {
   const [query, setQuery] = useState(criteria);
   const [meta, setMeta] = useState(defaultMeta);
   const [open, setOpen] = useState(false);
-  const [permissions, setPermissions] = useState([]);
 
   const fetchRoles = async () => {
     const { meta, data } = await searchRoles(query);
     setMeta({ ...meta, meta });
     setData(data);
-  };
-
-  const fetchPermissions = async () => {
-    const { data } = await searchPermissions();
-    setPermissions(() => [...data]);
   };
 
   useEffect(() => {
@@ -60,7 +53,6 @@ function Roles() {
   };
 
   const handleEdit = async (id) => {
-    await fetchPermissions();
     const role = await retrieveRole(id);
     setOpen(true);
     setRole(role);
@@ -76,7 +68,6 @@ function Roles() {
 
   const handleAdd = async () => {
     setRole(null);
-    await fetchPermissions();
     setOpen(true);
   };
 
@@ -115,7 +106,6 @@ function Roles() {
 
       <AddEditModal
         open={open}
-        permissions={permissions}
         role={role}
         handleSaveEvent={handleSaveEvent}
         handleClose={() => setOpen(false)}

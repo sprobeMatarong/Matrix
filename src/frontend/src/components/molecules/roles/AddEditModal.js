@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import { searchPermissions } from 'services/permissions.service';
 import { createRole, updateRole } from 'services/role.service';
 import * as yup from 'yup';
 import Box from '@mui/material/Box';
@@ -15,20 +16,13 @@ import TextField from 'components/atoms/Form/TextField';
 import Modal from 'components/organisms/Modal';
 import errorHandler from 'utils/errorHandler';
 
-AddEditModal.propTypes = {
-  open: PropTypes.bool,
-  role: PropTypes.object,
-  permissions: PropTypes.array,
-  handleSaveEvent: PropTypes.func,
-  handleClose: PropTypes.func,
-};
-
-export default function AddEditModal(props) {
-  const { role, open, permissions = [], handleClose, handleSaveEvent } = props;
+function AddEditModal(props) {
+  const { role, open, handleClose, handleSaveEvent } = props;
 
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState(null);
+  const [permissions, setPermissions] = useState([]);
 
   // form validation
   const schema = yup.object({
@@ -71,7 +65,12 @@ export default function AddEditModal(props) {
   }, [role]);
 
   useEffect(() => {
-    if (!open) clearErrors();
+    if (open) {
+      fetchPermissions();
+    } else {
+      clearErrors();
+      reset();
+    }
   }, [open]);
 
   const handleFormSubmit = async (data) => {
@@ -85,6 +84,11 @@ export default function AddEditModal(props) {
     } catch (err) {
       errorHandler(err, setError, toast);
     }
+  };
+
+  const fetchPermissions = async () => {
+    const { data } = await searchPermissions();
+    setPermissions(() => [...data]);
   };
 
   return (
@@ -164,3 +168,12 @@ export default function AddEditModal(props) {
     </Modal>
   );
 }
+
+AddEditModal.propTypes = {
+  open: PropTypes.bool,
+  role: PropTypes.object,
+  handleSaveEvent: PropTypes.func,
+  handleClose: PropTypes.func,
+};
+
+export default AddEditModal;
