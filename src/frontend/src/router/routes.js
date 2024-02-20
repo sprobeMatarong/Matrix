@@ -1,3 +1,5 @@
+import admin from './admin';
+
 const routes = [
   // Dont Remove. Handle 404 Pages
   {
@@ -9,11 +11,6 @@ const routes = [
     path: '/',
     component: 'pages/guest/Landing',
     auth: false,
-  },
-  {
-    path: '/dashboard',
-    component: 'pages/authenticated/Dashboard',
-    auth: true,
   },
   {
     path: '/about',
@@ -28,6 +25,11 @@ const routes = [
   {
     path: '/login',
     component: 'pages/guest/Login',
+    auth: false,
+  },
+  {
+    path: '/logout',
+    component: 'pages/guest/Logout',
     auth: false,
   },
   {
@@ -56,21 +58,6 @@ const routes = [
     auth: false,
   },
   {
-    path: '/users',
-    component: 'pages/authenticated/Users',
-    auth: true,
-  },
-  {
-    path: '/roles',
-    component: 'pages/authenticated/Roles',
-    auth: true,
-  },
-  {
-    path: '/integrations',
-    component: 'pages/authenticated/Integrations',
-    auth: true,
-  },
-  {
     path: '/faq',
     component: 'pages/guest/Faq',
     auth: false,
@@ -85,6 +72,7 @@ const routes = [
     component: 'pages/guest/PrivacyPolicy',
     auth: false,
   },
+  ...admin,
 ];
 
 // Don't include styleguide in production routes

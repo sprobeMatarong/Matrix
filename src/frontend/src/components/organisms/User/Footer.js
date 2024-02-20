@@ -3,7 +3,7 @@ import { Box, Container, Grid, Typography } from '@mui/material';
 import { blueGrey } from '@mui/material/colors';
 import List from 'components/molecules/List';
 
-function GuestFooter() {
+function Footer() {
   const currentYear = new Date().getFullYear();
   const { t } = useTranslation();
 
@@ -65,4 +65,4 @@ function GuestFooter() {
   );
 }
 
-export default GuestFooter;
+export default Footer;

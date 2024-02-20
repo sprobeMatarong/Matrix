@@ -1,10 +1,11 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useAuth } from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { updateProfile } from 'services/profile.service';
+import { setProfile } from 'store/slices/profileSlice';
 import * as yup from 'yup';
 import { Box, Card, Container, Grid, Typography } from '@mui/material';
 import AvatarField from 'components/atoms/AvatarField';
@@ -14,7 +15,8 @@ import errorHandler from 'utils/errorHandler';
 
 function Profile() {
   const { t } = useTranslation();
-  const { user, mutate } = useAuth();
+  const user = useSelector((state) => state.profile.user);
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
   // form validation
@@ -40,7 +42,7 @@ function Profile() {
     try {
       const updatedUser = await updateProfile(data);
       setLoading(false);
-      mutate({ ...user, ...{ user: updatedUser } });
+      await dispatch(setProfile(updatedUser));
       toast(t('pages.profile.success_message'), { type: 'success' });
     } catch (err) {
       setLoading(false);

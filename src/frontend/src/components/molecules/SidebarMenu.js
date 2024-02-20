@@ -12,22 +12,22 @@ import Typography from '@mui/material/Typography';
 const links = [
   {
     label: 'Dashboard',
-    path: '/dashboard',
+    path: '/admin',
     icon: <DashboardIcon />,
   },
   {
     label: 'Users',
-    path: '/users',
+    path: '/admin/users',
     icon: <PeopleIcon />,
   },
   {
     label: 'Roles',
-    path: '/roles',
+    path: '/admin/roles',
     icon: <RoomPreferencesIcon />,
   },
   {
     label: 'Integrations',
-    path: '/integrations',
+    path: '/admin/integrations',
     icon: <LayersIcon />,
   },
 ];
@@ -39,7 +39,7 @@ function SidebarMenu() {
 
   // add localization to menu items
   localizeLinks.map((link) => {
-    link.label = t(`menu.${link.path.replace('/', '')}`);
+    link.label = t(`menu.${link.path.replace('/admin/', '')}`);
     return link;
   });
 

@@ -14,7 +14,7 @@ function LanguageSelect() {
   ];
 
   useEffect(() => {
-    // @TODO Update this implementation if prefered locale is from backend
+    // @TODO Update this implementation if preferred locale is from backend
     const lang = localStorage.getItem('locale') || 'en';
     setLocale(lang);
     i18n.changeLanguage(lang);
@@ -34,7 +34,7 @@ function LanguageSelect() {
         displayEmpty
         inputProps={{ 'aria-label': 'Without label' }}
         defaultValue={locale}
-        sx={{ height: 40 }}
+        sx={{ height: 40, boxShadow: 'none', '.MuiOutlinedInput-notchedOutline': { border: 0 } }}
       >
         {countries.map((country, key) => {
           return (

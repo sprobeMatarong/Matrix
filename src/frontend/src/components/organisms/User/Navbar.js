@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -14,8 +15,10 @@ import Typography from '@mui/material/Typography';
 import Button from 'components/atoms/Button';
 import LanguageSelect from 'components/atoms/LanguageSelect';
 import MenuLinks from 'components/atoms/MenuLinks';
+import AvatarNavDropdown from 'components/molecules/AvatarNavDropdown';
 
-function GuestNavbar() {
+function Navbar(props) {
+  const { user = null } = props;
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [anchorMobileNav, setAnchorMobileNav] = useState(null);
@@ -35,6 +38,11 @@ function GuestNavbar() {
     navigate(url, { replace: true });
   };
 
+  const links = [
+    { label: t('menu.profile'), url: '/profile' },
+    { label: t('menu.logout'), url: '/logout' },
+  ];
+
   return (
     <AppBar
       position="static"
@@ -52,16 +60,6 @@ function GuestNavbar() {
 
           <Box component="nav" sx={{ display: { xs: 'none', md: 'flex' } }}>
             <MenuLinks items={menus} />
-          </Box>
-
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '8px' }}>
-            <Button component={Link} to="/signup" variant="outlined">
-              {t('labels.signup')}
-            </Button>
-
-            <Button component={Link} to="/login">
-              {t('labels.login')}
-            </Button>
           </Box>
 
           {/** Mobile Menu */}
@@ -117,21 +115,44 @@ function GuestNavbar() {
                 </MenuItem>
               ))}
 
-              <MenuItem onClick={() => handleCloseNavMenu('/signup')}>
-                <Typography textAlign="center">{t('labels.signup')}</Typography>
-              </MenuItem>
+              {!user && (
+                <>
+                  <MenuItem onClick={() => handleCloseNavMenu('/signup')}>
+                    <Typography textAlign="center">{t('labels.signup')}</Typography>
+                  </MenuItem>
 
-              <MenuItem onClick={() => handleCloseNavMenu('/login')}>
-                <Typography textAlign="center">{t('labels.login')}</Typography>
-              </MenuItem>
+                  <MenuItem onClick={() => handleCloseNavMenu('/login')}>
+                    <Typography textAlign="center">{t('labels.login')}</Typography>
+                  </MenuItem>
+                </>
+              )}
             </Menu>
           </Box>
 
           <LanguageSelect sx={{ ml: 1 }} />
+
+          {user ? (
+            <AvatarNavDropdown user={user} links={links} />
+          ) : (
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '8px' }}>
+              <Button component={Link} to="/signup" variant="outlined">
+                {t('labels.signup')}
+              </Button>
+
+              <Button component={Link} to="/login">
+                {t('labels.login')}
+              </Button>
+            </Box>
+          )}
         </Toolbar>
       </Container>
     </AppBar>
   );
 }
 
-export default GuestNavbar;
+Navbar.propTypes = {
+  onLogout: PropTypes.func,
+  user: PropTypes.object,
+};
+
+export default Navbar;

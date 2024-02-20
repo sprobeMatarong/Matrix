@@ -152,6 +152,10 @@ const ja = {
         permissions: '許可',
         delete_confirmation: '選択した役割を削除してもよろしいですか?',
       },
+      unauthorized: {
+        main_heading: '許可されていません。',
+        sub_heading: '申し訳ありませんが、このリソースにアクセスする権限がありません。',
+      },
     },
     menu: {
       home: '家',

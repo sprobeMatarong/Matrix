@@ -153,6 +153,10 @@ const en = {
         permissions: 'Permissions',
         delete_confirmation: 'Are you sure you want to delete the selected role?',
       },
+      unauthorized: {
+        main_heading: 'Unauthorized',
+        sub_heading: 'Sorry, you do not have permission to access this resource.',
+      },
     },
     menu: {
       home: 'Home',
