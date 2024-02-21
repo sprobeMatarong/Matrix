@@ -6,6 +6,7 @@ import routes from './routes';
 function Router() {
   const AdminLayout = lazy(() => import('templates/Authenticated'));
   const UserLayout = lazy(() => import('templates/User'));
+  const Logout = lazy(() => import('pages/guest/Logout'));
 
   return (
     <Suspense fallback={<Loader />}>
@@ -20,6 +21,8 @@ function Router() {
             </Route>
           );
         })}
+
+        <Route exact path="/logout" element={<Logout />} />
       </Routes>
     </Suspense>
   );

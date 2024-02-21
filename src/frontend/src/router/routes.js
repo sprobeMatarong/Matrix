@@ -28,11 +28,6 @@ const routes = [
     auth: false,
   },
   {
-    path: '/logout',
-    component: 'pages/guest/Logout',
-    auth: false,
-  },
-  {
     path: '/forgot-password',
     component: 'pages/guest/ForgotPassword',
     auth: false,

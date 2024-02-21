@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { logout } from 'services/auth';
+import Box from '@mui/material/Box';
+import LinearProgress from '@mui/material/LinearProgress';
 
 export default function Logout() {
   useEffect(() => {
@@ -15,4 +17,10 @@ export default function Logout() {
 
     handleLogout();
   }, []);
+
+  return (
+    <Box sx={{ width: '100%' }}>
+      <LinearProgress />
+    </Box>
+  );
 }

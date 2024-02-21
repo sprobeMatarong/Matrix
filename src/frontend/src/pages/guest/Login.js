@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { login } from 'services/auth';
 import * as yup from 'yup';
@@ -16,7 +16,6 @@ import PageTitle from 'components/atoms/PageTitle';
 function Login() {
   const { t } = useTranslation();
   const location = useLocation();
-  const navigate = useNavigate();
   const user = useSelector((state) => state.profile.user);
 
   // form validation
@@ -39,7 +38,8 @@ function Login() {
     if (user) {
       const { role } = user;
       const redirect = role === 'System Admin' ? '/admin/' : '/';
-      navigate(redirect);
+      // use native redirect to avoid ui glitch on state change
+      window.location = redirect;
     }
   }, [user]);
 
@@ -59,6 +59,7 @@ function Login() {
             break;
         }
         const query = new URLSearchParams(location.search);
+        // use native redirect to avoid ui glitch on state change
         window.location = query.get('redirect_to') ?? redirect;
       })
       .catch((err) => {

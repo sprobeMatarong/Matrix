@@ -13,7 +13,7 @@ const login = async ({ ...props }) => {
       localStorage.setItem('access_token', access_token);
       localStorage.setItem('refresh_token', refresh_token);
 
-      return await api.get('/profile').then((res) => res.data.data);
+      return await api.get('/profile').then(({ data }) => data.data);
     });
 };
 
