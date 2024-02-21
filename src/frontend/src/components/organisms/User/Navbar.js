@@ -116,7 +116,7 @@ function Navbar(props) {
               ))}
 
               {!user && (
-                <>
+                <Box>
                   <MenuItem onClick={() => handleCloseNavMenu('/signup')}>
                     <Typography textAlign="center">{t('labels.signup')}</Typography>
                   </MenuItem>
@@ -124,7 +124,7 @@ function Navbar(props) {
                   <MenuItem onClick={() => handleCloseNavMenu('/login')}>
                     <Typography textAlign="center">{t('labels.login')}</Typography>
                   </MenuItem>
-                </>
+                </Box>
               )}
             </Menu>
           </Box>

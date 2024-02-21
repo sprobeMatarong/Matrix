@@ -51,6 +51,12 @@ function Users() {
       label: t('pages.users.email_address'),
     },
     {
+      id: 'role',
+      numeric: false,
+      disablePadding: false,
+      label: t('pages.users.role'),
+    },
+    {
       id: 'status.name',
       numeric: false,
       disablePadding: false,

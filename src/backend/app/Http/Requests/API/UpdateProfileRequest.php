@@ -51,4 +51,10 @@ class UpdateProfileRequest extends FormRequest
     {
         return $this->file('avatar', null);
     }
+
+    public function getRole(): string
+    {
+        $user = $this->user();
+        return $user && count($user->roles) > 0 ? $user->roles[0]->name : null;
+    }
 }

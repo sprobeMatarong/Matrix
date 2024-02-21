@@ -41,6 +41,7 @@ const en = {
       action: 'Action',
       showPassword: 'Show Password',
       hidePassword: 'Hide Password',
+      role: 'Role',
     },
     pages: {
       signup: {
@@ -69,6 +70,7 @@ const en = {
         last_name: 'Last Name',
         email_address: 'Email Address',
         status: 'Status',
+        role: 'Role',
         delete_confirmation: 'Are you sure you want to delete the selected user?',
       },
       activate: {

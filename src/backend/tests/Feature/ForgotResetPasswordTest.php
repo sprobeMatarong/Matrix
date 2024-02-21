@@ -17,6 +17,7 @@ class ForgotResetPasswordTest extends TestCase
         'last_name' => 'Doe',
         'email' => 'johntcg@sprobe.com',
         'password' => '!p4ssW0rd',
+        'role' => 'User',
     ];
 
     /** @var string */

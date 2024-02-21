@@ -29,6 +29,7 @@ class PasswordServiceTest extends TestCase
         'last_name' => 'Doe',
         'email' => 'john@test.com',
         'password' => '!p4ssW0rd',
+        'role' => 'User',
     ];
 
     public static function setUpBeforeClass(): void

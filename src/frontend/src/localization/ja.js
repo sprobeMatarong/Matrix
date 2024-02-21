@@ -41,6 +41,7 @@ const ja = {
       action: 'アクション',
       showPassword: 'パスワードを表示',
       hidePassword: 'パスワードを隠す',
+      role: '役割',
     },
     pages: {
       signup: {
@@ -69,6 +70,7 @@ const ja = {
         last_name: '苗字',
         email_address: '電子メールアドレス',
         status: '状態',
+        role: '役割',
         delete_confirmation: '選択したユーザーを削除してもよろしいですか？',
       },
       activate: {

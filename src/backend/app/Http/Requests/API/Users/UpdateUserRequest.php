@@ -51,4 +51,9 @@ class UpdateUserRequest extends FormRequest
     {
         return $this->file('avatar', null);
     }
+
+    public function getRole(): string
+    {
+        return $this->input('role', 'User'); // default role User
+    }
 }

@@ -91,6 +91,7 @@ class UserController extends Controller
                 'last_name' => $request->getLastName(),
                 'email' => $request->getEmail(),
                 'password' => null, // setup password on account activation
+                'role' => $request->getRole(),
             ];
             $user = $this->userService->create($formData);
             $this->response['data'] = new UserResource($user);
@@ -149,6 +150,7 @@ class UserController extends Controller
                 'email' => $request->getEmail(),
                 'password' => $request->getPassword(),
                 'avatar' => $request->getAvatar(),
+                'role' => $request->getRole(),
             ];
 
             $user = $this->userService->update($formData);
@@ -231,6 +233,7 @@ class UserController extends Controller
                 'email' => $request->getEmail(),
                 'password' => null, // setup password on account activation
                 'type' => 'signup',
+                'role' => 'User' // default role on sign up
             ];
             $user = $this->userService->create($formData);
             $this->response['data'] = new NewUserResource($user);
