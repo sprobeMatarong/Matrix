@@ -1,3 +1,5 @@
+import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
@@ -16,6 +18,37 @@ document
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
+
+const token = localStorage.getItem('access_token');
+const {
+  REACT_APP_WEBSOCKET_KEY,
+  REACT_APP_WEBSOCKET_HOST,
+  REACT_APP_WEBSOCKET_PORT,
+  REACT_APP_WEBSOCKET_CLUSTER,
+} = process.env;
+window.Pusher = Pusher;
+
+if (token) {
+  window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: REACT_APP_WEBSOCKET_KEY,
+    wsHost: REACT_APP_WEBSOCKET_HOST,
+    wsPort: REACT_APP_WEBSOCKET_PORT,
+    wssPort: REACT_APP_WEBSOCKET_PORT,
+    cluster: REACT_APP_WEBSOCKET_CLUSTER,
+    authEndpoint: '/api/v1/broadcasting/auth',
+    auth: {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+    forceTLS: false,
+    encrypted: true,
+    enableLogging: true,
+    disableStats: true,
+    enabledTransports: ['ws', 'wss'],
+  });
+}
 
 root.render(
   <StrictMode>
