@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -16,6 +16,7 @@ import Button from 'components/atoms/Button';
 import LanguageSelect from 'components/atoms/LanguageSelect';
 import MenuLinks from 'components/atoms/MenuLinks';
 import AvatarNavDropdown from 'components/molecules/AvatarNavDropdown';
+import NotificationIcon from 'components/molecules/NotificationIcon';
 
 function Navbar(props) {
   const { user = null } = props;
@@ -132,7 +133,10 @@ function Navbar(props) {
           <LanguageSelect sx={{ ml: 1 }} />
 
           {user ? (
-            <AvatarNavDropdown user={user} links={links} />
+            <Fragment>
+              <NotificationIcon user={user} />
+              <AvatarNavDropdown user={user} links={links} />
+            </Fragment>
           ) : (
             <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '8px' }}>
               <Button component={Link} to="/signup" variant="outlined">

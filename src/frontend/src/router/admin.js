@@ -19,6 +19,12 @@ const admin = [
     component: 'pages/authenticated/admin/Integrations',
     auth: true,
   },
+  // DEMO PURPOSES ONLY. REMOVE ON ACTUAL PROJECT
+  {
+    path: '/admin/broadcast',
+    component: 'pages/authenticated/admin/Broadcast',
+    auth: true,
+  },
 ];
 
 export default admin;

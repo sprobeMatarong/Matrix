@@ -42,6 +42,9 @@ const en = {
       showPassword: 'Show Password',
       hidePassword: 'Hide Password',
       role: 'Role',
+      notifications: 'Notifications',
+      noNotifications: 'No new notifications.',
+      newNotification: 'You have a new notification.',
     },
     pages: {
       signup: {
@@ -180,6 +183,7 @@ const en = {
       support: 'Documentation',
       styleguide: 'Styleguide',
       roles: 'Roles',
+      broadcast: 'Broadcast',
     },
     table: {
       no_data: 'No data.',

@@ -7,6 +7,7 @@ import { IconButton, Toolbar, Typography, styled } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
 import LanguageSelect from 'components/atoms/LanguageSelect';
 import AvatarNavDropdown from 'components/molecules/AvatarNavDropdown';
+import NotificationIcon from 'components/molecules/NotificationIcon';
 
 const drawerWidth = 240;
 
@@ -68,6 +69,8 @@ function Navbar(props) {
         </Typography>
 
         <LanguageSelect />
+
+        <NotificationIcon user={user} darkMode={true} />
 
         <AvatarNavDropdown user={user} links={links} />
       </Toolbar>
