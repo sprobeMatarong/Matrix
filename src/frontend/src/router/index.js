@@ -4,15 +4,16 @@ import Loader from 'components/atoms/Loader';
 import routes from './routes';
 
 function Router() {
-  const DashboardLayout = lazy(() => import('templates/Authenticated'));
-  const GuestTemplate = lazy(() => import('templates/Guest'));
+  const AdminLayout = lazy(() => import('templates/Authenticated'));
+  const UserLayout = lazy(() => import('templates/User'));
+  const Logout = lazy(() => import('pages/guest/Logout'));
 
   return (
     <Suspense fallback={<Loader />}>
       <Routes>
         {routes.map((route, i) => {
           const Page = lazy(() => import(`../${route.component}`));
-          const layout = route.auth ? <DashboardLayout /> : <GuestTemplate navbar={route.navbar} />;
+          const layout = route.auth ? <AdminLayout /> : <UserLayout navbar={route.navbar} />;
 
           return (
             <Route key={i} element={layout}>
@@ -20,6 +21,8 @@ function Router() {
             </Route>
           );
         })}
+
+        <Route exact path="/logout" element={<Logout />} />
       </Routes>
     </Suspense>
   );

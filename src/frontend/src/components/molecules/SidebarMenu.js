@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import LayersIcon from '@mui/icons-material/Layers';
 import PeopleIcon from '@mui/icons-material/People';
+import RoomPreferencesIcon from '@mui/icons-material/RoomPreferences';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -11,17 +12,22 @@ import Typography from '@mui/material/Typography';
 const links = [
   {
     label: 'Dashboard',
-    path: '/dashboard',
+    path: '/admin',
     icon: <DashboardIcon />,
   },
   {
     label: 'Users',
-    path: '/users',
+    path: '/admin/users',
     icon: <PeopleIcon />,
   },
   {
+    label: 'Roles',
+    path: '/admin/roles',
+    icon: <RoomPreferencesIcon />,
+  },
+  {
     label: 'Integrations',
-    path: '/integrations',
+    path: '/admin/integrations',
     icon: <LayersIcon />,
   },
 ];
@@ -33,7 +39,7 @@ function SidebarMenu() {
 
   // add localization to menu items
   localizeLinks.map((link) => {
-    link.label = t(`menu.${link.path.replace('/', '')}`);
+    link.label = t(`menu.${link.path.replace('/admin/', '')}`);
     return link;
   });
 

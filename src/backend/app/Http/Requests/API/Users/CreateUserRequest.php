@@ -33,4 +33,9 @@ class CreateUserRequest extends FormRequest
     {
         return $this->input('email');
     }
+
+    public function getRole(): string
+    {
+        return $this->input('role', 'User'); // default role User
+    }
 }

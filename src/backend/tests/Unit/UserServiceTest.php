@@ -37,6 +37,7 @@ class UserServiceTest extends TestCase
             'last_name' => 'Dope',
             'email' => 'johnupdated@tcg.sprobe.ph',
             'password' => 'n3wp@ssw0rd',
+            'role' => 'User',
         ];
     }
 
@@ -52,6 +53,7 @@ class UserServiceTest extends TestCase
             'last_name' => 'Doe',
             'email' => 'johndoe@tcg.sprobe.ph',
             'password' => '!p4ssW0rd',
+            'role' => 'User',
         ];
 
         $this->service = new UserService(new User());

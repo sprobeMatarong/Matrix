@@ -21,6 +21,7 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'avatar' => $this->avatar,
             'status' => $this->status,
+            'role' => count($this->roles) > 0 ? $this->roles[0]->name : null,
         ];
     }
 }

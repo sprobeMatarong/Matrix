@@ -11,4 +11,5 @@ return [
     'user_not_found' => 'ユーザーを取得できません。',
     'user_pending' => '電子メールは確認されていません。',
     'user_status_not_found' => 'ステータスの取得ができません。',
+    'role_not_found' => 'ロールを取得できません。',
 ];

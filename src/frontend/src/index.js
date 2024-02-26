@@ -1,14 +1,15 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import store from 'store';
 import App from './App';
 import './i18n';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 // handle windows display scaling
-const computed = +1 / window.devicePixelRatio;
-const scale = computed < 1 && window.innerWidth > 1024 ? computed : 1;
+const scale = +1 / window.devicePixelRatio > 1 ? +1 / window.devicePixelRatio : 1;
 document
   .querySelector('meta[name=viewport]')
   .setAttribute('content', `width=device-width, initial-scale=${scale}`);
@@ -18,9 +19,11 @@ const root = createRoot(rootElement);
 
 root.render(
   <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
   </StrictMode>
 );
 

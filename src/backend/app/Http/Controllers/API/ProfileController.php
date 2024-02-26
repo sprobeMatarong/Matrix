@@ -76,6 +76,7 @@ class ProfileController extends Controller
                 'email' => $request->getEmail(),
                 'password' => $request->getPassword(),
                 'avatar' => $request->getAvatar(),
+                'role' => $request->getRole(),
             ];
 
             $user = $this->userService->update($formData);

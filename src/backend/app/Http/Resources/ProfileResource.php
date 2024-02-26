@@ -20,6 +20,7 @@ class ProfileResource extends JsonResource
             'last_name' => $this->last_name,
             'email' => $this->email,
             'avatar' => $this->avatar,
+            'role' => count($this->roles) > 0 ? $this->roles[0]->name : null,
         ];
     }
 }

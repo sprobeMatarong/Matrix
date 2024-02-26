@@ -17,6 +17,7 @@ class AccountActivationTest extends TestCase
         'last_name' => 'Doe',
         'email' => 'John@test.com',
         'password' => '!p4ssW0rd',
+        'role' => 'User',
     ];
 
     /** @var App\Models\User */

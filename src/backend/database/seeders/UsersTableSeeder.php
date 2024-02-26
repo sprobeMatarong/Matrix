@@ -26,7 +26,10 @@ class UsersTableSeeder extends Seeder
                 ->times(50)
                 ->create([
                     'user_status_id' => $status->id,
-                ]);
+                ])
+                ->each(function ($user) {
+                    $user->assignRole('User');
+                });
         }
     }
 
@@ -36,7 +39,7 @@ class UsersTableSeeder extends Seeder
         $status = UserStatus::where('name', config('user.statuses.active'))->first();
 
         // create the system admin
-        User::create([
+        $user = User::create([
             'first_name' => 'Sprobe',
             'last_name' => 'Administrator',
             'email' => 'admin@tcg.sprobe.ph',
@@ -44,5 +47,6 @@ class UsersTableSeeder extends Seeder
             'user_status_id' => $status->id,
             'email_verified_at' => Carbon::now(),
         ]);
+        $user->assignRole('System Admin');
     }
 }

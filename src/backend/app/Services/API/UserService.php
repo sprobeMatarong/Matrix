@@ -97,8 +97,14 @@ class UserService
             $type = array_key_exists('type', $params) ? $params['type'] : 'invite';
             unset($params['type']);
 
+            // get role
+            $role = $params['role'];
+            unset($params['role']);
+
             $params['user_status_id'] = $status->id;
             $user = $this->user->create($params);
+            $user->assignRole($role);
+            $user->role = count($user->roles) > 0 ? $user->roles[0]->name : null;
 
             if (!($user instanceof User)) { // @codeCoverageIgnoreStart
                 throw new UserNotCreatedException();
@@ -144,8 +150,14 @@ class UserService
                                 $user->avatar;
         }
 
+        // get role
+        $role = $params['role'];
+        unset($params['role']);
+
         // perform update
         $user->update($params);
+        $user->assignRole($role);
+        $user->role = count($user->roles) > 0 ? $user->roles[0]->name : null;
 
         return $user;
     }
