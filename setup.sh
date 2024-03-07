@@ -63,6 +63,11 @@ MYSQL_DATABASE=$(to_lower_case $PROJECT_NAME)
 MYSQL_USER=$(to_lower_case $PROJECT_NAME)
 MYSQL_PASSWORD=$(LC_ALL=C < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-16})
 
+# Soketi Creds
+SOKETI_APP_ID=$(date +%s)
+SOKETI_APP_KEY=$(LC_ALL=C < /dev/urandom tr -dc '[:alnum:]' | head -c${1:-12})
+SOKETI_APP_SECRET=$(LC_ALL=C < /dev/urandom tr -dc '[:alnum:]' | head -c${1:-24})
+
 while [[ $APP_DOMAIN = "" ]]; do
    read -p 'Application Domain Name(e.g domain.com): ' APP_DOMAIN
    echo "(For development environment, make sure to add the Domain Name in your machine host file.)"
@@ -83,8 +88,14 @@ if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
 
     set_env "s/APP_DOMAIN=/APP_DOMAIN=$APP_DOMAIN/g" .env;
 
+    # Update Soketi .env values
+    set_env "s/PUSHER_APP_ID=/PUSHER_APP_ID=$SOKETI_APP_ID/g"  .env;
+    set_env "s/PUSHER_APP_KEY=/PUSHER_APP_KEY=$SOKETI_APP_KEY/g"  .env;
+    set_env "s/PUSHER_APP_SECRET=/PUSHER_APP_SECRET=$SOKETI_APP_SECRET/g"  .env;
+
     if [[ $ENVIRONMENT == "development" ]]; then
         set_env "s/ENABLE_XDEBUG=0/ENABLE_XDEBUG=1/g" .env;
+        set_env "s/SOKETI_DEBUG=0/SOKETI_DEBUG=1/g"  .env;
     fi
 
     echo -e "${SUCCESS_COLOR}done${NO_COLOR}"
@@ -108,11 +119,21 @@ if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
     set_env "s/CACHE_DRIVER=file/CACHE_DRIVER=redis/g" src/backend/.env;
     set_env "s/QUEUE_CONNECTION=sync/QUEUE_CONNECTION=redis/g" src/backend/.env;
 
+    # Update Soketi .env values
+    set_env "s/PUSHER_APP_ID=/PUSHER_APP_ID=$SOKETI_APP_ID/g"  src/backend/.env;
+    set_env "s/PUSHER_APP_KEY=/PUSHER_APP_KEY=$SOKETI_APP_KEY/g"  src/backend/.env;
+    set_env "s/PUSHER_APP_SECRET=/PUSHER_APP_SECRET=$SOKETI_APP_SECRET/g"  src/backend/.env;
+
     # Update React .env
     echo -n "Setting up React environment variables ... "
     cp src/frontend/.env.example src/frontend/.env
     set_env "s/REACT_APP_SITE_TITLE=\"Sprobe Base Template\"/REACT_APP_SITE_TITLE=$PROJECT_NAME/g" src/frontend/.env;
     set_env "s/REACT_APP_API_URL=/REACT_APP_API_URL=http:\/\/$APP_DOMAIN\/api\/v1/g" src/frontend/.env;
+
+    # Update Soketi .env values
+    set_env "s/REACT_APP_WEBSOCKET_HOST=/REACT_APP_WEBSOCKET_HOST=$APP_DOMAIN/g"  src/frontend/.env;
+    set_env "s/REACT_APP_WEBSOCKET_KEY=/REACT_APP_WEBSOCKET_KEY=$SOKETI_APP_KEY/g"  src/frontend/.env;
+
     echo -e "${SUCCESS_COLOR}done${NO_COLOR}"
 
     COMPOSE_COMMAND="composer install && php artisan key:generate && php artisan migrate:fresh --seed"
