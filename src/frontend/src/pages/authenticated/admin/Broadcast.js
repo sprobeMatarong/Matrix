@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 import SendIcon from '@mui/icons-material/Send';
 import WarningIcon from '@mui/icons-material/Warning';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import BodyText from 'components/atoms/BodyText';
 import Button from 'components/atoms/Button';
@@ -10,9 +12,13 @@ import PageTitle from 'components/atoms/PageTitle';
 import api from 'utils/api';
 
 export default function Broadcast() {
+  const [loading, setLoading] = useState(false);
+
   const handleBroadcast = async () => {
+    setLoading(true);
     await api.post('/notifications/test');
     toast('Broadcast successful', { type: 'success' });
+    setLoading(false);
   };
 
   return (
@@ -31,7 +37,11 @@ export default function Broadcast() {
           real-time without refreshing the page.
         </BodyText>
 
-        <Button onClick={handleBroadcast} endIcon={<SendIcon />}>
+        <Button
+          onClick={handleBroadcast}
+          endIcon={loading ? <CircularProgress size={16} /> : <SendIcon />}
+          disabled={loading}
+        >
           Send Broadcast
         </Button>
       </Box>
