@@ -43,11 +43,7 @@ backend_test:
     - sed -i "s/DB_DATABASE=/#DB_DATABASE=/g" .env
     - sed -i "s/DB_USERNAME=/#DB_USERNAME=/g" .env
     - sed -i "s/DB_PASSWORD=/#DB_PASSWORD=/g" .env
-    - sed -i "s/REDIS_HOST=redis/REDIS_HOST=127.0.0.1/g" .env
-    - sed -i "s/PUSHER_APP_ID=/PUSHER_APP_ID=app-id/g" .env
-    - sed -i "s/PUSHER_APP_KEY=/PUSHER_APP_KEY=app-key/g" .env
-    - sed -i "s/PUSHER_APP_SECRET=/PUSHER_APP_SECRET=app-secret/g" .env
-    - sed -i "s/PUSHER_HOST=soketi/PUSHER_HOST=127.0.0.1/g" .env
+    - sed -i "s/CACHE_DRIVER=redis/CACHE_DRIVER=file/g" .env
     - php artisan key:generate
     - php artisan migrate:fresh --seed
     - php artisan passport:install --force >> output.txt

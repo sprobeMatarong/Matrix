@@ -89,7 +89,7 @@ class NotificationController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request) // @codeCoverageIgnoreStart
+    public function create(Request $request)
     {
         try {
             $currentUser = $request->user();
@@ -117,13 +117,13 @@ class NotificationController extends Controller
                 NotificationCreated::dispatch($notification);
             }
             $this->response['data'] = ['broadcasted' => true];
-        } catch (Exception $e) {
+        } catch (Exception $e) { // @codeCoverageIgnoreStart
             $this->response = [
                 'error' => $e->getMessage(),
                 'code' => 500,
             ];
-        }
+        } // @codeCoverageIgnoreEnd
 
         return response()->json($this->response, $this->response['code']);
-    } // @codeCoverageIgnoreEnd
+    }
 }
