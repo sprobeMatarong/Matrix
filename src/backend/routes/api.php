@@ -9,6 +9,7 @@ use App\Http\Controllers\API\InquiryController;
 use App\Http\Controllers\API\ProfileController;
 use App\Http\Controllers\API\Auth\TokenController;
 use App\Http\Controllers\API\PermissionController;
+use App\Http\Controllers\API\NotificationController;
 use App\Http\Controllers\API\Auth\PasswordController;
 use Laravel\Passport\Http\Controllers\AccessTokenController;
 
@@ -67,3 +68,8 @@ Route::prefix('roles')
     });
 
 Route::get('permissions', [PermissionController::class, 'index']);
+
+Route::get('notifications', [NotificationController::class, 'index']);
+Route::put('notifications/{id}/seen', [NotificationController::class, 'seen']);
+// DEMO PURPOSES ONLY. REMOVE ON ACTUAL PROJECT
+Route::post('notifications/test', [NotificationController::class, 'create']);

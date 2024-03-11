@@ -42,6 +42,9 @@ const ja = {
       showPassword: 'パスワードを表示',
       hidePassword: 'パスワードを隠す',
       role: '役割',
+      notifications: '通知',
+      noNotifications: '新しい通知はありません。',
+      newNotification: '新しい通知があります。',
     },
     pages: {
       signup: {
@@ -179,6 +182,7 @@ const ja = {
       support: 'サポート',
       styleguide: 'スタイルガイド',
       roles: '役割',
+      broadcast: '放送',
     },
     table: {
       no_data: 'データなし。',

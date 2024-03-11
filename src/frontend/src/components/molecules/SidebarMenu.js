@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
+import CampaignIcon from '@mui/icons-material/Campaign';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import LayersIcon from '@mui/icons-material/Layers';
 import PeopleIcon from '@mui/icons-material/People';
@@ -24,6 +25,12 @@ const links = [
     label: 'Roles',
     path: '/admin/roles',
     icon: <RoomPreferencesIcon />,
+  },
+  // DEMO PURPOSES ONLY. REMOVE ON ACTUAL PROJECT
+  {
+    label: 'Broadcast',
+    path: '/admin/broadcast',
+    icon: <CampaignIcon />,
   },
   {
     label: 'Integrations',

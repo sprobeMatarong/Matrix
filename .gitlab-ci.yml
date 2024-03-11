@@ -43,6 +43,7 @@ backend_test:
     - sed -i "s/DB_DATABASE=/#DB_DATABASE=/g" .env
     - sed -i "s/DB_USERNAME=/#DB_USERNAME=/g" .env
     - sed -i "s/DB_PASSWORD=/#DB_PASSWORD=/g" .env
+    - sed -i "s/CACHE_DRIVER=redis/CACHE_DRIVER=file/g" .env
     - php artisan key:generate
     - php artisan migrate:fresh --seed
     - php artisan passport:install --force >> output.txt
