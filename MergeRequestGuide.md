@@ -33,10 +33,8 @@ More information and insights: [Merge Request: Best Practices](https://www.metri
 
 7. <b>Self review your code</b>:
 
-    <p style="font-size: 1em; font-weight: 800">Common</p>
+    <strong style="font-size: 1em; font-weight: 800">Common</strong>
     <hr/> 
-    <br/> 
-
     [ ] Are there any typo errors?  
     [ ] Did you remove everything that is not supposed to be there?     
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ] Debug prints/logs?    
@@ -51,10 +49,8 @@ More information and insights: [Merge Request: Best Practices](https://www.metri
     [ ] Aren't there any possible security threats?     
     <br/>
 
-    <p style="font-size: 1em; font-weight: 800">Frontend</p>
-    <hr/> 
-    <br/>
-    
+    <strong style="font-size: 1em; font-weight: 800">Frontend</strong>
+    <hr/>
     [ ] Make sure to `ASK` for the `Adobe XD/Figma Design` or any `Mockup` available for your task  
     [ ] Did you use any existing UI components?     
     [ ] Is the UI visually consistent? (font size, line height, margin, padding, etc.)    
@@ -69,10 +65,8 @@ More information and insights: [Merge Request: Best Practices](https://www.metri
     [ ] Make sure there are NO WARN/ERR in ESLint. **AVOID** pushing code with **Errors and Warnings** in ESLint.    
     <br/>
 
-    <p style="font-size: 1em; font-weight: 800">Backend</p>
-    <hr/> 
-    <br/>
- 
+    <strong style="font-size: 1em; font-weight: 800">Backend</strong>
+    <hr/>
     [ ] Did you perform any Error Validations?   
     [ ] Does your code follows the PSR12 Coding Standards?      
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ ] Make sure to follow the <a href="https://www.php-fig.org/psr/psr-12/">**PSR12 Coding Standards**</a> for your backend code.   
