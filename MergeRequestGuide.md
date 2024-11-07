@@ -81,9 +81,9 @@ More information and insights: [Merge Request: Best Practices](https://www.metri
 9. Make sure to use <u>**PRESENT TENSE**</u> (in [sentence case](https://writer.com/blog/sentence-case/#:~:text=When%20you%20use%20sentence%20case,you%20would%20a%20regular%20sentence.)) approach when creating your Git commit messages.  
     - [ ] The preference for present-tense, imperative-style commit messages comes from [**Git Documentation/SubmittingPatches**](https://git.kernel.org/pub/scm/git/git.git/tree/Documentation/SubmittingPatches?h=v2.36.1#n181) in the Git repo itself.
 
-    ```
-    git commit -m "Add error message when username is blank"
-    ```
+        ```
+        git commit -m "Add error message when username is blank"
+        ```
     
 
 10. Perform fetch from the source branch defined above. Please <b>**AVOID**</b> using `git pull`.
@@ -111,19 +111,19 @@ More information and insights: [Merge Request: Best Practices](https://www.metri
     - [ ] Check and change the **Source branch** name into your current feature branch and **Target branch** should be `dev`.  
     - [ ] Descriptive Merge Request **Title** using <u>**PRESENT TENSE**</u> (in [sentence case](https://writer.com/blog/sentence-case/#:~:text=When%20you%20use%20sentence%20case,you%20would%20a%20regular%20sentence.)) approach (as mentioned above) using the following template: 
     
-    ```    
-    [BACKLOG-TICKET-KEY] Present tense title describing the merge request
-    ```
-    Example:
-    ```    
-    [MEXGM-123] Add login API
-    ```
+        ```    
+        [BACKLOG-TICKET-KEY] Present tense title describing the merge request
+        ```
+        Example:
+        ```    
+        [MEXGM-123] Add login API
+        ```
     - [ ] Or simply use the descriptive task title from Backlog. Do not forget to add the `[BACKLOG-TICKET-KEY]`.
 
-    - [ ] Select and use the `NEW_FEATURE` template (or the `BUG_FIX` template for bug fixing) in the Description dropdown to auto-populate your MR body with sections. Update the description body accordingly. Instructions and examples are already provided in each of the templates.    
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- [ ] Please **AVOID** removing sections that are NOT optional. Supply enough details as much as possible or simply put **N/A** if not applicable.
+    - [ ] Select and use the `NEW_FEATURE` template (or the `BUG_FIX` template for bug fixing) in the Description dropdown to auto-populate your MR body with sections. Update the description body accordingly. Instructions and examples are already provided in each of the templates.
+        - [ ] Please **AVOID** removing sections that are NOT optional. Supply enough details as much as possible or simply put **N/A** if not applicable.
 
-    ![alt text](.gitlab/image.png)
+        ![alt text](.gitlab/image.png)
 
 
 
