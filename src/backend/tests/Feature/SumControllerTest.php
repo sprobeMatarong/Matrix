@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use app\Models\Sum;
+
 use Tests\TestCase;
 
 class SumControllerTest extends TestCase
@@ -13,30 +15,65 @@ class SumControllerTest extends TestCase
     /**
      * Test the calculate method with valid input.
      */
-    public function testCalculateWithValidInput()
+    protected $data; 
+    public function setUp(): void
     {
-        $response = $this->postJson('/api/sum/calculate', [
+        parent::setUp();
+
+        // Initialize test data
+        $this->data = [
             'firstNum' => 5,
             'secondNum' => 10,
-        ]);
-
+        ];
+    }
+    public function testCalculateWithValidInput()
+    {
+        $response =$this->json('POST',  '/' . config('app.api_version') . '/sum', $this->data);
         $response->assertStatus(200)
-                 ->assertJson([
-                     'answer' => 15,
-                 ]);
+            ->assertJson([
+                'result' => 15,
+            ]);
+        
     }
 
     /**
      * Test the calculate method with invalid input.
      */
-    public function testCalculateWithInvalidInput()
+    public function testCalculateWithInvalidInputNumberOne()
     {
-        $response = $this->postJson('/api/sum/calculate', [
-            'firstNum' => 'invalid',
-            'secondNum' => 10,
-        ]);
-
-        $response->assertStatus(422)
-                 ->assertJsonValidationErrors(['firstNum']);
+       $data = $this->data;
+       $data['firstNum'] = 'invalid';
+         $response = $this->json('POST', '/' . config('app.api_version') . '/sum', $data);
+         $response->assertStatus(422)
+            ->assertJson([
+                'error' => [
+                    'firstNum' => ['The first num must be a number.'],
+                ]
+            ]);
     }
+    public function testCalculateWithInvalidInputNumberTwo()
+    {
+       $data = $this->data;
+       $data['secondNum'] = 'invalid';
+         $response = $this->json('POST', '/' . config('app.api_version') . '/sum', $data);
+         $response->assertStatus(422)
+            ->assertJson([
+                'error' => [
+                    'secondNum' => ['The second num must be a number.'],
+                ]
+            ]);
+    }
+    public function testCalculateWithCharacters()
+    {
+       $data = $this->data;
+       $data['secondNum'] = '/@';
+         $response = $this->json('POST', '/' . config('app.api_version') . '/sum', $data);
+         $response->assertStatus(422)
+            ->assertJson([
+                'error' => [
+                    'secondNum' => ['The second num must be a number.'],
+                ]
+            ]);
+    }
+    
 }

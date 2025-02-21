@@ -35,7 +35,7 @@ function Sum() {
     const handleAdding = async (data) => {
         try {
             const result = await addingNum(data);
-            setValue('answer', result.answer); // Fix here
+            setValue('result', result.result); // Fix here
          
         } catch (err) {
             errorHandler(err, setError);
@@ -95,7 +95,7 @@ function Sum() {
                                             backgroundColor: '#f5f5f5',
                                         }}
                                     >
-                                        {watch('answer') || ''}
+                                        {watch('result') || ''}
                                     </Box>
                                 </Grid>
                             </Grid>
@@ -118,7 +118,7 @@ function Sum() {
                                 <TableRow>
                                     <TableCell>{watch('firstNum')}</TableCell>
                                     <TableCell>{watch('secondNum')}</TableCell>
-                                    <TableCell>{watch('answer')}</TableCell>
+                                    <TableCell>{watch('result')}</TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>

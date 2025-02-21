@@ -27,12 +27,12 @@ class SumController extends Controller
             // Perform calculation
             $sum = $this->sumService->calculateSum($firstNum, $secondNum);
 
-            return response()->json(['answer' => $sum]);
+            return response()->json(['result' => $sum]);
         } catch (Exception $e) {
             return response()->json([
                 'error' => 'Something went wrong.',
-                'message' => $e->getMessage() // Helps with debugging
-            ], 500);
+                'message' => $e->getMessage() 
+            ], 422);
         }
     }
 }
