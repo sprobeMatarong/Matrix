@@ -54,6 +54,13 @@ const en = {
         terms_conditions: 'Terms & Conditions',
         create_free_account: 'Create your Free Account',
       },
+      sum: {
+        sum_2_num: 'Sum of two Numbers',
+        enter_num1: 'Enter Number 1',
+        enter_num2: 'Enter Number 2',
+        sum: 'Add',
+        answer: 'Answer',
+      },
       forgot_password: {
         sub_heading: 'To recover your account, please enter your email address below.',
         success: 'Check your inbox for instructions on how to reset your password.',
@@ -184,6 +191,7 @@ const en = {
       styleguide: 'Styleguide',
       roles: 'Roles',
       broadcast: 'Broadcast',
+      sum: 'Sum',
     },
     table: {
       no_data: 'No data.',

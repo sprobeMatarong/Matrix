@@ -53,6 +53,12 @@ const routes = [
     auth: false,
   },
   {
+  path: '/sum',
+  component: 'pages/guest/Sum',
+  auth: false,
+  },
+  
+  {
     path: '/faq',
     component: 'pages/guest/Faq',
     auth: false,
