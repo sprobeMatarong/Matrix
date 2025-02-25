@@ -3,7 +3,6 @@
 namespace App\Http\Requests\API\Sum;
 
 use Illuminate\Foundation\Http\FormRequest;
-// use Illuminate\Http\Request;
 
 class CalculateRequest extends FormRequest
 {
