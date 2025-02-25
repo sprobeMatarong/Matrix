@@ -268,7 +268,7 @@ class UserController extends Controller
         } catch (Exception $e) {
             $this->response = [
                 'error' => $e->getMessage(),
-                'code' => 500,
+                'code' => 422,
             ];
         }
 

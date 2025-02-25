@@ -3,36 +3,43 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\API\CalculateRequest;
+use App\Http\Requests\API\Sum\CalculateRequest;
 use App\Services\SumService;
-use Illuminate\Http\JsonResponse;
+use App\Http\Resources\SumResource;
 use Exception;
 
 class SumController extends Controller
 {
-    protected SumService $sumService;
-
+    /** @var App\Services\SumService */
+     
+    protected $sumService;
+    /**
+     * Summary of __construct
+     * @param \App\Services\SumService $sumService
+     */
     public function __construct(SumService $sumService)
     {
         $this->sumService = $sumService;
     }
 
-    public function calculate(CalculateRequest $request): JsonResponse
+    public function calculate(CalculateRequest $request)
     {   
+        $request->validated();
+
         try {
-            // Retrieve validated input
-            $firstNum = (float) $request->input('firstNum');
-            $secondNum = (float) $request->input('secondNum');
-
+            $inputs = [
+                'firstNum' => $request->getNumberOne(),
+                'secondNum' => $request->getNumberTwo(),
+            ];
             // Perform calculation
-            $sum = $this->sumService->calculateSum($firstNum, $secondNum);
-
-            return response()->json(['result' => $sum]);
+            $result = $this->sumService->calculateSum($inputs);
+            $this->response['result'] = new SumResource($result);
         } catch (Exception $e) {
-            return response()->json([
-                'error' => 'Something went wrong.',
-                'message' => $e->getMessage() 
-            ], 422);
+            $this->response = [
+                'error' => $e->getMessage(),
+                'code' => 422,
+            ];
         }
+        return response() -> json($this->response, $this ->response['code']);
     }
 }
