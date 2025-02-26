@@ -42,7 +42,7 @@ function Signup() {
       toast(t('pages.signup.signup_complete'), { type: 'success' });
       reset();
     } catch (err) {
-      errorHandler(err, setError, toast);
+      errorHandler(err, setError);
     }
   };
 

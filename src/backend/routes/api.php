@@ -11,6 +11,7 @@ use App\Http\Controllers\API\Auth\TokenController;
 use App\Http\Controllers\API\PermissionController;
 use App\Http\Controllers\API\NotificationController;
 use App\Http\Controllers\API\Auth\PasswordController;
+use App\Http\Controllers\API\SumController;
 use Laravel\Passport\Http\Controllers\AccessTokenController;
 
 /*
@@ -56,6 +57,7 @@ Route::prefix('users')
     });
 
 Route::post('/inquiries', [InquiryController::class, 'create']);
+Route::post('/sum', [SumController::class, 'calculate']);
 
 // roles route
 Route::prefix('roles')
